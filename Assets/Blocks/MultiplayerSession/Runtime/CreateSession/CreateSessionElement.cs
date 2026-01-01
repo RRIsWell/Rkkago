@@ -35,7 +35,7 @@ namespace Blocks.Sessions
 
         public CreateSessionElement()
         {
-            AddToClassList(BlocksTheme.ContainerHorizontal);
+            AddToClassList(BlocksTheme.ContainerVertical);
 
             var enabledBinding = new DataBinding
             {
@@ -54,7 +54,8 @@ namespace Blocks.Sessions
                 }
             };
             sessionNameTextField.AddToClassList(BlocksTheme.TextField);
-            sessionNameTextField.AddToClassList(BlocksTheme.SpaceRight);
+            sessionNameTextField.style.flexGrow = 0;
+            //sessionNameTextField.AddToClassList(BlocksTheme.SpaceRight);
             var sessionNameBinding = new DataBinding
             {
                 dataSourcePath = new PropertyPath(nameof(m_ViewModel.SessionName)),

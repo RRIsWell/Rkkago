@@ -17,6 +17,7 @@ namespace Blocks.Common
         public const string HeaderSpaceBottom = "blocks-header--space-bottom";
 
         public const string ContainerHorizontal = "blocks-container--horizontal";
+        public const string ContainerVertical = "blocks-container--vertical";
         public const string ContainerAlignedRight = "blocks-container--right";
         public const string ContainerStretch = "blocks-container--stretch";
         public const string ContainerSpaceBetween = "blocks-container--space-between";

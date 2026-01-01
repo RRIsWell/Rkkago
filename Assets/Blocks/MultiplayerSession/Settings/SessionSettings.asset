@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: SessionSettings
   m_EditorClassIdentifier: 
   maxPlayers: 4
-  sessionName: default-session-name
-  sessionType: default-session
+  sessionName: Lobby
+  sessionType: Lobby
   usePlayerName: 1
-  createNetworkSession: 0
+  createNetworkSession: 1
   networkType: 1
   ipAddress: 127.0.0.1
   port: 7777
