@@ -7,10 +7,21 @@ public class TurnManager : NetworkBehaviour
     public static TurnManager Instance;
 
     [SerializeField] private float turnTime = 10f;
+    private bool isChangingTurn = false; // 턴 교체 중복 방지용
 
-    private NetworkVariable<float> remainingTime = new NetworkVariable<float>(10f);
+    private NetworkVariable<float> remainingTime = 
+        new NetworkVariable<float>(
+            10f, 
+            NetworkVariableReadPermission.Everyone, 
+            NetworkVariableWritePermission.Server // NetworkVariable의 권한 명시
+        );
     
-    private NetworkVariable<ulong> currentTurnClientId = new NetworkVariable<ulong>();
+    private NetworkVariable<ulong> currentTurnClientId = 
+        new NetworkVariable<ulong>(
+            0,
+            NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Server
+        );
 
     private void Awake()
     {
@@ -19,23 +30,25 @@ public class TurnManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (IsServer) // 서버에서만 턴 시작
-        {
-            // 접속한 첫 클라이언트를 첫 턴으로 (추후 조정)
-            StartTurn(NetworkManager.Singleton.ConnectedClientsIds[0]);
-        }
+        if(!IsServer) return; // 서버에서만 실행
+
+        // 클라이언트 입장 시 첫번째 플레이어부터 턴 시작
+        var clients = NetworkManager.Singleton.ConnectedClientsIds;
+        if(clients.Count > 0) 
+            StartTurn(clients[0]);
     }
 
-    public override Update()
+    public void Update()
     {
-        if(!IsServer) return; // 서버만 실행
+        if(!IsServer || isChangingTurn) return;
 
         // 남은 시간 감소
-        remainingTime.Value -= TimeOnly.deltaTime;
+        remainingTime.Value -= Time.deltaTime;
 
         if(remainingTime.Value <= 0f)
         {
-            ChangeTurn(); // 시간 초과 시 턴 넘
+            isChangingTurn = true;
+            ChangeTurn(); // 시간 초과 시 턴 넘김
         }
     }
 
@@ -43,26 +56,50 @@ public class TurnManager : NetworkBehaviour
     void StartTurn(ulong clientId) 
     {
         currentTurnClientId.Value = clientId;
-        remainingTime.Value = turnTime;
+        remainingTime.Value = turnTime; // 턴 시작 시 시간 리셋
+        isChangingTurn = false;
     }
 
-    // 턴 교체
+    // 턴 교체 (다음 플레이어로 턴 이동)
     void ChangeTurn()
     {
-        var clients = NetworkMananger.Singleton.ConnectedClientsIds;
-        int index = clients.Indexof(currentTurnClientId.Value);
+        var clients = NetworkManager.Singleton.ConnectedClientsIds;
+        if(clients.Count == 0) return;
+
+        // 클라이언트의 탈주 처리
+        if(!clients.Contains(currentTurnClientId.Value))
+        {
+            StartTurn(clients[0]);
+            return;
+        }
+
+        int index = clients.IndexOf(currentTurnClientId.Value);
         int nextIndex = (index + 1) % clients.Count;
 
         StartTurn(clients[nextIndex]);
     }
 
+    // 클라이언트가 직접 턴 종료 (필요할지 결정해야 됨)
+    /*
+    [ServerRpc(RequireOwnership = false)]
+    public void EndTurnServerRpc(ServerRpcParams rpcParams = default)
+    {
+        if(rpcParams.Receive.SenderClientId != currrentTurnClientId.Value) 
+            return;
+
+        ChangeTurn();
+    }
+    */
+
     // 턴 검사
     public bool IsMyTurn()
     {
-        return NetworkManager.Singleton.LocalClientId == currentTurnClientId.Value;
+        // 내 ClientId와 서버가 정한 턴 ClientID 비교
+        return NetworkManager.Singleton.LocalClientId == 
+                currentTurnClientId.Value;
     }
 
-    //
+    // UI 타이머 표시용
     public float GetRemainingTime()
     {
         return remainingTime.Value;
