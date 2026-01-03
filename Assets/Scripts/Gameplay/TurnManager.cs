@@ -74,7 +74,7 @@ public class TurnManager : NetworkBehaviour
             return;
         }
 
-        int index = clients.IndexOf(currentTurnClientId.Value);
+        int index = clients.ToList().IndexOf(currentTurnClientId.Value);
         int nextIndex = (index + 1) % clients.Count;
 
         StartTurn(clients[nextIndex]);
