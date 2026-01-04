@@ -46,6 +46,8 @@ public class TurnManager : NetworkBehaviour
             StartTurn(clients[0]);
     }
 
+    public event System.Action<float> OnRemainingTimeChanged;
+
     public void Update()
     {
         if(!IsSpawned) return;
@@ -61,6 +63,7 @@ public class TurnManager : NetworkBehaviour
 
         // 남은 시간 감소
         remainingTime.Value -= Time.deltaTime;
+        OnRemainingTimeChanged?.Invoke(remainingTime.Value);
 
         if(remainingTime.Value <= 0f)
         {
