@@ -22,6 +22,12 @@ public class TurnUI : MonoBehaviour
         if(TurnManager.Instance == null) return; // NullReferenceException 방지
 
         TurnManager.Instance.OnTurnChanged += HandleTurnChanged;
+        TurnManager.Instance.OnRemainingTimeChanged += HandleRemainingTimeChanged;
+    }
+
+    private void HandleRemainingTimeChanged(float newTime)
+    {
+        timerText.text = Mathf.Ceil(newTime).ToString();
     }
 
     private void OnDisable() // 비활성화
