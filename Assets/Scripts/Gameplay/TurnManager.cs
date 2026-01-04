@@ -3,7 +3,7 @@ using Unity.Netcode;
 using System.Data;
 using System.Linq;
 
-public class TurnManager : NetworkBehaviour
+public class TurnManager : NetworkBehaviour 
 {
     public static TurnManager Instance;
 
@@ -26,6 +26,12 @@ public class TurnManager : NetworkBehaviour
 
     private void Awake()
     {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
     }
 
@@ -35,13 +41,23 @@ public class TurnManager : NetworkBehaviour
 
         // 클라이언트 입장 시 첫번째 플레이어부터 턴 시작
         var clients = NetworkManager.Singleton.ConnectedClientsIds;
-        if(clients.Count > 0) 
+        
+        if(clients.Count >= 1) 
             StartTurn(clients[0]);
     }
 
     public void Update()
     {
-        if(!IsServer || isChangingTurn) return;
+        if(!IsSpawned) return;
+        if(!IsServer)
+        {
+            Debug.Log("서버 아님");
+            return;
+        }
+
+        Debug.Log("정상");
+
+        if (isChangingTurn) return;
 
         // 남은 시간 감소
         remainingTime.Value -= Time.deltaTime;
@@ -54,11 +70,17 @@ public class TurnManager : NetworkBehaviour
     }
 
     // 턴 시작
+    public event System.Action<ulong> OnTurnChanged;
+
     void StartTurn(ulong clientId) 
     {
         currentTurnClientId.Value = clientId;
         remainingTime.Value = turnTime; // 턴 시작 시 시간 리셋
         isChangingTurn = false;
+        Debug.Log($"Turn Started for: {clientId}");
+
+        OnTurnChanged?.Invoke(clientId);
+
     }
 
     // 턴 교체 (다음 플레이어로 턴 이동)
