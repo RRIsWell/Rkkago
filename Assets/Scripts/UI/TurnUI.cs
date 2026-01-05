@@ -21,8 +21,10 @@ public class TurnUI : MonoBehaviour
     {
         if(TurnManager.Instance == null) return; // NullReferenceException 방지
 
-        TurnManager.Instance.OnTurnChanged += HandleTurnChanged;
-        TurnManager.Instance.OnRemainingTimeChanged += HandleRemainingTimeChanged;
+        TurnManager.Instance.CurrentTurnClientId.OnValueChanged
+            += HandleTurnClientIdChanged;
+        TurnManager.Instance.OnRemainingTimeChanged
+            += HandleRemainingTimeChanged;
     }
 
     private void HandleRemainingTimeChanged(float newTime)
@@ -30,20 +32,25 @@ public class TurnUI : MonoBehaviour
         timerText.text = Mathf.Ceil(newTime).ToString();
     }
 
+    private void HandleTurnClientIdChanged(ulong oldId, ulong newId)
+    {
+        bool IsMyTurn =
+            NetworkManager.Singleton.LocalClientId == newId;
+
+        StopAllCoroutines();
+        StartCoroutine(ShowTurnPopup(IsMyTurn));
+    }
+
     private void OnDisable() // 비활성화
     {
         if(TurnManager.Instance == null) return;
 
-        TurnManager.Instance.OnTurnChanged -= HandleTurnChanged; // 중복 호출 방지
-    }
-
-    void Update()
-    {
-        if(TurnManager.Instance == null) return;
-
-        // 타이머 갱신 (올림해서 정수 처리)
-        timerText.text = 
-            Mathf.Ceil(TurnManager.Instance.GetRemainingTime()).ToString();
+        // 중복 호출 방지
+        TurnManager.Instance.CurrentTurnClientId.OnValueChanged
+            -= HandleTurnClientIdChanged;
+        
+        TurnManager.Instance.OnRemainingTimeChanged
+            -= HandleRemainingTimeChanged;
     }
 
     // ID 비교해서 턴 판정
