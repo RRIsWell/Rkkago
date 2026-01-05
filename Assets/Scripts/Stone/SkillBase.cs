@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.WSA;
@@ -30,17 +31,17 @@ public abstract class SkillBase : ISkill
     public abstract void Activate();
 }
 
-public class PowerUpSkill : SkillBase
+public class ChangeScaleSkill : SkillBase
 {
-    public override string SkillName => "PowerUp";
-    private readonly float _addPower = 2.0f;
+    public override string SkillName => "ChangeScale";
+    private readonly float _scale = 2.0f;
     
-    public PowerUpSkill(Stone stone) : base(stone)
+    public ChangeScaleSkill(Stone stone) : base(stone)
     {
     }
     
     public override void Activate()
     {
-        Stone.ChangeStonePower(_addPower);
+        Stone.ChangeStoneScale(_scale);
     }
 }

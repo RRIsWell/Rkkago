@@ -23,7 +23,7 @@ public class SkillFactory
     private void InitSkills(Stone stone)
     {
         // 추가될 때마다 직접 추가해줘야함
-        _skills.Add(new PowerUpSkill(stone));
+        _skills.Add(new ChangeScaleSkill(stone));
         
         // 이어서 추가
     }

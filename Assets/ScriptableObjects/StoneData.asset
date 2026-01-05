@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5098dd37a2ddd424e847596cdb39a0c8, type: 3}
   m_Name: StoneData
   m_EditorClassIdentifier: Assembly-CSharp::StoneData
-  speed: 5
+  baseSpeed: 15
+  weight: 1
   scale: 1
-  power: 3
+  bounceForce: 0
+  damage: 3
+  health: 5
   sprite: {fileID: 0}

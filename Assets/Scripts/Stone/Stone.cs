@@ -15,9 +15,22 @@ public class Stone : MonoBehaviour
         
     }
 
-    public void ChangeStonePower(float power)
+    /// <summary>
+    /// stone 데이터를 기반으로 speed를 계산하는 함수
+    /// speed에 영향을 주는 요소: 알의 무게, 크기
+    /// </summary>
+    /// <returns></returns>
+    public float CalculateSpeed()
     {
-        stoneData.power += power;
-        Debug.Log($"파워 변화 {stoneData.power}");
+        return stoneData.baseSpeed / (stoneData.weight * stoneData.scale);
+        
+        // 영향도를 다르게 하고 싶다면
+        // baseSpeed / (weight * weightFactor + size * sizeFactor)
+    }
+    
+    public void ChangeStoneScale(float scale)
+    {
+        stoneData.scale = scale;
+        Debug.Log($"크기 변화 {stoneData.scale}");
     }
 }
