@@ -75,11 +75,11 @@ public class TurnManager : NetworkBehaviour
         if(!IsSpawned) return;
         if(!IsServer)
         {
-            Debug.Log("서버 아님");
+            // Debug.Log("서버 아님");
             return;
         }
 
-        Debug.Log("정상");
+        // Debug.Log("정상");
 
         if (isChangingTurn) return;
 
