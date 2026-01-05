@@ -24,6 +24,13 @@ public class TurnManager : NetworkBehaviour
             NetworkVariableWritePermission.Server
         );
 
+    public NetworkVariable<ulong> CurrentTurnClientId => currentTurnClientId;
+
+    public NetworkVariable<ulong> GetCurrentTurnClientId()
+    {
+        return currentTurnClientId;
+    }
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
