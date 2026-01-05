@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Data;
 using System.Linq;
+using System.Collections.Generic;
 
 public class TurnManager : NetworkBehaviour 
 {
@@ -31,6 +32,8 @@ public class TurnManager : NetworkBehaviour
         return currentTurnClientId;
     }
 
+    private List<ulong> playerClientIds = new List<ulong>();
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -42,15 +45,27 @@ public class TurnManager : NetworkBehaviour
         Instance = this;
     }
 
+    // 서버는 플레이어로 간주하지 않도록 로직 구현
     public override void OnNetworkSpawn()
     {
         if(!IsServer) return; // 서버에서만 실행
 
-        // 클라이언트 입장 시 첫번째 플레이어부터 턴 시작
-        var clients = NetworkManager.Singleton.ConnectedClientsIds;
-        
-        if(clients.Count >= 1) 
-            StartTurn(clients[0]);
+        NetworkManager.Singleton.OnClientConnectedCallback 
+            += OnClientConnected;
+    }
+
+    private void OnClientConnected(ulong clientId)
+    {
+        if(clientId == NetworkManager.ServerClientId)
+            return;
+
+        playerClientIds.Add(clientId);
+
+        // 정확히 2명 모였을 때만 게임 시작
+        if(playerClientIds.Count == 2)
+        {
+            StartTurn(playerClientIds[0]);
+        }
     }
 
     public event System.Action<float> OnRemainingTimeChanged;
@@ -97,7 +112,7 @@ public class TurnManager : NetworkBehaviour
     void ChangeTurn()
     {
         var clients = NetworkManager.Singleton.ConnectedClientsIds;
-        if(clients.Count == 0) return;
+        if(clients.Count < 2) return;
 
         // 클라이언트의 탈주 처리
         if(!clients.Contains(currentTurnClientId.Value))
@@ -106,10 +121,11 @@ public class TurnManager : NetworkBehaviour
             return;
         }
 
-        int index = clients.ToList().IndexOf(currentTurnClientId.Value);
-        int nextIndex = (index + 1) % clients.Count;
+        int index = playerClientIds
+            .IndexOf(currentTurnClientId.Value);
+        int nextIndex = (index + 1) % playerClientIds.Count;
 
-        StartTurn(clients[nextIndex]);
+        StartTurn(playerClientIds[nextIndex]);
     }
 
     // 클라이언트가 직접 턴 종료 (필요할지 결정해야 됨)

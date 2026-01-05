@@ -34,6 +34,9 @@ public class TurnUI : MonoBehaviour
 
     private void HandleTurnClientIdChanged(ulong oldId, ulong newId)
     {
+        if(NetworkManager.Singleton.IsHost)
+            return;
+        
         bool IsMyTurn =
             NetworkManager.Singleton.LocalClientId == newId;
 
