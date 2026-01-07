@@ -67,8 +67,12 @@ public class StoneController : MonoBehaviour, IPointerDownHandler, IDragHandler,
         
         // 돌 날아감
         Vector2 worldPos = _camera.ScreenToWorldPoint(eventData.position);
-        float speed = _stone.CalculateSpeed();
-        stoneMovement.Shoot(transform, worldPos, speed);
+        Vector2 direction = ((Vector2)transform.position - worldPos).normalized;
+        
+        float distance = Vector2.Distance(transform.position, worldPos);
+        float speed = _stone.CalculateSpeed() * distance;
+        
+        stoneMovement.Shoot(transform, direction, speed);
     }
 
     /*private void ActivateDragLine()

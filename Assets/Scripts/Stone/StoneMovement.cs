@@ -3,43 +3,39 @@ using Cysharp.Threading.Tasks;
 
 public class StoneMovement
 {
-    private float _moveDistance = 3.0f; // 맵 밖으로 나갈 정도의 이동값
+    private readonly float _deceleration = 50.0f;
     
     /// <summary>
     /// 외부 접근: 알을 튕기는 함수
     /// </summary>
-    /// <param name="transform">알</param>
-    /// <param name="mousePosition">마우스 월드 좌표</param>
+    /// <param name="target">알</param>
+    /// <param name="direction">날아가는 방향</param>
     /// <param name="speed">속력</param>
-    public void Shoot(Transform transform, Vector2 mousePosition, float speed)
+    public void Shoot(Transform target, Vector2 direction, float speed)
     {
-        Vector2 objectPos = transform.position;
-        Vector2 direction = objectPos - mousePosition;
-        Vector2 destination = objectPos + direction * _moveDistance;
-        
         // 알 이동
-        MoveAsync(transform, destination, speed).Forget();
+        MoveAsync(target, direction, speed).Forget();
     }
     
     /// <summary>
-    /// 알을 일정 속도로 목적지까지 이동시키는 함수
+    /// 알을 이동시키는 함수
     /// </summary>
-    private async UniTask MoveAsync(Transform target, Vector2 destination, float speed)
+    private async UniTask MoveAsync(Transform target, Vector2 direction, float speed)
     {
+        float deceleration = _deceleration; // 감속 정도
+        float currentSpeed = speed;
+        
         while (target != null)
         {
-            // 목적지와의 거리 계산
-            float distance = Vector2.Distance(target.position, destination);
-
-            if (distance < 0.01f)
+            if (currentSpeed <= 0f)
                 break;
+            
+            Vector2 pos = target.position;
+            float moveStep = currentSpeed * Time.deltaTime;
+            target.position = pos + direction * moveStep;
 
-            // 이동
-            target.position = Vector2.MoveTowards(
-                target.position,
-                destination,
-                speed * Time.deltaTime
-            );
+            // 감속
+            currentSpeed -= deceleration * Time.deltaTime;
 
             // 다음 프레임까지 대기
             await UniTask.Yield(PlayerLoopTiming.Update);
