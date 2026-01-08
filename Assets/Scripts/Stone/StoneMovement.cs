@@ -1,18 +1,48 @@
+using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using Unity.Netcode;
+using Vector2 = UnityEngine.Vector2;
 
 public class StoneMovement
 {
-    private readonly float _deceleration = 50.0f;
+    // 임시 데이터
+    private readonly float _deceleration = 50.0f;   // 감속량(마찰력)
+    private readonly float _bounceDamping = 0.9f;   // 충돌시 에너지 손실양
+    private readonly float _collisionRadius = 0.6f; // 충돌 범위
+    private Vector2 _currentVelocity;
+    private bool _isMoving = false;
+    
+    private readonly HashSet<Transform> _collidedThisFrame = new HashSet<Transform>(); // 중복 충돌 방지
+    private NetworkBehaviour _networkBehaviour;
+    
+    //---------------
+    // Direction(Vector2) : 방향
+    // Velocity(Vector2) : 방향 + 크기
+    // Speed(float): 크기
+    //---------------
+    
+    public StoneMovement(NetworkBehaviour networkBehaviour)
+    {
+        _networkBehaviour = networkBehaviour;
+    }
     
     /// <summary>
     /// 외부 접근: 알을 튕기는 함수
     /// </summary>
-    /// <param name="target">알</param>
+    /// <param name="target">알(본인)</param>
     /// <param name="direction">날아가는 방향</param>
-    /// <param name="speed">속력</param>
+    /// <param name="speed">스피드</param>
     public void Shoot(Transform target, Vector2 direction, float speed)
     {
+        // 서버에서만 호출되어야 함
+        if (!_networkBehaviour.IsServer)
+        {
+            Debug.LogError("Shoot can only be called on Server!");
+            return;
+        }
+        
         // 알 이동
         MoveAsync(target, direction, speed).Forget();
     }
@@ -20,28 +50,143 @@ public class StoneMovement
     /// <summary>
     /// 알을 이동시키는 함수
     /// </summary>
+    /// <param name="target">알(본인)</param>
+    /// <param name="direction">날아가는 방향</param>
+    /// <param name="speed">스피드</param>
     private async UniTask MoveAsync(Transform target, Vector2 direction, float speed)
     {
-        float deceleration = _deceleration; // 감속 정도
-        float currentSpeed = speed;
+        if (_isMoving)
+            return;
         
-        while (target != null)
+        _isMoving = true;
+        float currentSpeed = speed;
+        _currentVelocity = currentSpeed * direction.normalized;
+        //_collidedThisFrame.Clear();
+        
+        NetworkBehaviour netBehaviour = target.GetComponent<NetworkBehaviour>();
+        bool isServer = netBehaviour != null && netBehaviour.IsServer;
+        
+        while (target != null && currentSpeed > 0f)
         {
-            if (currentSpeed <= 0f)
-                break;
+            // 충돌 체크
+            Transform collidedStone = CheckCollision(target); 
+        
+            if (collidedStone != null && !_collidedThisFrame.Contains(collidedStone))
+            {
+                Debug.Log("충돌");
+                _collidedThisFrame.Add(collidedStone);
             
+                // 충돌 처리
+                currentSpeed = CalculateSpeedAfterCollision(target, collidedStone, currentSpeed);
+                HandleCollision(target, collidedStone);
+            
+                // 충돌 반영 시간 확보
+                await UniTask.DelayFrame(2);
+                _collidedThisFrame.Remove(collidedStone);
+            }
+            
+            // 이동
             Vector2 pos = target.position;
             float moveStep = currentSpeed * Time.deltaTime;
-            target.position = pos + direction * moveStep;
+            target.position = pos + _currentVelocity.normalized * moveStep;
 
             // 감속
-            currentSpeed -= deceleration * Time.deltaTime;
+            currentSpeed -= _deceleration * Time.deltaTime;
+            _currentVelocity = _currentVelocity.normalized * currentSpeed;
 
             // 다음 프레임까지 대기
             await UniTask.Yield(PlayerLoopTiming.Update);
         }
+        
+        _isMoving = false;
+        _currentVelocity = Vector2.zero;
+        _collidedThisFrame.Clear();
     }
     
-    // TODO: 충돌 감지
-    // TODO: 충돌했을 때 반사하는 Task
+    /// <summary>
+    /// 다른 물체와 충돌했는지 감지하는 함수
+    /// </summary>
+    /// <param name="target">충돌하는 주체(본인)</param>
+    /// <returns>충돌한 알</returns>
+    private Transform CheckCollision(Transform target)
+    {
+        int collisionLayer = LayerMask.GetMask("Stone");
+        
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(target.position, _collisionRadius, collisionLayer);
+        
+        foreach (Collider2D hitCollider in hitColliders)
+        {
+            if (hitCollider.transform == target) // 본인인 경우
+                continue;
+            
+            Transform collision = hitCollider.GetComponent<Transform>();
+            if (collision != null)
+            {
+                return collision;
+            }
+        }
+        
+        return null;
+    }
+    
+    /// <summary>
+    /// 충돌 이후 스피드 변화를 계산하는 함수
+    /// </summary>
+    /// <param name="target">알(본인)</param>
+    /// <param name="otherStone">충돌한 알(상대)</param>
+    /// <param name="speed">충돌 전 스피드</param>
+    /// <returns>충돌 이후 스피드</returns>
+    private float CalculateSpeedAfterCollision(Transform target, Transform otherStone, float speed)
+    {
+        // 충돌 방향
+        Vector2 collisionNormal = ((Vector2)otherStone.position - (Vector2)target.position).normalized;
+        
+        float hitStrength = Mathf.Abs(Vector2.Dot(collisionNormal, _currentVelocity.normalized)); // 내적 이용
+        float damping = Mathf.Lerp(0.1f, 0.9f, hitStrength);
+        
+        return speed * (1.0f - damping);
+    }
+    
+    /// <summary>
+    /// 충돌을 처리하는 함수
+    /// </summary>
+    /// <param name="target">알(본인)</param>
+    /// <param name="otherStone">충돌한 알(상대)</param>
+    private void HandleCollision(Transform target, Transform otherStone)
+    {
+        // 충돌 방향
+        Vector2 collisionNormal = ((Vector2)otherStone.position - (Vector2)target.position).normalized;
+        
+        // 현재 알의 반사 벡터
+        Vector2 reflectedVelocity = Vector2.Reflect(_currentVelocity, -collisionNormal);
+        _currentVelocity = reflectedVelocity * _bounceDamping;
+        
+        // 상대방 알도 힘을 받고 움직임
+        StoneMovement stoneMovement = otherStone.GetComponent<StoneController>().StoneMovement;
+        stoneMovement?._collidedThisFrame.Add(target);
+        
+        if (stoneMovement != null && !stoneMovement._isMoving)
+        {
+            // 정지한 상태일 때
+            float impactSpeed = _currentVelocity.magnitude * _bounceDamping;
+            otherStone.GetComponent<StoneController>().TriggerShootFromCollision(collisionNormal, impactSpeed);
+            stoneMovement.MoveAsync(otherStone, collisionNormal, impactSpeed).Forget();
+        }
+        else
+        {
+            // TODO: 상대도 움직이는 상태에서 충돌했을 때
+        }
+        
+        // 겹침 방지
+        float distance = Vector2.Distance(target.position, otherStone.position);
+        float overlap = _collisionRadius * 2 - distance;
+        
+        if (overlap > 0)
+        {
+            Vector2 separation = -collisionNormal * ((overlap / 2) + 0.1f);
+            target.position = (Vector2)target.position + separation;
+            otherStone.position = (Vector2)otherStone.position - separation;
+        }
+    }
+    
 }

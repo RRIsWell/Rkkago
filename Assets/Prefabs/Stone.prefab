@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1399029885569440533}
   - component: {fileID: 8777337735980758525}
   - component: {fileID: 8888580116224590807}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3521244976
+  GlobalObjectIdHash: 2229731402
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 8
@@ -191,7 +191,7 @@ MonoBehaviour:
   RotationMaxInterpolationTime: 0.1
   ScaleLerpSmoothing: 1
   ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 1
+  AuthorityMode: 0
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
   SyncPositionX: 1
@@ -238,4 +238,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4614a372dbb39a843b2eaecf988c60cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoneController
+  ShowTopMostFoldoutHeaderGroup: 1
   dragLinePrefab: {fileID: 9013337079741339517, guid: 97ac4c486955d1f43a993ad9a6e113f6, type: 3}
