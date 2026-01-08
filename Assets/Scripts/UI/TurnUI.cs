@@ -74,5 +74,7 @@ public class TurnUI : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         turnPanel.SetActive(false);
+
+        TurnManager.Instance.NotifyTurnPopupFinishedServerRpc();
     }
 }

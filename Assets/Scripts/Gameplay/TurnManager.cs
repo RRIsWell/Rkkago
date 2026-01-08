@@ -3,6 +3,7 @@ using Unity.Netcode;
 using System.Data;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 public class TurnManager : NetworkBehaviour 
 {
@@ -10,6 +11,7 @@ public class TurnManager : NetworkBehaviour
 
     [SerializeField] private float turnTime = 10f;
     private bool isChangingTurn = false; // 턴 교체 중복 방지용
+    private bool isTurnActive = false; // 팝업 뜰 땐 타이머X
 
     private NetworkVariable<float> remainingTime = 
         new NetworkVariable<float>(
@@ -82,6 +84,7 @@ public class TurnManager : NetworkBehaviour
         // Debug.Log("정상");
 
         if (isChangingTurn) return;
+        if(!isTurnActive) return;
 
         // 남은 시간 감소
         remainingTime.Value -= Time.deltaTime;
@@ -102,6 +105,7 @@ public class TurnManager : NetworkBehaviour
         currentTurnClientId.Value = clientId;
         remainingTime.Value = turnTime; // 턴 시작 시 시간 리셋
         isChangingTurn = false;
+        isTurnActive = false;
         Debug.Log($"Turn Started for: {clientId}");
 
         OnTurnChanged?.Invoke(clientId);
@@ -153,4 +157,12 @@ public class TurnManager : NetworkBehaviour
     {
         return remainingTime.Value;
     }
+
+    // 팝업 리셋용
+    [ServerRpc(RequireOwnership = false)]
+    public void NotifyTurnPopupFinishedServerRpc()
+    {
+        isTurnActive = true;
+    }
+
 }
