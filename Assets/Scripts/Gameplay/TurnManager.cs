@@ -99,7 +99,9 @@ public class TurnManager : NetworkBehaviour
 
     void StartTurn(ulong clientId) 
     {
+        currentTurnClientId.Value = ulong.MaxValue;
         currentTurnClientId.Value = clientId;
+
         remainingTime.Value = turnTime; // 턴 시작 시 시간 리셋
         isChangingTurn = false;
         
