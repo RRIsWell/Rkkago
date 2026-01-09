@@ -58,9 +58,6 @@ public class TurnManager : NetworkBehaviour
 
     private void OnClientConnected(ulong clientId)
     {
-        if(clientId == NetworkManager.ServerClientId)
-            return;
-
         playerClientIds.Add(clientId);
 
         // 정확히 2명 모였을 때만 게임 시작
@@ -105,6 +102,7 @@ public class TurnManager : NetworkBehaviour
         currentTurnClientId.Value = clientId;
         remainingTime.Value = turnTime; // 턴 시작 시 시간 리셋
         isChangingTurn = false;
+        
         isTurnActive = false;
         Debug.Log($"Turn Started for: {clientId}");
 
