@@ -31,12 +31,17 @@ public class TurnUI : MonoBehaviour
 
         TurnManager.Instance.CurrentTurnClientId.OnValueChanged
             += HandleTurnClientIdChanged;
+
+        // 첫 턴 팝업 처리
+        HandleTurnClientIdChanged(
+            TurnManager.Instance.CurrentTurnClientId.Value,
+            TurnManager.Instance.CurrentTurnClientId.Value
+        );
     }
+
+    // ID 비교해서 턴 판정
     private void HandleTurnClientIdChanged(ulong oldId, ulong newId)
-    {
-        if(NetworkManager.Singleton.IsHost)
-            return;
-        
+    {        
         bool IsMyTurn =
             NetworkManager.Singleton.LocalClientId == newId;
 
@@ -53,16 +58,6 @@ public class TurnUI : MonoBehaviour
             -= HandleTurnClientIdChanged;
     }
 
-    // ID 비교해서 턴 판정
-    void HandleTurnChanged(ulong newTurnClientId)
-    {
-        bool IsMyTurn = 
-            NetworkManager.Singleton.LocalClientId == newTurnClientId;
-        
-        StopAllCoroutines();
-        StartCoroutine(ShowTurnPopup(IsMyTurn));
-    }
-
     IEnumerator ShowTurnPopup(bool IsMyTurn)
     {
         turnText.text = IsMyTurn ? "your turn" : "enemy's turn";
@@ -75,6 +70,12 @@ public class TurnUI : MonoBehaviour
 
         turnPanel.SetActive(false);
 
-        TurnManager.Instance.NotifyTurnPopupFinishedServerRpc();
+        if(NetworkManager.Singleton != null &&
+            NetworkManager.Singleton.IsListening &&
+            TurnManager.Instance != null &&
+            TurnManager.Instance.IsSpawned)
+        {        
+            TurnManager.Instance.NotifyTurnPopupFinishedServerRpc();
+        }
     }
 }
