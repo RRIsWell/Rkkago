@@ -14,10 +14,12 @@ public class MapBoundary : MonoBehaviour
         var stone = other.GetComponent<Stone>();
         if (stone == null) return;
 
+        /*
         float outRatio = stone.GetOutRatio(); // 돌이 얼마나 밖으로 나갔는지
         if (outRatio > halfThreshold)
         {
             stone.Kill();
         }
+        */
     }
 }
