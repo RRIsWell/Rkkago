@@ -3,18 +3,28 @@ using UnityEngine;
 
 public class ObstacleSpawner : MonoBehaviour
 {
-    // TODO: 나중에 더 구현
+    public GameObject[] obstaclePrefabs;
+    public BoxCollider2D spawnArea;
+
     public void Init(MapConfig config)
     {
-        if(!config.useObstacle)
-            return;
+        if (!config.useObstacle) return;
 
-        SpawnInternal(config);
+        int count = Random.Range(3, 7); // 나중에 밸런스패치로 조정
+        for (int i = 0; i < count; i++)
+        {
+            Vector2 pos = GetRandomInside();
+            Instantiate(obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)], pos, Quaternion.identity, transform);
+        }
     }
 
-    void SpawnInternal(MapConfig config)
+    Vector2 GetRandomInside()
     {
-        // 실제 장애물 생성 로직
-        // prefab instantiate, 위치 랜덤 등
+        Bounds b = spawnArea.bounds;
+        return new Vector2(
+            Random.Range(b.min.x, b.max.x),
+            Random.Range(b.min.y, b.max.y)
+        );
     }
 }
+
