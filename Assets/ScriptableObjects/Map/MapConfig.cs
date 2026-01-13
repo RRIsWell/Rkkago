@@ -17,6 +17,8 @@ public class MapConfig : ScriptableObject
 
     [Header("장애물")]
     public bool useObstacle;
+    public int obstacleCount = 5;
+    public float obstacleMargin = 1.5f; // 벽과 겹쳐서 스폰 방지
 
     [Header("패배 판정")]
     public int loseStoneCount = 5;
