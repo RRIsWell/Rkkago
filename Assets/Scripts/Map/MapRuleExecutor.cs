@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using System.Collections;
-using System.Diagnostics;
 
 public class MapRuleExecutor : NetworkBehaviour
 {
