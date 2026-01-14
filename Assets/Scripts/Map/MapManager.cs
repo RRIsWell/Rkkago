@@ -1,20 +1,21 @@
 using UnityEngine;
 using Unity.Netcode;
 
-public class MapManager : MonoBehaviour
+public class MapManager : NetworkBehaviour
 {
     [SerializeField] MapConfig currentMapConfig;
-    [SerializeField] GameObject mapLayoutPrefab;
 
     private MapRuleExecutor ruleExecutor;
 
-    void Start()
+    public override void OnNetworkSpawn()
     {
-        var layout = Instantiate(mapLayoutPrefab);
-
+        Debug.Log("MapManager OnNetworkSpawn, IsServer = " + IsServer);
+        if (!IsServer) return;
+        
+        var layout = GameObject.Find("Map1Layout");
         ruleExecutor = layout.GetComponentInChildren<MapRuleExecutor>();
     
-        InitializeSystems(layout);
+        InitializeSystems(layout.gameObject);
 
         // 서버만 돌 등록
         if(NetworkManager.Singleton.IsServer)
