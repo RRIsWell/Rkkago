@@ -2,24 +2,20 @@ using UnityEngine;
 
 public class MapBoundary : MonoBehaviour
 {
-    float halfThreshold;
+    private MapRuleExecutor rule;
 
-    public void Init(MapConfig config)
+    public void Init(MapConfig config, MapRuleExecutor executor)
     {
-        halfThreshold = config.allowHalfOut ? 0.5f : 0f;
+        rule = executor;
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if(!rule || !rule.IsServer) return; // 서버만 판정하도록
+        
         var stone = other.GetComponent<Stone>();
         if (stone == null) return;
 
-        /*
-        float outRatio = stone.GetOutRatio(); // 돌이 얼마나 밖으로 나갔는지
-        if (outRatio > halfThreshold)
-        {
-            stone.Kill();
-        }
-        */
+        rule.OnStoneOut(stone);
     }
 }
