@@ -133,7 +133,8 @@ public class CreateSessionVM : IDisposable
         sessionOptions.Name = SessionName;
         IHostSession session = await MultiplayerService.Instance.CreateSessionAsync(sessionOptions);
         SessionCode = session.Code;
-
+        ShowJoinCode.SetData(session);
+        
         return session;
     }
 

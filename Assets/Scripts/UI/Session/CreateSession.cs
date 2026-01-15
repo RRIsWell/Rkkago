@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Blocks.Sessions.Common;
 using TMPro;
@@ -12,10 +13,12 @@ public class CreateSession : MonoBehaviour
     [Header("UI")]
     public TMP_InputField sessionNameField;
     public Button createButton;
-    public TextMeshProUGUI joinCode;
+    //public TextMeshProUGUI joinCode;
     
     [SerializeField]
     private SessionSettings sessionSettings;
+    
+    public event Action<bool> CreateSessioinBtnOnClick;
     
     public SessionSettings SessionSettings
     {
@@ -72,8 +75,8 @@ public class CreateSession : MonoBehaviour
 
     private void RefreshUI()
     {
-        if(_viewModel.SessionCode != null)
-            joinCode.text = $"Code: {_viewModel.SessionCode}";
+        /*if(_viewModel.SessionCode != null)
+            joinCode.text = $"Code: {_viewModel.SessionCode}";*/
         
         // 버튼 활성화 여부
         createButton.interactable = 
@@ -98,5 +101,7 @@ public class CreateSession : MonoBehaviour
         }
 
         await _viewModel.CreateSessionAsync(SessionSettings.ToSessionOptions());
+        
+        CreateSessioinBtnOnClick?.Invoke(true);
     }
 }
