@@ -1,0 +1,804 @@
+fileFormatVersion: 2
+guid: 0cb9e075f23082e4f9215b42597e1e65
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2030976100758468091
+    second: DeadEffect_Sheet_0
+  - first:
+      213: 2567010271836663192
+    second: DeadEffect_Sheet_1
+  - first:
+      213: -7199835515727192488
+    second: DeadEffect_Sheet_2
+  - first:
+      213: -1753113643607875872
+    second: DeadEffect_Sheet_3
+  - first:
+      213: 7828215711034514826
+    second: DeadEffect_Sheet_4
+  - first:
+      213: -8475038878375007618
+    second: DeadEffect_Sheet_5
+  - first:
+      213: -3958125445465582069
+    second: DeadEffect_Sheet_6
+  - first:
+      213: 5134575100361302993
+    second: DeadEffect_Sheet_7
+  - first:
+      213: 2232500880931997757
+    second: DeadEffect_Sheet_8
+  - first:
+      213: 1448567962339609649
+    second: DeadEffect_Sheet_9
+  - first:
+      213: -4590931048101588161
+    second: DeadEffect_Sheet_10
+  - first:
+      213: 4052585407136375624
+    second: DeadEffect_Sheet_11
+  - first:
+      213: -1683283270478970619
+    second: DeadEffect_Sheet_12
+  - first:
+      213: 1126539335434315253
+    second: DeadEffect_Sheet_13
+  - first:
+      213: -8282975221628462903
+    second: DeadEffect_Sheet_14
+  - first:
+      213: -3133639568043187588
+    second: DeadEffect_Sheet_15
+  - first:
+      213: -3398287360246736522
+    second: DeadEffect_Sheet_16
+  - first:
+      213: -3335025998114772974
+    second: DeadEffect_Sheet_17
+  - first:
+      213: -1411604884594440153
+    second: DeadEffect_Sheet_18
+  - first:
+      213: -8722383761913667725
+    second: DeadEffect_Sheet_19
+  - first:
+      213: 2431051951601561065
+    second: DeadEffect_Sheet_20
+  - first:
+      213: 3343749754278516072
+    second: DeadEffect_Sheet_21
+  - first:
+      213: 460927797173841467
+    second: DeadEffect_Sheet_22
+  - first:
+      213: 4330460610160441790
+    second: DeadEffect_Sheet_23
+  - first:
+      213: 101579561835489588
+    second: DeadEffect_Sheet_24
+  - first:
+      213: 452730172593566847
+    second: DeadEffect_Sheet_25
+  - first:
+      213: 4734250947376047653
+    second: DeadEffect_Sheet_26
+  - first:
+      213: 8924725454848151551
+    second: DeadEffect_Sheet_27
+  - first:
+      213: 46635231682413228
+    second: DeadEffect_Sheet_28
+  - first:
+      213: 1573356997790960225
+    second: DeadEffect_Sheet_29
+  - first:
+      213: 4039875546198720609
+    second: DeadEffect_Sheet_30
+  - first:
+      213: -5875533161846327846
+    second: DeadEffect_Sheet_31
+  - first:
+      213: 6119485356678576339
+    second: DeadEffect_Sheet_32
+  - first:
+      213: -4182918496233313579
+    second: DeadEffect_Sheet_33
+  - first:
+      213: -2789205962874086704
+    second: DeadEffect_Sheet_34
+  - first:
+      213: 4824824613409369419
+    second: DeadEffect_Sheet_35
+  - first:
+      213: 9205455180135026527
+    second: DeadEffect_Sheet_36
+  - first:
+      213: 8884014839539744628
+    second: DeadEffect_Sheet_37
+  - first:
+      213: -3771456145854038550
+    second: DeadEffect_Sheet_38
+  - first:
+      213: -8090138285516550244
+    second: DeadEffect_Sheet_39
+  - first:
+      213: -7450873252091771970
+    second: DeadEffect_Sheet_40
+  - first:
+      213: -6518081652317032313
+    second: DeadEffect_Sheet_41
+  - first:
+      213: 1600593765927134688
+    second: DeadEffect_Sheet_42
+  - first:
+      213: -8044012312221188242
+    second: DeadEffect_Sheet_43
+  - first:
+      213: -5887810756925588662
+    second: DeadEffect_Sheet_44
+  - first:
+      213: -1071408473618391397
+    second: DeadEffect_Sheet_45
+  - first:
+      213: 5780319242040164969
+    second: DeadEffect_Sheet_46
+  - first:
+      213: -2751882233779394986
+    second: DeadEffect_Sheet_47
+  - first:
+      213: 7174083012973210888
+    second: DeadEffect_Sheet_48
+  - first:
+      213: 7805059679567332310
+    second: DeadEffect_Sheet_49
+  - first:
+      213: 4730149312167393080
+    second: DeadEffect_Sheet_50
+  - first:
+      213: -3560758578786586592
+    second: DeadEffect_Sheet_51
+  - first:
+      213: -4675663906138823050
+    second: DeadEffect_Sheet_52
+  - first:
+      213: 1552044950771305849
+    second: DeadEffect_Sheet_53
+  - first:
+      213: 2661428272612612652
+    second: DeadEffect_Sheet_54
+  - first:
+      213: 8795575013488119445
+    second: DeadEffect_Sheet_55
+  - first:
+      213: -1980485942534357198
+    second: DeadEffect_Sheet_56
+  - first:
+      213: -1527490453694954435
+    second: DeadEffect_Sheet_57
+  - first:
+      213: -7297397067214754967
+    second: DeadEffect_Sheet_58
+  - first:
+      213: -6991548453612614146
+    second: DeadEffect_Sheet_59
+  - first:
+      213: -3846551568001655512
+    second: DeadEffect_Sheet_60
+  - first:
+      213: 8107659122575147382
+    second: DeadEffect_Sheet_61
+  - first:
+      213: -3260014726551651951
+    second: DeadEffect_Sheet_62
+  - first:
+      213: -1002891189618437324
+    second: DeadEffect_Sheet_63
+  - first:
+      213: 5393484374820941823
+    second: DeadEffect_Sheet_64
+  - first:
+      213: 6777930751125044290
+    second: DeadEffect_Sheet_65
+  - first:
+      213: 1872441833684337829
+    second: DeadEffect_Sheet_66
+  - first:
+      213: 3688256185985179827
+    second: DeadEffect_Sheet_67
+  - first:
+      213: -7097582744689970002
+    second: DeadEffect_Sheet_68
+  - first:
+      213: 2459384168093834255
+    second: DeadEffect_Sheet_69
+  - first:
+      213: -2330032802777272364
+    second: DeadEffect_Sheet_70
+  - first:
+      213: 5461079147138649897
+    second: DeadEffect_Sheet_71
+  - first:
+      213: 7799344922592451662
+    second: DeadEffect_Sheet_72
+  - first:
+      213: 2824241141939983263
+    second: DeadEffect_Sheet_73
+  - first:
+      213: -3371520005190281215
+    second: DeadEffect_Sheet_74
+  - first:
+      213: 828321962528677045
+    second: DeadEffect_Sheet_75
+  - first:
+      213: -4274153482370526179
+    second: DeadEffect_Sheet_76
+  - first:
+      213: 7047708089462842492
+    second: DeadEffect_Sheet_77
+  - first:
+      213: 2011069726632726856
+    second: DeadEffect_Sheet_78
+  - first:
+      213: 3690239447547905345
+    second: DeadEffect_Sheet_79
+  - first:
+      213: 6156132220204450899
+    second: DeadEffect_Sheet_80
+  - first:
+      213: -8889727955430893321
+    second: DeadEffect_Sheet_81
+  - first:
+      213: 2337361326065992484
+    second: DeadEffect_Sheet_82
+  - first:
+      213: 4987208505618553227
+    second: DeadEffect_Sheet_83
+  - first:
+      213: 909736030312209612
+    second: DeadEffect_Sheet_84
+  - first:
+      213: 1125726971804607984
+    second: DeadEffect_Sheet_85
+  - first:
+      213: 4614542473359275445
+    second: DeadEffect_Sheet_86
+  - first:
+      213: 3321467378071237333
+    second: DeadEffect_Sheet_87
+  - first:
+      213: -3159985478799621485
+    second: DeadEffect_Sheet_88
+  - first:
+      213: 2569228822859870803
+    second: DeadEffect_Sheet_89
+  - first:
+      213: -4516922373935476167
+    second: DeadEffect_Sheet_90
+  - first:
+      213: 3447185680081048655
+    second: DeadEffect_Sheet_91
+  - first:
+      213: 6899344597204012991
+    second: DeadEffect_Sheet_92
+  - first:
+      213: 7271061446073866914
+    second: DeadEffect_Sheet_93
+  - first:
+      213: 8005547967361243628
+    second: DeadEffect_Sheet_94
+  - first:
+      213: -8519332483115584106
+    second: DeadEffect_Sheet_95
+  - first:
+      213: -3013076602987091041
+    second: DeadEffect_Sheet_96
+  - first:
+      213: -8008643798954189918
+    second: DeadEffect_Sheet_97
+  - first:
+      213: -2938010430410874091
+    second: DeadEffect_Sheet_98
+  - first:
+      213: 3326653893183670943
+    second: DeadEffect_Sheet_99
+  - first:
+      213: -7932086861454123164
+    second: DeadEffect_Sheet_100
+  - first:
+      213: 4012817163677317572
+    second: DeadEffect_Sheet_101
+  - first:
+      213: -1834592599172158449
+    second: DeadEffect_Sheet_102
+  - first:
+      213: -5129434422999083319
+    second: DeadEffect_Sheet_103
+  - first:
+      213: 3513806589293639590
+    second: DeadEffect_Sheet_104
+  - first:
+      213: 5073920463248671802
+    second: DeadEffect_Sheet_105
+  - first:
+      213: -2105025906639890872
+    second: DeadEffect_Sheet_106
+  - first:
+      213: -5417229574847918132
+    second: DeadEffect_Sheet_107
+  - first:
+      213: 5972037580271691044
+    second: DeadEffect_Sheet_108
+  - first:
+      213: 7321168774133202214
+    second: DeadEffect_Sheet_109
+  - first:
+      213: 1043681672592982615
+    second: DeadEffect_Sheet_110
+  - first:
+      213: -274078091996940010
+    second: DeadEffect_Sheet_111
+  - first:
+      213: 5177510005666645373
+    second: DeadEffect_Sheet_112
+  - first:
+      213: 8808020541135222763
+    second: DeadEffect_Sheet_113
+  - first:
+      213: -1600875136409364638
+    second: DeadEffect_Sheet_114
+  - first:
+      213: 7592651806272905389
+    second: DeadEffect_Sheet_115
+  - first:
+      213: -6377750070973145741
+    second: DeadEffect_Sheet_116
+  - first:
+      213: 2971748145970568510
+    second: DeadEffect_Sheet_117
+  - first:
+      213: -8944464573830837773
+    second: DeadEffect_Sheet_118
+  - first:
+      213: -4210755689472827499
+    second: DeadEffect_Sheet_119
+  - first:
+      213: 8000092751704495946
+    second: DeadEffect_Sheet_120
+  - first:
+      213: -6760881668312689103
+    second: DeadEffect_Sheet_121
+  - first:
+      213: 4534666953525961417
+    second: DeadEffect_Sheet_122
+  - first:
+      213: -3752544245346604907
+    second: DeadEffect_Sheet_123
+  - first:
+      213: -5979310549734413635
+    second: DeadEffect_Sheet_124
+  - first:
+      213: -1577431192841306952
+    second: DeadEffect_Sheet_125
+  - first:
+      213: 8806916249209012329
+    second: DeadEffect_Sheet_126
+  - first:
+      213: 4763917397859588655
+    second: DeadEffect_Sheet_127
+  - first:
+      213: 6799144607893828106
+    second: DeadEffect_Sheet_128
+  - first:
+      213: 2239206237179257891
+    second: DeadEffect_Sheet_129
+  - first:
+      213: 4483467129887385960
+    second: DeadEffect_Sheet_130
+  - first:
+      213: 117088564527185004
+    second: DeadEffect_Sheet_131
+  - first:
+      213: -5372698041578063652
+    second: DeadEffect_Sheet_132
+  - first:
+      213: 2388093342927354494
+    second: DeadEffect_Sheet_133
+  - first:
+      213: 7138727244530913263
+    second: DeadEffect_Sheet_134
+  - first:
+      213: -849911557041371344
+    second: DeadEffect_Sheet_135
+  - first:
+      213: -1101996761984457330
+    second: DeadEffect_Sheet_136
+  - first:
+      213: -6492797308702641926
+    second: DeadEffect_Sheet_137
+  - first:
+      213: -721052138495300017
+    second: DeadEffect_Sheet_138
+  - first:
+      213: 8834161111023009246
+    second: DeadEffect_Sheet_139
+  - first:
+      213: -262040670001612496
+    second: DeadEffect_Sheet_140
+  - first:
+      213: 5741737201994202747
+    second: DeadEffect_Sheet_141
+  - first:
+      213: 5244157784066159505
+    second: DeadEffect_Sheet_142
+  - first:
+      213: -8841767579535443194
+    second: DeadEffect_Sheet_143
+  - first:
+      213: 7941246313356767426
+    second: DeadEffect_Sheet_144
+  - first:
+      213: -2517527251984409709
+    second: DeadEffect_Sheet_145
+  - first:
+      213: 4527019899468038576
+    second: DeadEffect_Sheet_146
+  - first:
+      213: -6988708410351592199
+    second: DeadEffect_Sheet_147
+  - first:
+      213: -7311656690543161229
+    second: DeadEffect_Sheet_148
+  - first:
+      213: -3287887056173920282
+    second: DeadEffect_Sheet_149
+  - first:
+      213: 6379721661982856678
+    second: DeadEffect_Sheet_150
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 256
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: DeadEffect_Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50acbf63ff580d3e0800000000000000
+      internalID: -2030976100758468091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeadEffect_Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89d6a9bdd3adf9320800000000000000
+      internalID: 2567010271836663192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeadEffect_Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85ed6dbaebb051c90800000000000000
+      internalID: -7199835515727192488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeadEffect_Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ee9cd5fd60bba7e0800000000000000
+      internalID: -1753113643607875872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeadEffect_Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8d1859a6b863ac60800000000000000
+      internalID: 7828215711034514826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeadEffect_Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7a25d4fa0d926a80800000000000000
+      internalID: -8475038878375007618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeadEffect_Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b06d69ed0e9e119c0800000000000000
+      internalID: -3958125445465582069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeadEffect_Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d3e99189dca14740800000000000000
+      internalID: 5134575100361302993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeadEffect_Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d38c2b019bf6bfe10800000000000000
+      internalID: 2232500880931997757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeadEffect_Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 2304
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13c834c03e85a1410800000000000000
+      internalID: 1448567962339609649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceOnImport
+        value: False
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":10.0,"y":1.0},"gridSpriteSize":{"x":256.0,"y":256.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      DeadEffect_Sheet_0: -2030976100758468091
+      DeadEffect_Sheet_1: 2567010271836663192
+      DeadEffect_Sheet_2: -7199835515727192488
+      DeadEffect_Sheet_3: -1753113643607875872
+      DeadEffect_Sheet_4: 7828215711034514826
+      DeadEffect_Sheet_5: -8475038878375007618
+      DeadEffect_Sheet_6: -3958125445465582069
+      DeadEffect_Sheet_7: 5134575100361302993
+      DeadEffect_Sheet_8: 2232500880931997757
+      DeadEffect_Sheet_9: 1448567962339609649
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
