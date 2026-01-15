@@ -9,10 +9,15 @@ public class Stone : MonoBehaviour
 {
     [SerializeField] 
     private StoneData stoneData;
+
+    private Animator _animator;
+    
+    // Animation Parameters
+    public static readonly int HashDead = Animator.StringToHash("Dead");
     
     private void Awake()
     {
-        
+        _animator =  GetComponent<Animator>();
     }
 
     /// <summary>
@@ -32,5 +37,18 @@ public class Stone : MonoBehaviour
     {
         stoneData.scale = scale;
         Debug.Log($"크기 변화 {stoneData.scale}");
+    }
+
+    public void SetAnimatorTrigger(int param)
+    {
+        _animator.SetTrigger(param);
+    }
+    
+    /// <summary>
+    /// Dead 애니메이션 이벤트 실행 함수
+    /// </summary>
+    public void OnDestroy()
+    {
+        Destroy(gameObject);
     }
 }

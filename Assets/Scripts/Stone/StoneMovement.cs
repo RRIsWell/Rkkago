@@ -3,6 +3,7 @@ using System.Numerics;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Unity.Netcode;
+using UnityEditor;
 using Vector2 = UnityEngine.Vector2;
 
 public class StoneMovement
@@ -10,12 +11,14 @@ public class StoneMovement
     // 임시 데이터
     private readonly float _deceleration = 50.0f;   // 감속량(마찰력)
     private readonly float _bounceDamping = 0.9f;   // 충돌시 에너지 손실양
-    private readonly float _collisionRadius = 0.6f; // 충돌 범위
+    public readonly float _collisionRadius = 0.45f; // 충돌 범위
     private Vector2 _currentVelocity;
     private bool _isMoving = false;
     
     private readonly HashSet<Transform> _collidedThisFrame = new HashSet<Transform>(); // 중복 충돌 방지
+    private StoneController _stoneController;
     private NetworkBehaviour _networkBehaviour;
+    
     
     //---------------
     // Direction(Vector2) : 방향
@@ -23,8 +26,9 @@ public class StoneMovement
     // Speed(float): 크기
     //---------------
     
-    public StoneMovement(NetworkBehaviour networkBehaviour)
+    public StoneMovement(StoneController stoneController, NetworkBehaviour networkBehaviour)
     {
+        _stoneController = stoneController;
         _networkBehaviour = networkBehaviour;
     }
     
@@ -69,7 +73,12 @@ public class StoneMovement
         while (target != null && currentSpeed > 0f)
         {
             // 충돌 체크
-            Transform collidedStone = CheckCollision(target); 
+            if (IsOutOfOutline(target))
+            {
+                HandleOutOfMap(target, 1);
+                break;
+            }
+            Transform collidedStone = CheckStoneCollision(target); 
         
             if (collidedStone != null && !_collidedThisFrame.Contains(collidedStone))
             {
@@ -101,6 +110,12 @@ public class StoneMovement
         _isMoving = false;
         _currentVelocity = Vector2.zero;
         _collidedThisFrame.Clear();
+        
+        // 경기장 밖으로 나갔는지 확인
+        if (!IsInsideMap(target))
+        {
+            HandleOutOfMap(target, 0);
+        }
     }
     
     /// <summary>
@@ -108,27 +123,62 @@ public class StoneMovement
     /// </summary>
     /// <param name="target">충돌하는 주체(본인)</param>
     /// <returns>충돌한 알</returns>
-    private Transform CheckCollision(Transform target)
+    private Transform CheckStoneCollision(Transform target)
     {
-        int collisionLayer = LayerMask.GetMask("Stone");
+        int stoneMask = LayerMask.GetMask("Stone");
         
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(target.position, _collisionRadius, collisionLayer);
+        var hits = Physics2D.OverlapCircleAll(
+            target.position, 
+            _collisionRadius, 
+            stoneMask
+        );
         
-        foreach (Collider2D hitCollider in hitColliders)
+        foreach (var hit in hits)
         {
-            if (hitCollider.transform == target) // 본인인 경우
+            if (hit.transform == target) // 본인인 경우
                 continue;
             
-            Transform collision = hitCollider.GetComponent<Transform>();
-            if (collision != null)
-            {
-                return collision;
-            }
+            return hit.transform;
         }
-        
         return null;
     }
     
+    /// <summary>
+    /// 경기장 안에 있는지 판단
+    /// </summary>
+    /// <param name="target">알</param>
+    /// <returns></returns>
+    private bool IsInsideMap(Transform target)
+    {
+        int mapMask = LayerMask.GetMask("Map");
+
+        var hits = Physics2D.OverlapCircle(
+            target.position,
+            _collisionRadius,
+            mapMask
+        );
+        
+        return hits != null;
+    }
+    
+    /// <summary>
+    /// Outline을 벗어났는지 판단
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    private bool IsOutOfOutline(Transform target)
+    {
+        int outlineMask = LayerMask.GetMask("Outline");
+
+        var hits = Physics2D.OverlapCircle(
+            target.position,
+            _collisionRadius,
+            outlineMask
+        );
+        
+        return hits != null;
+    }
+
     /// <summary>
     /// 충돌 이후 스피드 변화를 계산하는 함수
     /// </summary>
@@ -187,6 +237,38 @@ public class StoneMovement
             target.position = (Vector2)target.position + separation;
             otherStone.position = (Vector2)otherStone.position - separation;
         }
+    }
+
+    /// <summary>
+    /// 경기장 범위를 벗어났을 때 처리하는 함수
+    /// </summary>
+    private void HandleOutOfMap(Transform target, int outCase)
+    {
+        switch (outCase)
+        {
+            case 0:
+                // 경기장 밖
+                Debug.Log("경기장 밖");
+                DestroyAsync(target).Forget();
+                break;
+            case 1:
+                // Outline 밖
+                Debug.Log("Outline 밖");
+                OnDestroy(target);
+                break;
+        }
+    }
+
+    private async UniTask DestroyAsync(Transform target)
+    {
+        await UniTask.Delay(500);
+
+        OnDestroy(target);
+    }
+
+    private void OnDestroy(Transform target)
+    {
+        _stoneController.Stone.SetAnimatorTrigger(Stone.HashDead);
     }
     
 }

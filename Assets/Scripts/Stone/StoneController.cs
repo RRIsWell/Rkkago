@@ -15,6 +15,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     private GameObject _dragLine;
     
     private Stone _stone;
+    public Stone Stone => _stone;
     private Camera _camera;
     
     public StoneMovement StoneMovement { get; private set; }
@@ -28,7 +29,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         _stone = GetComponent<Stone>();
         _camera = Camera.main;
         
-        StoneMovement = new StoneMovement(this);
+        StoneMovement = new StoneMovement(this, this);
         stoneSkillFactory = new SkillFactory(_stone);
     }
 
@@ -137,7 +138,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 0.6f);
+        Gizmos.DrawWireSphere(transform.position, StoneMovement._collisionRadius);
         
         if (_isDragging && StoneMovement != null)
         {
