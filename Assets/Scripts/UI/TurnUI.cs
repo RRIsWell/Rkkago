@@ -24,19 +24,28 @@ public class TurnUI : MonoBehaviour
             Mathf.Ceil(TurnManager.Instance.GetRemainingTime()).ToString();
     }
 
-    // TurnManager -> TurnUI로 신호 전달
-    private void OnEnable()
+    public void OnEnable()
     {
-        if(TurnManager.Instance == null) return; // NullReferenceException 방지
+        StartCoroutine(WaitAndRegister());
+    }
+
+    // TurnManager -> TurnUI로 신호 전달
+    private IEnumerator WaitAndRegister()
+    {
+        // TurnManager 인스턴스 생길 때까지 대기
+        while(TurnManager.Instance == null)
+        {
+            yield return null;
+        }
 
         TurnManager.Instance.CurrentTurnClientId.OnValueChanged
             += HandleTurnClientIdChanged;
 
         // 첫 턴 팝업 처리
-        HandleTurnClientIdChanged(
-            TurnManager.Instance.CurrentTurnClientId.Value,
-            TurnManager.Instance.CurrentTurnClientId.Value
-        );
+        if (NetworkManager.Singleton.IsListening && TurnManager.Instance.CurrentTurnClientId.Value != 0)
+        {
+            HandleTurnClientIdChanged(0, TurnManager.Instance.CurrentTurnClientId.Value);
+        }
     }
 
     // ID 비교해서 턴 판정
@@ -51,11 +60,12 @@ public class TurnUI : MonoBehaviour
 
     private void OnDisable() // 비활성화
     {
-        if(TurnManager.Instance == null) return;
-
-        // 중복 호출 방지
+        if(TurnManager.Instance != null)
+        {
+            // 중복 호출 방지
         TurnManager.Instance.CurrentTurnClientId.OnValueChanged
             -= HandleTurnClientIdChanged;
+        }        
     }
 
     IEnumerator ShowTurnPopup(bool IsMyTurn)

@@ -237,9 +237,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e01c3f13a0cd2e4e89106a2b6d29daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkManagerUI
-  serverBnt: {fileID: 0}
-  hostBnt: {fileID: 0}
-  clientBnt: {fileID: 0}
+  serverBnt: {fileID: 1560257370}
+  hostBnt: {fileID: 371464011}
+  clientBnt: {fileID: 1321278280}
+--- !u!114 &371464011 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8195965511572503413, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+  m_PrefabInstance: {fileID: 1877659025}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &559887444
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,6 +742,28 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &1321278280 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2654787691295694234, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+  m_PrefabInstance: {fileID: 1877659025}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!114 &1560257370 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7587426811417850944, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+  m_PrefabInstance: {fileID: 1877659025}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1001 &1877659025
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -876,7 +909,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3205657656935798053, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
