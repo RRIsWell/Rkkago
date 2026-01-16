@@ -2,6 +2,10 @@ using UnityEngine;
 using TMPro;
 using Unity.Netcode;
 using System.Collections;
+using System.Runtime.Serialization;
+using System.Data;
+using System.Runtime.CompilerServices;
+using System.Linq.Expressions;
 
 public class TurnUI : MonoBehaviour
 {
@@ -24,19 +28,28 @@ public class TurnUI : MonoBehaviour
             Mathf.Ceil(TurnManager.Instance.GetRemainingTime()).ToString();
     }
 
-    // TurnManager -> TurnUI로 신호 전달
-    private void OnEnable()
+    public void OnEnable()
     {
-        if(TurnManager.Instance == null) return; // NullReferenceException 방지
+        StartCoroutine(WaitAndRegister());
+    }
+
+    // TurnManager -> TurnUI로 신호 전달
+    private IEnumerator WaitAndRegister()
+    {
+        // TurnManager 인스턴스 생길 때까지 대기
+        while(TurnManager.Instance == null)
+        {
+            yield return null;
+        }
 
         TurnManager.Instance.CurrentTurnClientId.OnValueChanged
             += HandleTurnClientIdChanged;
 
         // 첫 턴 팝업 처리
-        HandleTurnClientIdChanged(
-            TurnManager.Instance.CurrentTurnClientId.Value,
-            TurnManager.Instance.CurrentTurnClientId.Value
-        );
+        if (NetworkManager.Singleton.IsListening && TurnManager.Instance.CurrentTurnClientId.Value != 0)
+        {
+            HandleTurnClientIdChanged(0, TurnManager.Instance.CurrentTurnClientId.Value);
+        }
     }
 
     // ID 비교해서 턴 판정
@@ -51,11 +64,22 @@ public class TurnUI : MonoBehaviour
 
     private void OnDisable() // 비활성화
     {
-        if(TurnManager.Instance == null) return;
-
-        // 중복 호출 방지
+        if(TurnManager.Instance != null)
+        {
+            // 중복 호출 방지
         TurnManager.Instance.CurrentTurnClientId.OnValueChanged
             -= HandleTurnClientIdChanged;
+        }        
+    }
+
+    public void ShowGameResult(ulong loserId)
+    {
+        // 내가 패자인지 확인
+        bool iLost = NetworkManager.Singleton.LocalClientId
+            == loserId;
+
+            StopAllCoroutines();
+            StartCoroutine(ShowResultPopup(!iLost)); // 안 졌으면 승리
     }
 
     IEnumerator ShowTurnPopup(bool IsMyTurn)
@@ -77,5 +101,18 @@ public class TurnUI : MonoBehaviour
         {        
             TurnManager.Instance.NotifyTurnPopupFinishedServerRpc();
         }
+    }
+
+    IEnumerator ShowResultPopup(bool didIWin)
+    {
+        turnText.text = didIWin? "승리!" : "패배...";
+        turnText.color = didIWin? UnityEngine.Color.green : UnityEngine.Color.red;
+
+        turnPanel.SetActive(true);
+
+        yield return new WaitForSeconds(4f);
+
+        // 로비로 돌아가는 로직
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Lobby");
     }
 }

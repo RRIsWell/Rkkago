@@ -34,7 +34,7 @@ public class MapRuleExecutor : NetworkBehaviour
         ulong owner = netObj.OwnerClientId;
 
         remain[owner]--;
-        Destroy(stone.gameObject); // 서버에서 삭제
+        netObj.Despawn(); // 서버에서 삭제
 
         if(remain[owner] <= 0)
             OnPlayerLose(owner);
@@ -45,5 +45,16 @@ public class MapRuleExecutor : NetworkBehaviour
         Debug.Log($"{loser} LOSE");
 
         //TODO: TurnManager에 전달해서 게임 종료 처리
+        NotifyGameResultClientRpc(loser);
+    }
+
+    [ClientRpc]
+    private void NotifyGameResultClientRpc(ulong loserId)
+    {
+        TurnUI ui = FindObjectOfType<TurnUI>();
+        if(ui != null)
+        {
+            ui.ShowGameResult(loserId);
+        }
     }
 }
