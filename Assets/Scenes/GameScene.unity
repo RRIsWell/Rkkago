@@ -711,6 +711,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6914564852958862427, guid: a9c6c9aee00c63941a6bec43953f680a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1222410700}
+    - targetCorrespondingSourceObject: {fileID: 6923366917912119026, guid: a9c6c9aee00c63941a6bec43953f680a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1222410702}
   m_SourcePrefab: {fileID: 100100000, guid: a9c6c9aee00c63941a6bec43953f680a, type: 3}
 --- !u!1 &1222410699 stripped
 GameObject:
@@ -742,6 +745,23 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!1 &1222410701 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6923366917912119026, guid: a9c6c9aee00c63941a6bec43953f680a, type: 3}
+  m_PrefabInstance: {fileID: 1222410698}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1222410702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222410701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d87b66224a15034ea12450d9b875258, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapBoundary
 --- !u!114 &1321278280 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2654787691295694234, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}

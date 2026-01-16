@@ -2,6 +2,10 @@ using UnityEngine;
 using TMPro;
 using Unity.Netcode;
 using System.Collections;
+using System.Runtime.Serialization;
+using System.Data;
+using System.Runtime.CompilerServices;
+using System.Linq.Expressions;
 
 public class TurnUI : MonoBehaviour
 {
@@ -68,6 +72,16 @@ public class TurnUI : MonoBehaviour
         }        
     }
 
+    public void ShowGameResult(ulong loserId)
+    {
+        // 내가 패자인지 확인
+        bool iLost = NetworkManager.Singleton.LocalClientId
+            == loserId;
+
+            StopAllCoroutines();
+            StartCoroutine(ShowResultPopup(!iLost)); // 안 졌으면 승리
+    }
+
     IEnumerator ShowTurnPopup(bool IsMyTurn)
     {
         turnText.text = IsMyTurn ? "your turn" : "enemy's turn";
@@ -87,5 +101,18 @@ public class TurnUI : MonoBehaviour
         {        
             TurnManager.Instance.NotifyTurnPopupFinishedServerRpc();
         }
+    }
+
+    IEnumerator ShowResultPopup(bool didIWin)
+    {
+        turnText.text = didIWin? "승리!" : "패배...";
+        turnText.color = didIWin? UnityEngine.Color.green : UnityEngine.Color.red;
+
+        turnPanel.SetActive(true);
+
+        yield return new WaitForSeconds(4f);
+
+        // 로비로 돌아가는 로직
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Lobby");
     }
 }
