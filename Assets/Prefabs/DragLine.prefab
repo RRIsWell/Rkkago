@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3533670900634654138}
   - component: {fileID: 1351850111586008217}
+  - component: {fileID: 1742155910455195046}
   m_Layer: 0
   m_Name: DragLine
   m_TagString: Untagged
@@ -86,8 +87,20 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.609375, y: 0.828125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1742155910455195046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9013337079741339517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81ca833a64498254da54b06b04e4cd5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DragLine

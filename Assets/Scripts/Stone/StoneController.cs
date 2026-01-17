@@ -12,7 +12,10 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
 {
     [SerializeField]
     private GameObject dragLinePrefab;
-    private GameObject _dragLine;
+    private DragLine _dragLine;
+    
+    [SerializeField]
+    private float maxDrag = 1.5f;
     
     private Stone _stone;
     public Stone Stone => _stone;
@@ -20,8 +23,9 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     
     public StoneMovement StoneMovement { get; private set; }
     private SkillFactory stoneSkillFactory;
-    
-    private bool _isDragging = false;
+
+    // 디버깅용
+    private bool _isDragging;
     private Vector3 _mousePosition;
     
     private void Awake()
@@ -35,8 +39,8 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
 
     private void Start()
     {
-        /*_dragLine = Instantiate(dragLinePrefab, transform);
-        _dragLine.SetActive(false);*/
+        _dragLine = Instantiate(dragLinePrefab, transform).GetComponent<DragLine>() ;
+        _dragLine.gameObject.SetActive(false);
     }
 
     // ----------------- Input --------------------
@@ -44,27 +48,29 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     public void OnPointerDown(PointerEventData eventData)
     {
         // 알 드래그 시작 시 1회 실행
-        _isDragging = true;
         Vector2 worldPos = _camera.ScreenToWorldPoint(eventData.position);
         _mousePosition = worldPos;
         
-        //ActivateDragLine();
+        ActivateDragLine();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        // TODO: 마우스에서 돌까지 직선 방향 계산
+        // 마우스에서 돌까지 직선 방향 계산
         Vector2 worldPos = _camera.ScreenToWorldPoint(eventData.position);
         _mousePosition = worldPos;
         
-        //UpdateDragLine(worldPos);
+        Vector2 direction = (worldPos - (Vector2)transform.position).normalized;
+        float distance = Vector2.Distance(worldPos, transform.position);
+        if(distance > maxDrag) distance = maxDrag;
+        
+        UpdateDragLine(direction, distance);
     }
     
     public void OnPointerUp(PointerEventData eventData)
     {
         // 드래그 끝
-        //DeActivateDragLine();
-        _isDragging = false;
+        DeActivateDragLine();
         
         // 테스트 스킬
         //stoneSkillFactory.ActivateSkill(stoneSkillFactory.ChoiceRandomSkill());
@@ -74,10 +80,10 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         Vector2 direction = ((Vector2)transform.position - worldPos).normalized;
         
         float distance = Vector2.Distance(transform.position, worldPos);
+        if(distance > maxDrag) distance = maxDrag;
         float speed = _stone.CalculateSpeed() * distance;
 
         RequestShoot(direction, speed);
-        //StoneMovement.Shoot(transform, direction, speed);
     }
     
     // ---------------- Network --------------------
@@ -103,47 +109,38 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         StoneMovement.Shoot(transform, direction, speed);
     }
     
-    /*private void ActivateDragLine()
+    // ------------------- 보조선 --------------------
+    private void ActivateDragLine()
     {
         _isDragging = true;
-        _dragLine.SetActive(true);
-        _dragLine.transform.position = transform.position;
-        _dragLine.transform.localScale = new Vector3(1, 0, 1);
-    }*/
+        _dragLine.gameObject.SetActive(true);
+        _dragLine.SetTransform(transform);
+    }
 
-    /*private void UpdateDragLine(Vector3 mousePosition)
+    private void UpdateDragLine(Vector2 direction, float distance)
     {
-        // 회전값
-        Vector3 direction = (mousePosition - transform.position).normalized;
-        float angle = Vector2.SignedAngle(Vector2.up, direction);
-        _dragLine.transform.rotation = Quaternion.Euler(0, 0, angle);
-        
-        // 길이
-        float distance = Vector2.Distance(mousePosition, transform.position);;
-        
-        Vector3 scale = _dragLine.transform.localScale;
-        scale.y = distance;
-        _dragLine.transform.localScale = scale;
-        
-        _dragLine.transform.position = transform.position + (Vector3)(direction * (distance * 0.5f));
-    }*/
+        _dragLine.UpdateDragLine(transform, direction, distance);
+    }
 
-    /*private void DeActivateDragLine()
+    private void DeActivateDragLine()
     {
         _isDragging = false;
-        _dragLine.SetActive(false);
-    }*/
+        _dragLine.gameObject.SetActive(false);
+    }
     
     // 디버그용 - 드래그 방향 시각화
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, StoneMovement._collisionRadius);
-        
-        if (_isDragging && StoneMovement != null)
+        if (StoneMovement != null)
         {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.position, _mousePosition);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, StoneMovement._collisionRadius);
+            
+            if (_isDragging)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawLine(transform.position, _mousePosition);
+            }
         }
     }
 }
