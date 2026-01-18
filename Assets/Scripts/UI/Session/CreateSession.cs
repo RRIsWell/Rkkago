@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Blocks.Sessions.Common;
 using TMPro;
+using Unity.Netcode;
 using Unity.Properties;
 using Unity.Services.Multiplayer;
 using UnityEngine.UI;
@@ -18,6 +19,8 @@ public class CreateSession : MonoBehaviour
     [SerializeField]
     private SessionSettings sessionSettings;
     
+    [SerializeField] 
+    private string gameSceneName = "GameScene";
     public event Action<bool> CreateSessioinBtnOnClick;
     
     public SessionSettings SessionSettings
@@ -100,8 +103,20 @@ public class CreateSession : MonoBehaviour
             return;
         }
 
-        await _viewModel.CreateSessionAsync(SessionSettings.ToSessionOptions());
+        IHostSession session = await _viewModel.CreateSessionAsync(SessionSettings.ToSessionOptions());
+        session.PlayerJoined += StartGame;
         
         CreateSessioinBtnOnClick?.Invoke(true);
+    }
+    
+
+    private void StartGame(string playerID)
+    {
+        // NetworkManager로 씬 전환 (Host만 실행)
+        if (NetworkManager.Singleton.IsServer)
+        {
+            Debug.Log("게임을 시작합니다!");
+            NetworkManager.Singleton.SceneManager.LoadScene(gameSceneName, UnityEngine.SceneManagement.LoadSceneMode.Single);
+        }
     }
 }

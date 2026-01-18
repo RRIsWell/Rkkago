@@ -35,6 +35,17 @@ public class TurnManager : NetworkBehaviour
     }
 
     private List<ulong> playerClientIds = new List<ulong>();
+    
+    [SerializeField]
+    private GameObject stonePrefab;
+    
+    [System.Serializable]
+    public class GameObjectRow
+    {
+        public List<Transform> spawnPoints;
+    }
+    [SerializeField]
+    private List<GameObjectRow> stoneSpawnPoints = new List<GameObjectRow>();
 
     private void Awake()
     {
@@ -59,10 +70,12 @@ public class TurnManager : NetworkBehaviour
     private void OnClientConnected(ulong clientId)
     {
         playerClientIds.Add(clientId);
-
+        SpawnObjects(clientId);
+        Debug.Log(playerClientIds.Count);
         // 정확히 2명 모였을 때만 게임 시작
         if(playerClientIds.Count == 2)
         {
+            //SpawnObjects(clientId);
             StartTurn(playerClientIds[0]);
         }
     }
@@ -94,6 +107,41 @@ public class TurnManager : NetworkBehaviour
         }
     }
 
+    // 알 생성
+    private void SpawnObjects(ulong clientId)
+    {
+        if (!NetworkManager.Singleton.IsServer)
+            return;
+
+        for (int i = 0; i < 10; i++)
+        {
+            Transform spawnPoint = stoneSpawnPoints[i / 5].spawnPoints[i % 5];
+            GameObject go = Instantiate(stonePrefab, spawnPoint);
+            go.transform.position = spawnPoint.position;
+            
+            NetworkObject netObj = go.GetComponent<NetworkObject>();
+
+            if (netObj == null)
+            {
+                Debug.LogError("NetworkObject가 붙어있지 않음!");
+                return;
+            }
+
+            // 앞 5개 = Host 소유
+            if (i < 5)
+            {
+                netObj.SpawnAsPlayerObject(NetworkManager.Singleton.LocalClientId);
+                Debug.Log($"[{i}] NetworkObjectId: {netObj.NetworkObjectId}, Owner: {netObj.OwnerClientId}");
+            }
+            else
+            {
+                // 뒤 5개 = Client 소유
+                netObj.SpawnAsPlayerObject(clientId);
+                Debug.Log($"[{i}] NetworkObjectId: {netObj.NetworkObjectId}, Owner: {netObj.OwnerClientId}");
+            }
+        }
+    }
+    
     // 턴 시작
     public event System.Action<ulong> OnTurnChanged;
 
