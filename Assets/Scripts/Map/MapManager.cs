@@ -7,7 +7,7 @@ public class MapManager : NetworkBehaviour
     [SerializeField] private Stone stonePrefab;
 
     private MapRuleExecutor ruleExecutor;
-    private bool stoneSpawned = false; // 돌 중복 스폰 방지
+    private bool stoneSpawned = false; // 알 중복 스폰 방지
 
     public override void OnNetworkSpawn()
     {
@@ -66,7 +66,7 @@ public class MapManager : NetworkBehaviour
         if(clients.Count == 0) return;
 
         // P1은 호스트(0번), P2는 클라이언트(1번)에게 소유권 부여
-        ulong p1Id = NetworkManager.ServerClientId; // 🔥 이게 더 안전
+        ulong p1Id = NetworkManager.ServerClientId;
         ulong p2Id = p1Id;
 
         foreach (var c in clients)

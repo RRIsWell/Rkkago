@@ -180,7 +180,7 @@ public class TurnManager : NetworkBehaviour
         StartTurn(playerClientIds[nextIndex]);
     }
 
-    // 클라이언트가 직접 턴 종료 (필요할지 결정해야 됨)
+    // TODO: 클라이언트가 직접 턴 종료 (필요할지 결정해야 됨)
     /*
     [ServerRpc(RequireOwnership = false)]
     public void EndTurnServerRpc(ServerRpcParams rpcParams = default)
