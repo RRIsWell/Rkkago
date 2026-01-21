@@ -4,6 +4,7 @@ using Unity.Netcode;
 public class MapManager : NetworkBehaviour
 {
     [SerializeField] MapConfig currentMapConfig;
+    [SerializeField] private Stone stonePrefab;
 
     private MapRuleExecutor ruleExecutor;
 
@@ -20,7 +21,7 @@ public class MapManager : NetworkBehaviour
         // 서버만 돌 등록
         if(NetworkManager.Singleton.IsServer)
         {
-            RegisterAllStones();
+            SpawnAllStones(layout);
         }
     }
 
@@ -42,14 +43,30 @@ public class MapManager : NetworkBehaviour
         }
     }
 
-    void RegisterAllStones()
+    void SpawnAllStones(GameObject layout)
     {
-        if(!NetworkManager.Singleton.IsServer) return;
+        if(!IsServer) return;
 
-        var stones = FindObjectsOfType<Stone>();
-
-        foreach(var stone in stones)
+        var spawnRoot = layout.transform.Find("Player1SpawnPoints");
+        if(spawnRoot == null)
         {
+            Debug.LogError("Player1SpawnPoints 발견되지 않음");
+            return;
+        }
+
+        foreach (Transform spawnPoint in spawnRoot)
+        {
+            // Player1SpawnPoints 자기 자신은 스킵
+            if(spawnPoint == spawnRoot) continue;
+
+            var stone = Instantiate(
+                stonePrefab,
+                spawnPoint.position,
+                Quaternion.identity
+            );
+
+            stone.GetComponent<NetworkObject>().Spawn();
+
             ruleExecutor.RegisterStone(stone);
         }
     }
