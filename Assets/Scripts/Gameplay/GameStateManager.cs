@@ -60,14 +60,6 @@ public class GameStateManager : NetworkBehaviour
             CancelInvoke(nameof(TransitionToPlaying));
             Invoke(nameof(TransitionToPlaying), 3f);
         }
-
-        else if(newState == GameState.Playing && IsServer)
-        {
-                NetworkManager.Singleton.SceneManager.LoadScene(
-                    "GameScene",
-                    LoadSceneMode.Single
-                );
-        }
     }
 
     // 서버에서 3초 뒤 상태 변경
