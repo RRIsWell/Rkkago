@@ -30,6 +30,8 @@ public class GameStateManager : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
+        netState.OnValueChanged -= OnStateChanged;
+        
         if (IsServer)
         {
             NetworkManager.Singleton.OnClientConnectedCallback 
@@ -51,6 +53,7 @@ public class GameStateManager : NetworkBehaviour
 
     void OnStateChanged(GameState oldState, GameState newState)
     {
+        
         // GameManager 업데이트
         GameManager.Instance.SetGameState(newState);
 

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 568471268487466818}
   - component: {fileID: 218999029623760612}
   - component: {fileID: 2122722536534715413}
-  - component: {fileID: -7540169613800018153}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -85,16 +84,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameStateManager
   ShowTopMostFoldoutHeaderGroup: 1
---- !u!114 &-7540169613800018153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5028168318863316898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 570b933444ae5c24da9a8dbb99c78327, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MatchIntroController
-  matchIntroPrefab: {fileID: 0}
