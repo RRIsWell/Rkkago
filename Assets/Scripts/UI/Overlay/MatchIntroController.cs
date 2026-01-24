@@ -12,6 +12,9 @@ public class MatchIntroController : MonoBehaviour
     {
         // 초기 상태 저장
         lastState = GameManager.Instance.CurrentGameState;
+
+        // 현재 상태 기준으로 즉시 반영
+        OnGameStateChanged(GameState.Waiting, lastState);
     }
 
     void Update()
@@ -30,13 +33,15 @@ public class MatchIntroController : MonoBehaviour
 
     void OnGameStateChanged(GameState oldState, GameState newState)
     {
+        Debug.Log($"[MatchIntro] State Changed: {oldState} -> {newState}");
+        
         if(newState == GameState.MatchIntro)
         {
             ShowMatchIntro();
         }
         else if(newState == GameState.Playing)
         {
-            HideMatchIntro();
+            DestroyMatchIntro();
         }
     }
 
@@ -56,9 +61,13 @@ public class MatchIntroController : MonoBehaviour
         instance.Show("Player 1", "Player 2");
     }
 
-    void HideMatchIntro()
+    void DestroyMatchIntro()
+    {
+        if(instance != null)
         {
-            if(instance != null) 
-                instance.Hide();
+            Debug.Log("[MatchIntro] Destroyed");
+            Destroy(instance.gameObject);
+            instance = null;
         }
+    }
 }

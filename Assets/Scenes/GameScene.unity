@@ -1294,6 +1294,30 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 3143222545
       objectReference: {fileID: 0}
+    - target: {fileID: 7993656870897593741, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993656870897593741, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993656870897593741, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993656870897593741, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993656870897593741, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993656870897593741, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8275040444283674128, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
