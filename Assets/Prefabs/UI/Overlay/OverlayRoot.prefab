@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1478144143542324368}
-  - component: {fileID: 63191580969365205}
+  - component: {fileID: 7435626727232636388}
   m_Layer: 5
   m_Name: OverlayRoot
   m_TagString: Untagged
@@ -36,7 +36,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &63191580969365205
+--- !u!114 &7435626727232636388
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,7 +45,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1164540295687995310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 570b933444ae5c24da9a8dbb99c78327, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c6b2719de9bd124fb7c79c5dde07c21, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MatchIntroController
-  matchIntroPrefab: {fileID: 8950696879924502080, guid: c7c2213da7c23234ebe20a301aa18d68, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::MatchIntroUI
+  p1NameText: {fileID: 0}
+  p1ProfileImage: {fileID: 0}
+  p2NameText: {fileID: 0}
+  p2ProfileImage: {fileID: 0}
