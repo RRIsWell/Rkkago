@@ -13,12 +13,32 @@ public class GameStateManager : NetworkBehaviour
 
         if(IsServer)
         {
-            TryStartMatch();
+            NetworkManager.Singleton.OnClientConnectedCallback 
+                += OnClientConnected;
         }
     }
 
+    void OnClientConnected(ulong clientId)
+    {
+        TryStartMatch();
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (IsServer)
+        {
+            NetworkManager.Singleton.OnClientConnectedCallback 
+                -= OnClientConnected;
+        }
+    }
+
+
     void TryStartMatch()
     {
+        // 중복 호출 방지
+        if(netState.Value != GameState.Waiting)
+            return;
+        
         if(NetworkManager.Singleton.ConnectedClients.Count == 2)
         {
             netState.Value = GameState.MatchIntro;
