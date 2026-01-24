@@ -26,6 +26,7 @@ public class SkillFactory
         _skills.Add(new ChangeScaleSkill(stone));
         
         // 이어서 추가
+        _skills.Add(new GravityLock(stone));
     }
     
     /// <summary>
