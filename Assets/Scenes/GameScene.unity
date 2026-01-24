@@ -975,6 +975,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameSystems
       objectReference: {fileID: 0}
+    - target: {fileID: 3624487562750877835, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
+      propertyPath: matchIntroPrefab
+      value: 
+      objectReference: {fileID: 1816730315}
     - target: {fileID: 8929117062803574608, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2722942334
@@ -1260,6 +1264,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &1816730315 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8950696879924502080, guid: c7c2213da7c23234ebe20a301aa18d68, type: 3}
+  m_PrefabInstance: {fileID: 1736611954}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c6b2719de9bd124fb7c79c5dde07c21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MatchIntroUI
 --- !u!1 &1835778758
 GameObject:
   m_ObjectHideFlags: 0

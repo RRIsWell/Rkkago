@@ -11,10 +11,10 @@ public class MatchIntroController : MonoBehaviour
     void Start()
     {
         // 초기 상태 저장
-        lastState = GameManager.Instance.CurrentGameState;
-
-        // 현재 상태 기준으로 즉시 반영
-        OnGameStateChanged(GameState.Waiting, lastState);
+        if(GameManager.Instance != null)
+        {
+            lastState = GameManager.Instance.CurrentGameState;
+        }
     }
 
     void Update()
