@@ -34,7 +34,7 @@ public class MatchIntroController : MonoBehaviour
         {
             ShowMatchIntro();
         }
-        else
+        else if(newState == GameState.Playing)
         {
             HideMatchIntro();
         }

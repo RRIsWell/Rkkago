@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Dynamic;
 using Unity.Netcode;
 using UnityEngine;
@@ -10,6 +11,9 @@ public class GameStateManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         netState.OnValueChanged += OnStateChanged;
+
+        // 클라이언트가 늦게 접속해도 현재 상태를 GameManager에 동기화
+        GameManager.Instance.SetGameState(netState.Value);
 
         if(IsServer)
         {
@@ -31,7 +35,6 @@ public class GameStateManager : NetworkBehaviour
                 -= OnClientConnected;
         }
     }
-
 
     void TryStartMatch()
     {
@@ -61,6 +64,7 @@ public class GameStateManager : NetworkBehaviour
                 // 3초 뒤 서버가 상태를 Playing으로 바꿈
                 if(IsServer)
                 {
+                    CancelInvoke(nameof(TransitionToPlaying));
                     Invoke(nameof(TransitionToPlaying), 3f);
                 }
             }
@@ -68,8 +72,19 @@ public class GameStateManager : NetworkBehaviour
 
         else if(newState == GameState.Playing)
             {
+                // 모든 클라이언트에서 UI 정리
                 var introUI = FindFirstObjectByType<MatchIntroUI>();
-                if(introUI != null) introUI.Hide();
+                if(introUI != null) 
+                    introUI.Hide();
+
+                // 씬 전환은 서버만
+                if(IsServer)
+            {
+                NetworkManager.Singleton.SceneManager.LoadScene(
+                    "GameScene",
+                    UnityEngine.SceneManagement.LoadSceneMode.Single
+                );
+            }
             }
     }
 
