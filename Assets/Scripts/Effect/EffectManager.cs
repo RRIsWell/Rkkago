@@ -6,18 +6,22 @@ public class EffectManager : NetworkBehaviour
 {
     public static EffectManager Instance { get; private set; }
     private CameraEffect _cameraEffect;
+    [SerializeField]
+    private GameObject effectPrefab;
+    private GameObject _effectObject;
+    
     void Awake()
     {
         Instance = this;
         
         _cameraEffect = GetComponent<CameraEffect>();
+        _effectObject = Instantiate(effectPrefab);
+        _effectObject.SetActive(false);
     }
-
 
     [ClientRpc]
     public void CollisionEffectClientRpc(Vector3 position)
     {
-        //if (!IsServer) return;
         CollisionEffect(position).Forget();
     }
     
@@ -27,14 +31,18 @@ public class EffectManager : NetworkBehaviour
     /// <param name="position"></param>
     private async UniTask CollisionEffect(Vector3 position)
     {
+        _effectObject.SetActive(true);
+        _effectObject.transform.position = position;
         
+        await UniTask.Delay(300);
+        
+        _effectObject.SetActive(false);
     }
 
 
     [ClientRpc]
     public void DestroyEffectClientRpc(Vector3 position)
     {
-        //if (!IsServer) return;
         DestroyEffect(position).Forget();
     }
     

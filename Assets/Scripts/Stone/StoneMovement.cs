@@ -204,6 +204,9 @@ public class StoneMovement
     /// <param name="otherStone">충돌한 알(상대)</param>
     private void HandleCollision(Transform target, Transform otherStone)
     {
+        // 이펙트
+        EffectManager.Instance.CollisionEffectClientRpc(((Vector2)otherStone.position + (Vector2)target.position) / 2);
+        
         // 충돌 방향
         Vector2 collisionNormal = ((Vector2)otherStone.position - (Vector2)target.position).normalized;
         
