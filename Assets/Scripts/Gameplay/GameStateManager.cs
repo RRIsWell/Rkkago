@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class GameStateNetworkDriver : NetworkBehaviour
+public class GameStateManager : NetworkBehaviour
 {
     private NetworkVariable<GameState> netState =  
         new(GameState.Waiting);
