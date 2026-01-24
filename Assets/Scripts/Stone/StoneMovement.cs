@@ -268,6 +268,7 @@ public class StoneMovement
 
     private void OnDestroy(Transform target)
     {
+        EffectManager.Instance.DestroyEffectClientRpc(target.transform.position);
         _stoneController.Stone.SetAnimatorTrigger(Stone.HashDead);
     }
     
