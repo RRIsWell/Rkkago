@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b21458b7a743eb24c9be9f0903a3faac, type: 3}
+  m_Name: Map1Config
+  m_EditorClassIdentifier: Assembly-CSharp::MapConfig
+  stonesPerPlayer: 5
+  allowHalfOut: 1
+  friction: 0.8
+  slippery: 0
+  useObstacle: 0
+  obstacleCount: 5
+  obstacleMargin: 1.5
+  loseStoneCount: 5
+  stoneSpawnPoints:
+  - spawnPoints:
+    - {fileID: 4796379952244916995, guid: 3d326d78f4671174d9e47d8bfdec69ca, type: 3}
+    - {fileID: 6086036395685717716, guid: 10896c29e29e64f4ba9f79bdbb29da02, type: 3}
+    - {fileID: 8935681290149040525, guid: 093764ceb65bf78418ba0c3c86249193, type: 3}
+    - {fileID: 6001893628830103702, guid: bbd85a26e73e52349b6e380d297f44ce, type: 3}
+    - {fileID: 5100236078162178087, guid: 26ef7b2d88345944291d43ee60f946f6, type: 3}
+  - spawnPoints:
+    - {fileID: 8253094920449715488, guid: 142b03c2c58b1724c930f6c4cfe03ad2, type: 3}
+    - {fileID: 2339637669737514287, guid: 4aa2b2e569635754aae754c656cab8a4, type: 3}
+    - {fileID: 505895420034379239, guid: 1b895a0c13bd5d3488775630f27af450, type: 3}
+    - {fileID: 7440544021984997125, guid: d9e058b637b0b9a4c9fd496fc257a8ba, type: 3}
+    - {fileID: 2279587777418233771, guid: ef974227c4b09de418166eb8c2d4a1cc, type: 3}

@@ -1,12 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
 public class MapManager : NetworkBehaviour
 {
+    // 맵
     [SerializeField] MapConfig currentMapConfig;
-    [SerializeField] private Stone stonePrefab;
-
     private MapRuleExecutor ruleExecutor;
+    
+    // 알 스폰
+    [SerializeField]
+    private GameObject stonePrefab;
     private bool stoneSpawned = false; // 알 중복 스폰 방지
 
     public override void OnNetworkSpawn()
@@ -34,9 +38,8 @@ public class MapManager : NetworkBehaviour
         ruleExecutor = layout.GetComponentInChildren<MapRuleExecutor>();
         InitializeSystems(layout.gameObject);
 
-        SpawnAllStones(layout);
-
-        stoneSpawned = true; // 중복 방지
+        // 알 생성
+        SpawnAllStones();
     }
 
     void InitializeSystems(GameObject layout)
@@ -57,13 +60,13 @@ public class MapManager : NetworkBehaviour
         }
     }
 
-    void SpawnAllStones(GameObject layout)
+    void SpawnAllStones()
     {
         if(!IsServer) return;
 
         // 접속된 클라이언트 목록 확인
         var clients = NetworkManager.Singleton.ConnectedClientsList;
-        if(clients.Count == 0) return;
+        if(clients.Count < 2) return;
 
         // P1은 호스트(0번), P2는 클라이언트(1번)에게 소유권 부여
         ulong p1Id = NetworkManager.ServerClientId;
@@ -79,27 +82,25 @@ public class MapManager : NetworkBehaviour
         }
 
         // 각각의 스폰 포인트 그룹에서 소환
-        SpawnByTeam(layout, "Player1SpawnPoints", p1Id, 1);
-        SpawnByTeam(layout, "Player2SpawnPoints", p2Id, 2);
+        SpawnByTeam(p1Id, 0);
+        SpawnByTeam(p2Id, 1);
+        
+        stoneSpawned = true; // 중복 방지
     }
 
-    void SpawnByTeam(GameObject layout, string pointName, ulong ownerId, int teamId)
+    void SpawnByTeam(ulong ownerId, int playerIndex)
     {
-        var spawnRoot = layout.transform.Find(pointName);
-        if (spawnRoot == null) return;
-
-        foreach (Transform spawnPoint in spawnRoot)
+        foreach (Transform spawnPoint in currentMapConfig.stoneSpawnPoints[playerIndex].spawnPoints)
         {
-            if(spawnPoint == spawnRoot) continue;
-
-            var stone = Instantiate(stonePrefab, spawnPoint.position, Quaternion.identity);
-            
+            var go = Instantiate(stonePrefab, spawnPoint.position, Quaternion.identity);
+        
             // 소유권을 지정하여 스폰
-            stone.GetComponent<NetworkObject>().SpawnWithOwnership(ownerId);
-
+            go.GetComponent<NetworkObject>().SpawnWithOwnership(ownerId);
+            Stone stone = go.GetComponent<Stone>();
+            
             // 팀 설정
-            stone.SetTeam(teamId); 
-            ruleExecutor.RegisterStone(stone);
+            stone.SetTeam(playerIndex); 
+            //ruleExecutor.RegisterStone(stone);
         }
     }
 }

@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1780d1df3458fb40a7383b29b922ee3, type: 3}
+  m_Script: {fileID: 11500000, guid: b21458b7a743eb24c9be9f0903a3faac, type: 3}
   m_Name: Map3Config
   m_EditorClassIdentifier: Assembly-CSharp::MapConfig
-  mapName: 
-  killOutside: 0
-  deathThresholdRatio: 0.5
   stonesPerPlayer: 5
-  frictionMultiplier: 1
-  isSlippery: 0
-  spawnObstacles: 0
-  obstacleCount: 0
+  allowHalfOut: 1
+  friction: 0.8
+  slippery: 0
+  useObstacle: 0
+  obstacleCount: 5
+  obstacleMargin: 1.5
+  loseStoneCount: 5

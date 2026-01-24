@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using System.Data.Common;
 using System.Diagnostics.Contracts;
@@ -5,6 +6,11 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
 // 환경값 세팅용
+[System.Serializable]
+public class GameObjectRow
+{
+    public List<Transform> spawnPoints;
+}
 
 [CreateAssetMenu(menuName = "Map/MapConfig")]
 public class MapConfig : ScriptableObject
@@ -24,4 +30,7 @@ public class MapConfig : ScriptableObject
 
     [Header("패배 판정")]
     public int loseStoneCount = 5;
+    
+    [Header("알 스폰 지점")]
+    public List<GameObjectRow> stoneSpawnPoints = new List<GameObjectRow>();
 }
