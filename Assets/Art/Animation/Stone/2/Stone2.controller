@@ -45,7 +45,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 3568fcc5ae51eed4ba90430e3718a029, type: 2}
+  m_Motion: {fileID: 7400000, guid: f154e030e77ace94ba77331ea69945db, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -82,7 +82,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Stone
+  m_Name: Stone2
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Dead
@@ -125,7 +125,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 60824365cd1dff943821d2446a20c2f9, type: 2}
+  m_Motion: {fileID: 7400000, guid: 70b96c1d39e209541aa1805a010e603d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

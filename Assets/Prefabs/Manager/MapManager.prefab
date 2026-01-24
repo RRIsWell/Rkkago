@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 906742780
+  GlobalObjectIdHash: 1069537109
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -72,4 +72,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapManager
   ShowTopMostFoldoutHeaderGroup: 1
   currentMapConfig: {fileID: 11400000, guid: 33bf5681da64e344b8678bfd222d676b, type: 2}
-  stonePrefab: {fileID: 647225764294854384, guid: 3ea4fce01e45ecd488f9236c28eef65f, type: 3}
+  stone1Prefab: {fileID: 647225764294854384, guid: 3ea4fce01e45ecd488f9236c28eef65f, type: 3}
+  stone2Prefab: {fileID: 647225764294854384, guid: bd704debf193e88449942f98da56a490, type: 3}

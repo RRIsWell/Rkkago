@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1351850111586008217}
   - component: {fileID: 1742155910455195046}
   m_Layer: 0
-  m_Name: DragLine
+  m_Name: Stone1_DragLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,12 +82,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 8582976894876265667, guid: 4254be4014fb33f46b5b54d01ed668c0, type: 3}
+  m_Sprite: {fileID: -6440282328274511526, guid: 3d2e2e21de407f642baf380bd2d58adb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.609375, y: 0.828125}
+  m_Size: {x: 2.02, y: 3.77}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

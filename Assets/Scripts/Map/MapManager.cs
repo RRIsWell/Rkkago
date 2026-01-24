@@ -9,8 +9,8 @@ public class MapManager : NetworkBehaviour
     private MapRuleExecutor ruleExecutor;
     
     // 알 스폰
-    [SerializeField]
-    private GameObject stonePrefab;
+    [SerializeField] private GameObject stone1Prefab;
+    [SerializeField] private GameObject stone2Prefab;
     private bool stoneSpawned = false; // 알 중복 스폰 방지
 
     public override void OnNetworkSpawn()
@@ -82,24 +82,22 @@ public class MapManager : NetworkBehaviour
         }
 
         // 각각의 스폰 포인트 그룹에서 소환
-        SpawnByTeam(p1Id, 0);
-        SpawnByTeam(p2Id, 1);
+        SpawnByTeam(p1Id, 0, stone1Prefab);
+        SpawnByTeam(p2Id, 1, stone2Prefab);
         
         stoneSpawned = true; // 중복 방지
     }
 
-    void SpawnByTeam(ulong ownerId, int playerIndex)
+    void SpawnByTeam(ulong ownerId, int playerIndex, GameObject prefab)
     {
         foreach (Transform spawnPoint in currentMapConfig.stoneSpawnPoints[playerIndex].spawnPoints)
         {
-            var go = Instantiate(stonePrefab, spawnPoint.position, Quaternion.identity);
+            var go = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
         
             // 소유권을 지정하여 스폰
             go.GetComponent<NetworkObject>().SpawnWithOwnership(ownerId);
             Stone stone = go.GetComponent<Stone>();
             
-            // 팀 설정
-            stone.SetTeam(playerIndex); 
             //ruleExecutor.RegisterStone(stone);
         }
     }

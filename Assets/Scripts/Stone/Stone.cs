@@ -23,21 +23,6 @@ public class Stone : NetworkBehaviour
         _renderer = GetComponent<SpriteRenderer>();
     }
 
-    public void SetTeam(int teamId)
-    {
-        // 모든 클라이언트 색상 바꿈
-        SetTeamClientRpc(teamId);
-    }
-
-    [ClientRpc]
-    private void SetTeamClientRpc(int teamId)
-    {
-        if (_renderer == null) _renderer = GetComponent<SpriteRenderer>();
-        
-        // 팀 1은 하늘색, 팀 2는 빨간색 (원하는 색으로 변경 가능)
-        _renderer.color = (teamId == 1) ? Color.cyan : new Color(1f, 0.4f, 0.4f);
-    }
-
     /// <summary>
     /// stone 데이터를 기반으로 speed를 계산하는 함수
     /// speed에 영향을 주는 요소: 알의 무게, 크기
