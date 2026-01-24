@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3504078149319693971}
   - component: {fileID: 2028367758725848386}
   m_Layer: 0
-  m_Name: P2ProfileImage
+  m_Name: P2NameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -472,10 +472,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c6b2719de9bd124fb7c79c5dde07c21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MatchIntroUI
-  p1NameText: {fileID: 0}
-  p1ProfileImage: {fileID: 0}
-  p2NameText: {fileID: 0}
-  p2ProfileImage: {fileID: 0}
+  p1NameText: {fileID: 1397574824565768099}
+  p1ProfileImage: {fileID: 8121655789710091074}
+  p2NameText: {fileID: 2028367758725848386}
+  p2ProfileImage: {fileID: 5430490202888264}
 --- !u!1 &6442529564639291514
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,3 @@
-using System.Dynamic;
 using UnityEngine;
 
 public class MatchIntroController : MonoBehaviour
@@ -6,43 +5,46 @@ public class MatchIntroController : MonoBehaviour
     [SerializeField] private MatchIntroUI matchIntroPrefab;
 
     private MatchIntroUI instance;
-    private GameState lastState;
 
-    void Start()
+    void Awake()
     {
+        Debug.Log($"[MatchIntro] Awake - {name} (active={gameObject.activeInHierarchy})");
+    }
+
+    void OnEnable()
+    {
+        Debug.Log($"[MatchIntro] OnEnable - {name}");
+
         // 초기 상태 저장
-        if(GameManager.Instance != null)
-        {
-            lastState = GameManager.Instance.CurrentGameState;
-        }
+        if(GameManager.Instance == null) return;
+
+        GameManager.Instance.OnGameStateChanged
+            += HandleStateChanged;
+
+        // 시작하자마자 현재 상태를 UI에 반영
+        ApplyState(GameManager.Instance.CurrentGameState);
     }
 
-    void Update()
+    void OnDisable()
     {
-        if (GameManager.Instance == null)
-        return;
-        
-        var current = GameManager.Instance.CurrentGameState;
+        Debug.Log($"[MatchIntro] OnDisable - {name}");
 
-        if(current != lastState)
-        {
-            OnGameStateChanged(lastState, current);
-            lastState = current;
-        }
+        if (GameManager.Instance == null) return;
+
+        GameManager.Instance.OnGameStateChanged -= HandleStateChanged;
     }
 
-    void OnGameStateChanged(GameState oldState, GameState newState)
+
+    void HandleStateChanged(GameState oldState, GameState newState)
     {
         Debug.Log($"[MatchIntro] State Changed: {oldState} -> {newState}");
-        
-        if(newState == GameState.MatchIntro)
-        {
-            ShowMatchIntro();
-        }
-        else if(newState == GameState.Playing)
-        {
-            DestroyMatchIntro();
-        }
+        ApplyState(newState);
+    }
+
+    void ApplyState(GameState state)
+    {
+        if(state == GameState.MatchIntro) ShowMatchIntro();
+        else DestroyMatchIntro(); // 나머지 경우에는 꺼두기
     }
 
     void ShowMatchIntro()
@@ -56,9 +58,6 @@ public class MatchIntroController : MonoBehaviour
 
             instance.Show("Player 1", "Player 2");
         }
-
-        // 테스트용 이름
-        instance.Show("Player 1", "Player 2");
     }
 
     void DestroyMatchIntro()

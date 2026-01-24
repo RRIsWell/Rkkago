@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -6,6 +7,8 @@ public class GameManager : MonoBehaviour
 
     public GameState CurrentGameState { get; private set; } 
         = GameState.Waiting;
+
+    public event Action<GameState, GameState> OnGameStateChanged;
 
     public void Awake()
     {
@@ -21,7 +24,10 @@ public class GameManager : MonoBehaviour
 
     public void SetGameState(GameState newState)
     {
+        var old = CurrentGameState;
         CurrentGameState = newState;
+
         Debug.Log($"[GameState] -> {newState}");
+        OnGameStateChanged?.Invoke(old, newState);
     }
 }
