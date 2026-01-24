@@ -16,6 +16,8 @@ public class MatchIntroUI : MonoBehaviour
     {
         p1NameText.text = p1Name;
         p2NameText.text = p2Name;
+        
+        Debug.Log("MatchIntroUI Show");
         gameObject.SetActive(true);
     }
 
