@@ -10,5 +10,10 @@ public class Hacking : SkillBase
 
     public override void Activate()
     {
+        if (Stone.VisualController != null)
+        {
+            Stone.VisualController.SetVisualStateServerRpc(VisualState.Deception);
+            
+        }
     }
 }

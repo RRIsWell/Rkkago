@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1399029885569440533}
   - component: {fileID: 8777337735980758525}
   - component: {fileID: 8888580116224590807}
+  - component: {fileID: 640516936450638873}
   m_Layer: 6
   m_Name: Stone1
   m_TagString: Untagged
@@ -238,6 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4e3f9e5b3f38ca4c9a2b1f70ab134f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Stone
+  ShowTopMostFoldoutHeaderGroup: 1
   stoneData: {fileID: 11400000, guid: d5a41bd8908febd49afe2e1207568d26, type: 2}
 --- !u!114 &8888580116224590807
 MonoBehaviour:
@@ -254,3 +256,20 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   dragLinePrefab: {fileID: 9013337079741339517, guid: 97ac4c486955d1f43a993ad9a6e113f6, type: 3}
   maxDrag: 1.5
+--- !u!114 &640516936450638873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647225764294854384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13c51407a3635df4680402d9be47e876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StoneVisualController
+  ShowTopMostFoldoutHeaderGroup: 1
+  graffitiPrefab: {fileID: 8874957614149988754, guid: 6cb7909da87e51c4c9daf7c7162a8bf3, type: 3}
+  _renderer: {fileID: 6662523608536544660}
+  currentVisualState:
+    m_InternalValue: 0
