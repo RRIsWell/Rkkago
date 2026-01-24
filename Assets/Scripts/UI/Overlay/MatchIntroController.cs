@@ -16,6 +16,9 @@ public class MatchIntroController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance == null)
+        return;
+        
         var current = GameManager.Instance.CurrentGameState;
 
         if(current != lastState)
