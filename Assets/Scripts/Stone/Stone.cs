@@ -10,9 +10,13 @@ public class Stone : NetworkBehaviour
 {
     [SerializeField] 
     private StoneData stoneData;
-
+    
     private Animator _animator;
     private SpriteRenderer _renderer;
+    private StoneVisualController _visualController;
+    
+    private float _defaultScale;
+    private float _defaultWeight;
     
     // Animation Parameters
     public static readonly int HashDead = Animator.StringToHash("Dead");
@@ -21,6 +25,42 @@ public class Stone : NetworkBehaviour
     {
         _animator =  GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
+        _visualController = GetComponent<StoneVisualController>();
+        
+        _defaultScale = stoneData.scale;
+        _defaultWeight = stoneData.weight;
+    }
+
+    public void SetTeam(int teamId)
+    {
+        // 모든 클라이언트 색상 바꿈
+        SetTeamClientRpc(teamId);
+    }
+
+    [ClientRpc]
+    private void SetTeamClientRpc(int teamId)
+    {
+        if (_visualController != null)
+        {
+            _visualController.InitializeVisuals(teamId);
+        }
+        
+    }
+    
+    /// <summary>
+    /// 모든 상태를 태어날 때로 되돌리는 함수
+    /// </summary>
+    public void ResetStoneState()
+    {
+        // 물리적 수치 원상복구
+        ChangeStoneScale(_defaultScale);
+        ChangeStoneWeight(_defaultWeight);
+
+        // 시각적 효과(낙서, 색상 등) 모두 제거 요청
+        if (_visualController != null)
+        {
+            _visualController.ResetVisuals();
+        }
     }
 
     /// <summary>
@@ -52,6 +92,11 @@ public class Stone : NetworkBehaviour
     {
         _animator.SetTrigger(param);
     }
+    
+    /// <summary>
+    /// 스킬에서 visualController에 접근하기 위한 getter
+    /// </summary>
+    public StoneVisualController VisualController => _visualController;
     
     /// <summary>
     /// Dead 애니메이션 이벤트 실행 함수
