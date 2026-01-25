@@ -9,11 +9,18 @@ using Random = System.Random;
 public class SkillFactory
 {
     private List<SkillBase> _skills;
+    public int SkillCount => _skills.Count;
     
     public SkillFactory(Stone stone)
     {
         _skills = new List<SkillBase>();
         InitSkills(stone);
+    }
+
+    public SkillBase GetSkillByIndex(int index)
+    {
+        index = Mathf.Clamp(index, 0, _skills.Count - 1);
+        return _skills[index];
     }
     
     /// <summary>
