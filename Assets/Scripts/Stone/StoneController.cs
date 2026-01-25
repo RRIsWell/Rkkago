@@ -109,6 +109,9 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         
         // 서버에 요청
         ShootServerRpc(direction, speed);
+
+        // 한번 쏘고 나면 즉시 턴 종료 요청
+        TurnManager.Instance.EndTurnServerRpc();
     }
     
     [ServerRpc]
