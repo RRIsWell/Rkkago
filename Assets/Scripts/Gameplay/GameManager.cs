@@ -5,6 +5,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public static bool IsMatchIntroPlaying = false;
+
     public GameState CurrentGameState { get; private set; } 
         = GameState.Waiting;
 

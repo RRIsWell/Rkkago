@@ -52,13 +52,30 @@ public class TurnManager : NetworkBehaviour
     {
         if(!IsServer) return; // 서버에서만 실행
 
+        // 이미 연결된 클라이언트를 먼저 채워넣음
+        playerClientIds.Clear();
+        foreach (var id in NetworkManager.Singleton.ConnectedClientsIds)
+        {
+            playerClientIds.Add(id);
+        }
+
+        // 새로 들어오는 클라이언트 받음
         NetworkManager.Singleton.OnClientConnectedCallback 
             += OnClientConnected;
+
+        // 이미 2명 모여있으면 바로 시작
+        if (playerClientIds.Count == 2)
+        {
+            StartTurn(playerClientIds[0]);
+        }
+
+        Debug.Log($"[TM] OnNetworkSpawn, players={string.Join(",", playerClientIds)}");
     }
 
     private void OnClientConnected(ulong clientId)
     {
-        playerClientIds.Add(clientId);
+        if(!playerClientIds.Contains(clientId)) // 중복 방지
+            playerClientIds.Add(clientId);
 
         // 정확히 2명 모였을 때만 게임 시작
         if(playerClientIds.Count == 2)
@@ -162,6 +179,7 @@ public class TurnManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void NotifyTurnPopupFinishedServerRpc()
     {
+        Debug.Log("[TM] Popup finished -> Turn Active");
         isTurnActive = true;
     }
 }
