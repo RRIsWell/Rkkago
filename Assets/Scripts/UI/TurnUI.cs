@@ -13,6 +13,8 @@ public class TurnUI : MonoBehaviour
     [SerializeField] private TMP_Text turnText;
     [SerializeField] private TMP_Text timerText;
 
+    private bool hasDeferredTurn = false;
+    private ulong deferredTurnId;
 
     void Start()
     {
@@ -46,17 +48,34 @@ public class TurnUI : MonoBehaviour
             += HandleTurnClientIdChanged;
 
         // 첫 턴 팝업 처리
-        if (NetworkManager.Singleton.IsListening && TurnManager.Instance.CurrentTurnClientId.Value != 0)
+        if(NetworkManager.Singleton != null &&
+            NetworkManager.Singleton.IsListening)
         {
-            HandleTurnClientIdChanged(0, TurnManager.Instance.CurrentTurnClientId.Value);
+            HandleTurnClientIdChanged(
+                ulong.MaxValue,
+                TurnManager.Instance.CurrentTurnClientId.Value
+            );
         }
     }
 
     // ID 비교해서 턴 판정
     private void HandleTurnClientIdChanged(ulong oldId, ulong newId)
     {        
+        // 인트로 중이면 팝업 띄우지 말고 보류
+        if (GameManager.IsMatchIntroPlaying)
+        {
+            hasDeferredTurn = true;
+            deferredTurnId = newId;
+            return;
+        }
+
+        ShowTurnPopupNow(newId);
+    }
+
+    private void ShowTurnPopupNow(ulong turnOwnerId)
+    {
         bool IsMyTurn =
-            NetworkManager.Singleton.LocalClientId == newId;
+            NetworkManager.Singleton.LocalClientId == turnOwnerId;
 
         StopAllCoroutines();
         StartCoroutine(ShowTurnPopup(IsMyTurn));
@@ -115,4 +134,13 @@ public class TurnUI : MonoBehaviour
         // 로비로 돌아가는 로직
         UnityEngine.SceneManagement.SceneManager.LoadScene("Lobby");
     }
+
+    public void PlayDeferredTurnPopup()
+    {
+        if (!hasDeferredTurn) return;
+
+        hasDeferredTurn = false;
+        ShowTurnPopupNow(deferredTurnId);
+    }
+
 }

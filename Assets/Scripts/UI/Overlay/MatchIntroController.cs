@@ -50,10 +50,21 @@ public class MatchIntroController : MonoBehaviour
 
         Debug.Log($"[MatchIntro] 2 players connected: {string.Join(",", NetworkManager.Singleton.ConnectedClientsIds)}");
 
+        // 인트로 시작해서 턴 팝업 막기
+        GameManager.IsMatchIntroPlaying = true;
+        
         ShowMatchIntro();
 
         yield return new WaitForSeconds(2f);
         DestroyMatchIntro();
+
+        // 인트로 종료돼서 턴 팝업 허용
+        GameManager.IsMatchIntroPlaying = false;
+
+        // 보류해둔 턴 팝업 띄우라고 TurnUI에게 지시
+        var ui = FindObjectOfType<TurnUI>();
+        if (ui != null)
+            ui.PlayDeferredTurnPopup();
     }
 
     void OnDisable()
