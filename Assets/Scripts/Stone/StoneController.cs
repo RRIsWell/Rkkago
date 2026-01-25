@@ -23,6 +23,8 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     
     public StoneMovement StoneMovement { get; private set; }
     private SkillFactory stoneSkillFactory;
+    public int SkillCount => stoneSkillFactory.SkillCount;
+
 
     // 디버깅용
     private bool _isDragging;
@@ -124,6 +126,21 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     public void TriggerShootFromCollision(Vector2 direction, float speed)
     {
         StoneMovement.Shoot(transform, direction, speed);
+    }
+
+    // 서버가 정한 스킬을 클라이언트에게 적용
+    [ClientRpc]
+    public void ApplySkillClientRpc(int skillIndex)
+    {
+        // 자기 돌만 적용
+        if (!IsOwner) return;
+
+        var skill = stoneSkillFactory.GetSkillByIndex(skillIndex);
+        stoneSkillFactory.ActivateSkill(skill);
+
+        Debug.Log(
+            $"[Skill] Owner({OwnerClientId}) received skill index={skillIndex}"
+        );
     }
     
     // ------------------- 보조선 --------------------

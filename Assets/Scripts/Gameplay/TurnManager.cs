@@ -14,6 +14,8 @@ public class TurnManager : NetworkBehaviour
     [SerializeField] private float turnTime = 10f;
     private bool isChangingTurn = false; // 턴 교체 중복 방지용
     private bool isTurnActive = false; // 팝업 뜰 땐 타이머X
+    private bool initialSkillGiven = false;
+
 
     private NetworkVariable<float> remainingTime = 
         new NetworkVariable<float>(
@@ -129,6 +131,52 @@ public class TurnManager : NetworkBehaviour
 
         OnTurnChanged?.Invoke(clientId);
 
+        // 최초 게임 시작 시 1회 랜덤 스킬 부여
+        if (IsServer && !initialSkillGiven && playerClientIds.Count == 2)
+        {
+        initialSkillGiven = true;
+        GiveRandomSkillsToBothPlayers();
+        }
+    }
+
+    // 랜덤 스킬 부여용
+    private void GiveRandomSkillsToBothPlayers()
+    {
+        var stones = FindObjectsOfType<StoneController>();
+
+        StoneController p1 = null;
+        StoneController p2 = null;
+
+        foreach (var s in stones)
+        {
+            var no = s.GetComponent<NetworkObject>();
+            if (no == null) continue;
+
+            if (no.OwnerClientId == 0) p1 = s;
+            else p2 = s;
+        }
+
+        if (p1 == null || p2 == null)
+        {
+            Debug.LogWarning("[TM] Stones not ready yet");
+            return;
+        }
+
+        int skillCount = p1.SkillCount;
+
+        int p1Skill = UnityEngine.Random.Range(0, skillCount);
+        int p2Skill = UnityEngine.Random.Range(0, skillCount);
+
+        p1.ApplySkillClientRpc(p1Skill);
+        p2.ApplySkillClientRpc(p2Skill);
+
+        Debug.Log($"[TM] Skills distributed: {p1Skill}, {p2Skill}");
+    }
+
+    public void GiveRandomSkillsPublic()
+    {
+        if (!IsServer) return;
+        GiveRandomSkillsToBothPlayers();
     }
 
     // 턴 교체 (다음 플레이어로 턴 이동)
