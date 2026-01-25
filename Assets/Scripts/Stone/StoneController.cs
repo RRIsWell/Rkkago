@@ -45,9 +45,17 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
 
     // ----------------- Input --------------------
     
+    // 내 턴인지 체크
+    private bool CanInput()
+    {
+        if(!IsOwner) return false;
+        if(TurnManager.Instance == null) return false;
+        return TurnManager.Instance.IsMyTurn();
+    }
+    
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!IsOwner) return;
+        if (!CanInput()) return;
         
         // 알 드래그 시작 시 1회 실행
         Vector2 worldPos = _camera.ScreenToWorldPoint(eventData.position);
@@ -58,7 +66,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!IsOwner) return;
+        if (!CanInput()) return;
         
         // 마우스에서 돌까지 직선 방향 계산
         Vector2 worldPos = _camera.ScreenToWorldPoint(eventData.position);
@@ -73,7 +81,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (!IsOwner) return;
+        if (!CanInput()) return;
         
         // 드래그 끝
         DeActivateDragLine();

@@ -4,6 +4,8 @@ using System.Data;
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Data.SqlTypes;
+using System.Security;
 
 public class TurnManager : NetworkBehaviour 
 {
@@ -149,17 +151,17 @@ public class TurnManager : NetworkBehaviour
         StartTurn(playerClientIds[nextIndex]);
     }
 
-    // TODO: 클라이언트가 직접 턴 종료 (필요할지 결정해야 됨)
-    /*
+    // 한 번 날리고 나면 10초 안 끝나도 상대 턴
     [ServerRpc(RequireOwnership = false)]
     public void EndTurnServerRpc(ServerRpcParams rpcParams = default)
     {
-        if(rpcParams.Receive.SenderClientId != currrentTurnClientId.Value) 
+        if(rpcParams.Receive.SenderClientId != currentTurnClientId.Value) 
             return;
 
+        // 즉시 턴 넘기기
+        isChangingTurn = true;
         ChangeTurn();
     }
-    */
 
     // 턴 검사
     public bool IsMyTurn()
