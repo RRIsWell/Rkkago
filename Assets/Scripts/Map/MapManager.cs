@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
@@ -12,6 +13,11 @@ public class MapManager : NetworkBehaviour
     [SerializeField] private GameObject stone1Prefab;
     [SerializeField] private GameObject stone2Prefab;
     private bool stoneSpawned = false; // 알 중복 스폰 방지
+
+    private void Start()
+    {
+        SoundManager.Instance.PlayBGM(currentMapConfig.bgmName);
+    }
 
     public override void OnNetworkSpawn()
     {

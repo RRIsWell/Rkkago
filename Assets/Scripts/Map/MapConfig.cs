@@ -31,6 +31,9 @@ public class MapConfig : ScriptableObject
     [Header("패배 판정")]
     public int loseStoneCount = 5;
     
+    [Header("맵 BGM")]
+    public BGMName bgmName;
+    
     [Header("알 스폰 지점")]
     public List<GameObjectRow> stoneSpawnPoints = new List<GameObjectRow>();
 }

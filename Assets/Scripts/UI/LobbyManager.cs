@@ -18,6 +18,8 @@ public class LobbyManager : MonoBehaviour
         createSessionHUD.GetComponent<CreateSession>().CreateSessioinBtnOnClick += OnActiveJoinCodeHUD;
         
         sessionListHUD.GetComponent<SessionBrowser>().SessionItemBtnOnClick += OnActiveJoinByCodeHUD;
+        
+        SoundManager.Instance.PlayBGM(BGMName.로비);
     }
 
     private void OnActiveStartHUD(bool active)
