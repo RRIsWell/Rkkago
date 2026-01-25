@@ -15,19 +15,29 @@ public class MatchIntroController : MonoBehaviour
     {
         Debug.Log($"[MatchIntro] OnEnable - {name}");
 
+        StartCoroutine(WaitAndBind());
+    }
+
+    private System.Collections.IEnumerator WaitAndBind()
+    {
+        while(GameManager.Instance == null)
+            yield return null;
         // 초기 상태 저장
-        if(GameManager.Instance == null) return;
 
         GameManager.Instance.OnGameStateChanged
             += HandleStateChanged;
 
         // 시작하자마자 현재 상태를 UI에 반영
         ApplyState(GameManager.Instance.CurrentGameState);
+
+        Debug.Log("[MatchIntro] Bound to GameManager");
     }
 
     void OnDisable()
     {
         Debug.Log($"[MatchIntro] OnDisable - {name}");
+
+        StopAllCoroutines();
 
         if (GameManager.Instance == null) return;
 
@@ -49,6 +59,12 @@ public class MatchIntroController : MonoBehaviour
 
     void ShowMatchIntro()
     {
+        if (matchIntroPrefab == null)
+        {
+            Debug.LogError("[MatchIntro] matchIntroPrefab 레퍼런스 깨짐");
+            return;
+        }   
+        
         if(instance == null)
         {
             instance = Instantiate(
