@@ -31,6 +31,9 @@ public abstract class SkillBase : ISkill
     public abstract void Activate();
 }
 
+/// <summary>
+/// 예시 스킬
+/// </summary>
 public class ChangeScaleSkill : SkillBase
 {
     public override string SkillName => "ChangeScale";
