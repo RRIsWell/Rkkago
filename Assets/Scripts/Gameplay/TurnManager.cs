@@ -38,7 +38,9 @@ public class TurnManager : NetworkBehaviour
         return currentTurnClientId;
     }
 
+    // 접속한 플레이어 정보
     private List<ulong> playerClientIds = new List<ulong>();
+    public List<ulong> PlayerClientIds => playerClientIds;
     
     private void Awake()
     {
@@ -68,10 +70,10 @@ public class TurnManager : NetworkBehaviour
             += OnClientConnected;
 
         // 이미 2명 모여있으면 바로 시작
-        if (playerClientIds.Count == 2)
+        /*if (playerClientIds.Count == 2)
         {
             StartTurn(playerClientIds[0]);
-        }
+        }*/
 
         Debug.Log($"[TM] OnNetworkSpawn, players={string.Join(",", playerClientIds)}");
     }
@@ -82,10 +84,10 @@ public class TurnManager : NetworkBehaviour
             playerClientIds.Add(clientId);
 
         // 정확히 2명 모였을 때만 게임 시작
-        if(playerClientIds.Count == 2)
+        /*if(playerClientIds.Count == 2)
         {
             StartTurn(playerClientIds[0]);
-        }
+        }*/
     }
 
     public event System.Action<float> OnRemainingTimeChanged;
@@ -118,11 +120,11 @@ public class TurnManager : NetworkBehaviour
     // 턴 시작
     public event System.Action<ulong> OnTurnChanged;
 
-    void StartTurn(ulong clientId) 
+    public void StartTurn(ulong clientId) 
     {
         currentTurnClientId.Value = ulong.MaxValue;
         currentTurnClientId.Value = clientId;
-
+        
         remainingTime.Value = turnTime; // 턴 시작 시 시간 리셋
         isChangingTurn = false;
         
@@ -134,8 +136,8 @@ public class TurnManager : NetworkBehaviour
         // 최초 게임 시작 시 1회 랜덤 스킬 부여
         if (IsServer && !initialSkillGiven && playerClientIds.Count == 2)
         {
-        initialSkillGiven = true;
-        GiveRandomSkillsToBothPlayers();
+            //initialSkillGiven = true;
+            GiveRandomSkillsToBothPlayers();
         }
     }
 
@@ -144,33 +146,37 @@ public class TurnManager : NetworkBehaviour
     {
         var stones = FindObjectsOfType<StoneController>();
 
-        StoneController p1 = null;
-        StoneController p2 = null;
+        List<StoneController> p1Stones = new();
+        List<StoneController> p2Stones = new();
 
         foreach (var s in stones)
         {
             var no = s.GetComponent<NetworkObject>();
             if (no == null) continue;
 
-            if (no.OwnerClientId == 0) p1 = s;
-            else p2 = s;
+            if (no.OwnerClientId == 0)
+                p1Stones.Add(s);
+            else if (no.OwnerClientId == 1)
+                p2Stones.Add(s);
         }
 
-        if (p1 == null || p2 == null)
+        if (p1Stones.Count == 0 || p2Stones.Count == 0)
         {
             Debug.LogWarning("[TM] Stones not ready yet");
             return;
         }
+        
+        // 각 플레이어 랜덤 스킬 선택
+        var p1Skill = p1Stones[0].SkillContainer.GetRandomSkill();
+        var p2Skill = p2Stones[0].SkillContainer.GetRandomSkill();
 
-        int skillCount = p1.SkillCount;
-
-        int p1Skill = UnityEngine.Random.Range(0, skillCount);
-        int p2Skill = UnityEngine.Random.Range(0, skillCount);
-
-        p1.ApplySkillClientRpc(p1Skill);
-        p2.ApplySkillClientRpc(p2Skill);
-
-        Debug.Log($"[TM] Skills distributed: {p1Skill}, {p2Skill}");
+        // 스킬 적용
+        foreach (var stone in p1Stones)
+            stone.ApplySkillClientRpc(p1Skill.Item1);
+        foreach (var stone in p2Stones)
+            stone.ApplySkillClientRpc(p2Skill.Item1);
+        
+        Debug.Log($"[Skill] 플레이어1: {p1Skill.Item2.SkillName} 플레이어2: {p2Skill.Item2.SkillName}");
     }
 
     public void GiveRandomSkillsPublic()
@@ -180,7 +186,7 @@ public class TurnManager : NetworkBehaviour
     }
 
     // 턴 교체 (다음 플레이어로 턴 이동)
-    void ChangeTurn()
+    private void ChangeTurn()
     {
         var clients = NetworkManager.Singleton.ConnectedClientsIds;
         if(clients.Count < 2) return;

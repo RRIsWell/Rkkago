@@ -10,21 +10,26 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
+    // Drag 설정
     [SerializeField]
     private GameObject dragLinePrefab;
     private DragLine _dragLine;
     
     [SerializeField]
     private float maxDrag = 1.5f;
-    
-    private Stone _stone;
-    public Stone Stone => _stone;
     private Camera _camera;
     
-    public StoneMovement StoneMovement { get; private set; }
-    private SkillFactory stoneSkillFactory;
-    public int SkillCount => stoneSkillFactory.SkillCount;
+    // Stone 데이터
+    private Stone _stone;
+    public Stone Stone => _stone;
 
+    // Movement
+    private StoneMovement _stoneMovement;
+    public StoneMovement StoneMovement => _stoneMovement;
+    
+    // Skill
+    private SkillContainer _skillContainer;
+    public  SkillContainer SkillContainer => _skillContainer;
 
     // 디버깅용
     private bool _isDragging;
@@ -35,8 +40,8 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         _stone = GetComponent<Stone>();
         _camera = Camera.main;
         
-        StoneMovement = new StoneMovement(this, this);
-        stoneSkillFactory = new SkillFactory(_stone);
+        _stoneMovement = new StoneMovement(this, this);
+        _skillContainer = new SkillContainer(_stone);
     }
 
     /// <summary>
@@ -96,9 +101,6 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         // 드래그 끝
         DeActivateDragLine();
         
-        // 테스트 스킬
-        //stoneSkillFactory.ActivateSkill(stoneSkillFactory.ChoiceRandomSkill());
-        
         // 돌 날아감
         Vector2 worldPos = _camera.ScreenToWorldPoint(eventData.position);
         Vector2 direction = ((Vector2)transform.position - worldPos).normalized;
@@ -143,12 +145,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         // 자기 돌만 적용
         if (!IsOwner) return;
 
-        var skill = stoneSkillFactory.GetSkillByIndex(skillIndex);
-        stoneSkillFactory.ActivateSkill(skill);
-
-        Debug.Log(
-            $"[Skill] Owner({OwnerClientId}) received skill index={skillIndex}"
-        );
+        _skillContainer.ActivateSkill(skillIndex);
     }
     
     // ------------------- 보조선 --------------------

@@ -79,13 +79,13 @@ public class Stone : NetworkBehaviour
     public void ChangeStoneScale(float scale)
     {
         stoneData.scale = scale;
-        Debug.Log($"크기 변화 {stoneData.scale}");
+        //Debug.Log($"크기 변화 {stoneData.scale}");
     }
 
     public void ChangeStoneWeight(float weight)
     {
         stoneData.weight = weight;
-        Debug.Log($"무게 변화 {stoneData.weight}");
+        //Debug.Log($"무게 변화 {stoneData.weight}");
     }
 
     public void SetAnimatorTrigger(int param)
