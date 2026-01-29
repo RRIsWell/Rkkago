@@ -39,6 +39,14 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         stoneSkillFactory = new SkillFactory(_stone);
     }
 
+    /// <summary>
+    /// MapRuleExecutor를 주입 받아 StoneMovement에 전달
+    /// </summary>
+    public void SetRuleExecutor(MapRuleExecutor executor)
+    {
+        StoneMovement.SetRuleExecutor(executor);
+    }
+
     private void Start()
     {
         _dragLine = Instantiate(dragLinePrefab, transform).GetComponent<DragLine>() ;

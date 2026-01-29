@@ -60,5 +60,9 @@ public class MapRuleExecutor : NetworkBehaviour
         {
             ui.ShowGameResult(loserId);
         }
+        else
+        {
+            Debug.LogError("[Rule] TurnUI를 못 찾음 (씬에 TurnUI 존재/활성 확인)");
+        }
     }
 }

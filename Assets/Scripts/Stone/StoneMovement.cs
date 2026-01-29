@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Unity.Netcode;
-using UnityEditor;
+using Debug = UnityEngine.Debug;
 using Vector2 = UnityEngine.Vector2;
 
 public class StoneMovement
@@ -14,6 +13,7 @@ public class StoneMovement
     public readonly float _collisionRadius = 0.45f; // 충돌 범위
     private Vector2 _currentVelocity;
     private bool _isMoving = false;
+    private MapRuleExecutor _ruleExecutor;
     
     private readonly HashSet<Transform> _collidedThisFrame = new HashSet<Transform>(); // 중복 충돌 방지
     private StoneController _stoneController;
@@ -63,6 +63,7 @@ public class StoneMovement
             return;
         
         _isMoving = true;
+
         float currentSpeed = speed;
         _currentVelocity = currentSpeed * direction.normalized;
         //_collidedThisFrame.Clear();
@@ -117,7 +118,7 @@ public class StoneMovement
             HandleOutOfMap(target, 0);
         }
     }
-    
+
     /// <summary>
     /// 다른 물체와 충돌했는지 감지하는 함수
     /// </summary>
@@ -271,8 +272,30 @@ public class StoneMovement
 
     private void OnDestroy(Transform target)
     {
+        // 서버에서 승패/디스폰/스킬 분배까지 처리
+        if(_networkBehaviour.IsServer && _ruleExecutor != null)
+        {
+            var stone = target.GetComponent<Stone>();
+            if(stone != null)
+            {
+                _ruleExecutor.OnStoneOut(stone);
+            }
+            else
+            {
+                Debug.LogError("[StoneMovement] target에 Stone 컴포넌트 없음");
+            }
+        }
+        
         EffectManager.Instance.DestroyEffectClientRpc(target.transform.position);
         _stoneController.Stone.SetAnimatorTrigger(Stone.HashDead);
+    }
+
+    /// <summary>
+    /// MapRuleExecutor를 Set으로 받게 함
+    /// </summary>
+    public void SetRuleExecutor(MapRuleExecutor executor)
+    {
+        _ruleExecutor = executor;
     }
     
 }
