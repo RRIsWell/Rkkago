@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using Debug = UnityEngine.Debug;
 
 public class MapManager : NetworkBehaviour
 {
     // 맵
     [SerializeField] MapConfig currentMapConfig;
-    private MapRuleExecutor ruleExecutor;
+    [SerializeField] private MapRuleExecutor ruleExecutor;
     
     // 알 스폰
     [SerializeField] private GameObject stone1Prefab;
@@ -32,17 +33,19 @@ public class MapManager : NetworkBehaviour
         if (!IsServer) return;
         if (stoneSpawned) return;
 
-        Debug.Log("Client Connected → Spawn Stones");
+        // 반드시 2명 모였을 때만
+        if(NetworkManager.Singleton.ConnectedClientsList.Count < 2)
+            return;
 
-        var layout = GameObject.Find("Map1Layout");
-        if (layout == null)
+        Debug.Log("2 players connected → Spawn Stones");
+
+        if (ruleExecutor == null)
         {
-            Debug.LogError("Map1Layout 못 찾음");
+            Debug.LogError("[MapManager] ruleExecutor가 인스펙터에 할당되지 않았습니다.");
             return;
         }
 
-        ruleExecutor = layout.GetComponentInChildren<MapRuleExecutor>();
-        InitializeSystems(layout.gameObject);
+        ruleExecutor.Init(currentMapConfig);
 
         // 알 생성
         SpawnAllStones();
@@ -100,11 +103,37 @@ public class MapManager : NetworkBehaviour
         {
             var go = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
         
-            // 소유권을 지정하여 스폰
-            go.GetComponent<NetworkObject>().SpawnWithOwnership(ownerId);
-            Stone stone = go.GetComponent<Stone>();
-            
-            //ruleExecutor.RegisterStone(stone);
+            var netObj = go.GetComponent<NetworkObject>();
+            netObj.SpawnWithOwnership(ownerId);
+
+            // ruleExecutor null 체크
+            if(ruleExecutor == null)
+            {
+                Debug.LogError("[MapManager] ruleExecutor is null. MapRuleExecutor 못 찾음");
+                return;
+            }
+
+            // StoneController에 ruleExecutor 주입
+            var controller = go.GetComponent<StoneController>();
+            if(controller == null)
+            {
+                Debug.LogError("[MapManager] Spawned stone has no StoneController");
+            }
+            else
+            {
+                controller.SetRuleExecutor(ruleExecutor);
+            }
+
+            // remain 초기화(RegisterStone)
+            var stone = go.GetComponent<Stone>();
+            if(stone == null)
+            {
+                Debug.LogError("[MapManager] Spawned stone has no Stone");
+            }
+            else
+            {
+                ruleExecutor.RegisterStone(stone);
+            }
         }
     }
 }

@@ -286,6 +286,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1150245187548823461, guid: 3211524410e979a47b08178e04b4f363, type: 3}
   m_PrefabInstance: {fileID: 165364240}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &165364242 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3102174197795820260, guid: 3211524410e979a47b08178e04b4f363, type: 3}
+  m_PrefabInstance: {fileID: 165364240}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7baf81f4b57ee08459c2caf8a3ab6aea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapRuleExecutor
 --- !u!1 &559887444
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,6 +701,10 @@ PrefabInstance:
       propertyPath: matchIntroPrefab
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8608872105784876832, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
+      propertyPath: ruleExecutor
+      value: 
+      objectReference: {fileID: 165364242}
     - target: {fileID: 8929117062803574608, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2722942334

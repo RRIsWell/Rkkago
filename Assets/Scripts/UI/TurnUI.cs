@@ -124,7 +124,7 @@ public class TurnUI : MonoBehaviour
 
     IEnumerator ShowResultPopup(bool didIWin)
     {
-        turnText.text = didIWin? "승리!" : "패배...";
+        turnText.text = didIWin? "You Win!" : "You Lose...";
         turnText.color = didIWin? UnityEngine.Color.green : UnityEngine.Color.red;
 
         turnPanel.SetActive(true);
@@ -132,7 +132,7 @@ public class TurnUI : MonoBehaviour
         yield return new WaitForSeconds(4f);
 
         // 로비로 돌아가는 로직
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Lobby");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("StartScene");
     }
 
     public void PlayDeferredTurnPopup()
