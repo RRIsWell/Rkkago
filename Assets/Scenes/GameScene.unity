@@ -278,7 +278,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1434856256783127581, guid: 3211524410e979a47b08178e04b4f363, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8516309695207199423, guid: 3211524410e979a47b08178e04b4f363, type: 3}
       propertyPath: GlobalObjectIdHash
@@ -1381,6 +1381,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Map3Layout
       objectReference: {fileID: 0}
+    - target: {fileID: 4894573426835037935, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5472647349709223371, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1491,3 +1495,4 @@ SceneRoots:
   - {fileID: 1990512086}
   - {fileID: 66997940}
   - {fileID: 591734302}
+  - {fileID: 1553367380}

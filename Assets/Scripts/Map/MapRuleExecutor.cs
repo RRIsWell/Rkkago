@@ -47,6 +47,9 @@ public class MapRuleExecutor : NetworkBehaviour
         ulong owner = netObj.OwnerClientId;
 
         remain[owner]--;
+        
+        // 돌 하나라도 죽으면 즉시 새 스킬 분배
+        TurnManager.Instance?.GiveRandomSkillsPublic();
 
         netObj.Despawn(); // 서버에서 삭제
 
