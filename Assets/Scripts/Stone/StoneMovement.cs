@@ -10,15 +10,15 @@ public class StoneMovement
     // 임시 데이터
     private readonly float _deceleration = 50.0f;   // 감속량(마찰력)
     private readonly float _bounceDamping = 0.9f;   // 충돌시 에너지 손실양
-    public readonly float _collisionRadius = 0.45f; // 충돌 범위
+    public readonly float CollisionRadius; // 충돌 범위
     private Vector2 _currentVelocity;
     private bool _isMoving = false;
     private MapRuleExecutor _ruleExecutor;
     
     private readonly HashSet<Transform> _collidedThisFrame = new HashSet<Transform>(); // 중복 충돌 방지
-    private StoneController _stoneController;
-    private NetworkBehaviour _networkBehaviour;
-    
+    private readonly StoneController _stoneController;
+    private readonly NetworkBehaviour _networkBehaviour;
+    private readonly StoneCollision _stoneCollision;
     
     //---------------
     // Direction(Vector2) : 방향
@@ -30,6 +30,9 @@ public class StoneMovement
     {
         _stoneController = stoneController;
         _networkBehaviour = networkBehaviour;
+        _stoneCollision = new StoneCollision();
+        
+        CollisionRadius = _stoneCollision._collisionRadius;
     }
     
     /// <summary>
@@ -74,12 +77,19 @@ public class StoneMovement
         while (target != null && currentSpeed > 0f)
         {
             // 충돌 체크
-            if (IsOutOfOutline(target))
+            if (_stoneCollision.IsOutOfOutline(target))
             {
                 HandleOutOfMap(target, 1);
                 break;
             }
-            Transform collidedStone = CheckStoneCollision(target); 
+
+            var normal = _stoneCollision.IsReflectCushionMap(target);
+            if (normal != Vector2.zero)
+            {
+                ReflectStone(normal);
+            }
+            
+            Transform collidedStone = _stoneCollision.CheckStoneCollision(target); 
         
             if (collidedStone != null && !_collidedThisFrame.Contains(collidedStone))
             {
@@ -113,73 +123,12 @@ public class StoneMovement
         _collidedThisFrame.Clear();
         
         // 경기장 밖으로 나갔는지 확인
-        if (!IsInsideMap(target))
+        if (!_stoneCollision.IsInsideMap(target))
         {
             HandleOutOfMap(target, 0);
         }
     }
-
-    /// <summary>
-    /// 다른 물체와 충돌했는지 감지하는 함수
-    /// </summary>
-    /// <param name="target">충돌하는 주체(본인)</param>
-    /// <returns>충돌한 알</returns>
-    private Transform CheckStoneCollision(Transform target)
-    {
-        int stoneMask = LayerMask.GetMask("Stone");
-        
-        var hits = Physics2D.OverlapCircleAll(
-            target.position, 
-            _collisionRadius, 
-            stoneMask
-        );
-        
-        foreach (var hit in hits)
-        {
-            if (hit.transform == target) // 본인인 경우
-                continue;
-            
-            return hit.transform;
-        }
-        return null;
-    }
     
-    /// <summary>
-    /// 경기장 안에 있는지 판단
-    /// </summary>
-    /// <param name="target">알</param>
-    /// <returns></returns>
-    private bool IsInsideMap(Transform target)
-    {
-        int mapMask = LayerMask.GetMask("Map");
-
-        var hits = Physics2D.OverlapCircle(
-            target.position,
-            _collisionRadius,
-            mapMask
-        );
-        
-        return hits != null;
-    }
-    
-    /// <summary>
-    /// Outline을 벗어났는지 판단
-    /// </summary>
-    /// <param name="target"></param>
-    /// <returns></returns>
-    private bool IsOutOfOutline(Transform target)
-    {
-        int outlineMask = LayerMask.GetMask("Outline");
-
-        var hits = Physics2D.OverlapCircle(
-            target.position,
-            _collisionRadius,
-            outlineMask
-        );
-        
-        return hits != null;
-    }
-
     /// <summary>
     /// 충돌 이후 스피드 변화를 계산하는 함수
     /// </summary>
@@ -212,8 +161,7 @@ public class StoneMovement
         Vector2 collisionNormal = ((Vector2)otherStone.position - (Vector2)target.position).normalized;
         
         // 현재 알의 반사 벡터
-        Vector2 reflectedVelocity = Vector2.Reflect(_currentVelocity, -collisionNormal);
-        _currentVelocity = reflectedVelocity * _bounceDamping;
+        ReflectStone(collisionNormal);
         
         // 상대방 알도 힘을 받고 움직임
         StoneMovement stoneMovement = otherStone.GetComponent<StoneController>().StoneMovement;
@@ -233,7 +181,7 @@ public class StoneMovement
         
         // 겹침 방지
         float distance = Vector2.Distance(target.position, otherStone.position);
-        float overlap = _collisionRadius * 2 - distance;
+        float overlap = CollisionRadius * 2 - distance;
         
         if (overlap > 0)
         {
@@ -241,6 +189,16 @@ public class StoneMovement
             target.position = (Vector2)target.position + separation;
             otherStone.position = (Vector2)otherStone.position - separation;
         }
+    }
+
+    /// <summary>
+    /// 알을 반사하는 함수
+    /// </summary>
+    /// <param name="collisionNormal"></param>
+    private void ReflectStone(Vector2 collisionNormal)
+    {
+        Vector2 reflectedVelocity = Vector2.Reflect(_currentVelocity, -collisionNormal);
+        _currentVelocity = reflectedVelocity * _bounceDamping;
     }
 
     /// <summary>

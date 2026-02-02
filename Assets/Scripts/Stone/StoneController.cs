@@ -173,7 +173,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         if (StoneMovement != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, StoneMovement._collisionRadius);
+            Gizmos.DrawWireSphere(transform.position, StoneMovement.CollisionRadius);
             
             if (_isDragging)
             {
