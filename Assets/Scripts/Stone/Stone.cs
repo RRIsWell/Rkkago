@@ -103,15 +103,14 @@ public class Stone : NetworkBehaviour
     /// <summary>
     /// Dead 애니메이션 이벤트 실행 함수
     /// </summary>
-    public void OnDestroy()
+    public void OnDestroyStone()
     {
         // 서버에서 승패/디스폰/스킬 분배까지 처리
         if(IsServer && _ruleExecutor != null)
         {
             _ruleExecutor?.OnStoneOut(this);
+            Destroy(gameObject);
         }
-        
-        Destroy(gameObject);
     }
     
     /// <summary>
