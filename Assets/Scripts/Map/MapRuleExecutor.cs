@@ -62,8 +62,9 @@ public class MapRuleExecutor : NetworkBehaviour
     public void CheckCullingTieBreaker(int currentTurnPairs)
     {
         if(gameEnded) return;
-
         if(!IsServer) return;
+
+        if(config == null) return; // null 오류 방지
         if(config.ruleType != MapRuleType.Culling) return;
         if(currentTurnPairs < config.maxTurnPairs) return;
 

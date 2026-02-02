@@ -12,6 +12,10 @@ public class TurnManager : NetworkBehaviour
     private bool isTurnActive = false; // 팝업 뜰 땐 타이머X
     private bool initialSkillGiven = false;
 
+    // FindObjectOfType 제거하고 주입 받기
+    private MapRuleExecutor ruleExecutor;
+    public void SetRuleExecutor(MapRuleExecutor exec) => ruleExecutor = exec;
+
 
     private NetworkVariable<float> remainingTime = 
         new NetworkVariable<float>(
@@ -222,8 +226,7 @@ public class TurnManager : NetworkBehaviour
         // =========================
         turnStep++;
         
-        var rule = FindObjectOfType<MapRuleExecutor>();
-        rule?.CheckCullingTieBreaker(TurnPairs);
+        ruleExecutor?.CheckCullingTieBreaker(TurnPairs);
 
         // 턴 시작
         StartTurn(playerClientIds[nextIndex]);

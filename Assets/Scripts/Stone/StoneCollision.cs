@@ -58,6 +58,9 @@ public class StoneCollision
     /// <returns></returns>
     public Vector2 IsReflectCushionMap(Transform target)
     {
+        // null 오류 방지
+        if (target == null) return Vector2.zero;
+        
         int mapMask = LayerMask.GetMask("CushionMap");
         
         var hits = Physics2D.OverlapCircle(

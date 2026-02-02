@@ -46,6 +46,7 @@ public class MapManager : NetworkBehaviour
         }
 
         ruleExecutor.Init(currentMapConfig);
+        TurnManager.Instance.SetRuleExecutor(ruleExecutor);
 
         // 알 생성
         SpawnAllStones();
