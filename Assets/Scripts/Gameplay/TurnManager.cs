@@ -1,11 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
-using System.Data;
-using System.Linq;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Data.SqlTypes;
-using System.Security;
+using System.Linq;
 
 public class TurnManager : NetworkBehaviour 
 {
@@ -15,6 +11,10 @@ public class TurnManager : NetworkBehaviour
     private bool isChangingTurn = false; // 턴 교체 중복 방지용
     private bool isTurnActive = false; // 팝업 뜰 땐 타이머X
     private bool initialSkillGiven = false;
+
+    // FindObjectOfType 제거하고 주입 받기
+    private MapRuleExecutor ruleExecutor;
+    public void SetRuleExecutor(MapRuleExecutor exec) => ruleExecutor = exec;
 
 
     private NetworkVariable<float> remainingTime = 
@@ -41,6 +41,13 @@ public class TurnManager : NetworkBehaviour
     // 접속한 플레이어 정보
     private List<ulong> playerClientIds = new List<ulong>();
     public List<ulong> PlayerClientIds => playerClientIds;
+
+    
+    // =========================
+    // [ADD] Map3(컬링)용 턴쌍 카운터
+    // =========================
+    private int turnStep = 0;
+    private int TurnPairs => turnStep / 2;
     
     private void Awake()
     {
@@ -185,6 +192,17 @@ public class TurnManager : NetworkBehaviour
         GiveRandomSkillsToBothPlayers();
     }
 
+    
+    // =========================
+    // 게임 시작 시 턴 카운터 리셋 (Map3 = 15쌍)
+    // =========================
+    public void ResetTurnCounter()
+    {
+        if(!IsServer) return;
+        turnStep = 0;
+    }
+
+
     // 턴 교체 (다음 플레이어로 턴 이동)
     private void ChangeTurn()
     {
@@ -202,6 +220,15 @@ public class TurnManager : NetworkBehaviour
             .IndexOf(currentTurnClientId.Value);
         int nextIndex = (index + 1) % playerClientIds.Count;
 
+        
+        // =========================
+        // 턴 쌍 카운트 증가 + Map3의 타이브레이크 체크
+        // =========================
+        turnStep++;
+        
+        ruleExecutor?.CheckCullingTieBreaker(TurnPairs);
+
+        // 턴 시작
         StartTurn(playerClientIds[nextIndex]);
     }
 

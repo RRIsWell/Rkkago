@@ -15,6 +15,7 @@ public class Stone : NetworkBehaviour
     private SpriteRenderer _renderer;
     private StoneVisualController _visualController;
     private MapRuleExecutor _ruleExecutor;
+    private bool _deadEventCalled = false;
     
     private float _defaultScale;
     private float _defaultWeight;
@@ -105,6 +106,9 @@ public class Stone : NetworkBehaviour
     /// </summary>
     public void OnDestroyStone()
     {
+        if(_deadEventCalled) return;
+        _deadEventCalled = true;
+
         // 서버에서 승패/디스폰/스킬 분배까지 처리
         if(IsServer && _ruleExecutor != null)
         {
