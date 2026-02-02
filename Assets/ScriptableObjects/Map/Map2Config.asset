@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21458b7a743eb24c9be9f0903a3faac, type: 3}
   m_Name: Map2Config
   m_EditorClassIdentifier: Assembly-CSharp::MapConfig
+  ruleType: 1
   stonesPerPlayer: 5
   allowHalfOut: 1
   friction: 0.8
@@ -20,3 +21,9 @@ MonoBehaviour:
   obstacleCount: 5
   obstacleMargin: 1.5
   loseStoneCount: 5
+  bgmName: 0
+  stoneSpawnPoints: []
+  damage: 0.5
+  maxTurnPairs: 15
+  outMargin: 0.05
+  center: {x: 0, y: 0}

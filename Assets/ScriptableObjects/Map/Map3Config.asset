@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21458b7a743eb24c9be9f0903a3faac, type: 3}
   m_Name: Map3Config
   m_EditorClassIdentifier: Assembly-CSharp::MapConfig
+  ruleType: 2
   stonesPerPlayer: 5
   allowHalfOut: 1
   friction: 0.8
@@ -20,3 +21,21 @@ MonoBehaviour:
   obstacleCount: 5
   obstacleMargin: 1.5
   loseStoneCount: 5
+  bgmName: 0
+  stoneSpawnPoints:
+  - spawnPoints:
+    - {fileID: 4796379952244916995, guid: 6fd5f54af7b225948a879d65b9ead2ef, type: 3}
+    - {fileID: 6086036395685717716, guid: 2a0dde05306d8254fac5b05ac08603a8, type: 3}
+    - {fileID: 8935681290149040525, guid: d8a010e2400d6814daf9b85325226d93, type: 3}
+    - {fileID: 6001893628830103702, guid: f8e1e437567a5784493ae3b8adceb9f1, type: 3}
+    - {fileID: 5100236078162178087, guid: ad43465ea11d1cc438e3aa7e7dda3047, type: 3}
+  - spawnPoints:
+    - {fileID: 8253094920449715488, guid: 6a4695a04dff5d0428b6c6080d30dc35, type: 3}
+    - {fileID: 2339637669737514287, guid: 8e7283d6c13e4934c9816760bab1eb3b, type: 3}
+    - {fileID: 505895420034379239, guid: 60fcc114105845c4ebed0ece13cbe6b4, type: 3}
+    - {fileID: 7440544021984997125, guid: 6209c61543dba594782406c1392ecaff, type: 3}
+    - {fileID: 2279587777418233771, guid: 71459000c040e834d8eaa580119422d8, type: 3}
+  damage: 0.5
+  maxTurnPairs: 15
+  outMargin: 0.05
+  center: {x: 0, y: 0}
