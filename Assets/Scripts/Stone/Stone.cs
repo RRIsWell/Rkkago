@@ -14,6 +14,7 @@ public class Stone : NetworkBehaviour
     private Animator _animator;
     private SpriteRenderer _renderer;
     private StoneVisualController _visualController;
+    private MapRuleExecutor _ruleExecutor;
     
     private float _defaultScale;
     private float _defaultWeight;
@@ -30,7 +31,7 @@ public class Stone : NetworkBehaviour
         _defaultScale = stoneData.scale;
         _defaultWeight = stoneData.weight;
     }
-
+    
     public void SetTeam(int teamId)
     {
         // 모든 클라이언트 색상 바꿈
@@ -88,7 +89,8 @@ public class Stone : NetworkBehaviour
         //Debug.Log($"무게 변화 {stoneData.weight}");
     }
 
-    public void SetAnimatorTrigger(int param)
+    [ClientRpc]
+    public void SetAnimatorTriggerClientRpc(int param)
     {
         _animator.SetTrigger(param);
     }
@@ -103,6 +105,20 @@ public class Stone : NetworkBehaviour
     /// </summary>
     public void OnDestroy()
     {
+        // 서버에서 승패/디스폰/스킬 분배까지 처리
+        if(IsServer && _ruleExecutor != null)
+        {
+            _ruleExecutor?.OnStoneOut(this);
+        }
+        
         Destroy(gameObject);
+    }
+    
+    /// <summary>
+    /// MapRuleExecutor를 Set으로 받게 함
+    /// </summary>
+    public void SetRuleExecutor(MapRuleExecutor executor)
+    {
+        _ruleExecutor = executor;
     }
 }

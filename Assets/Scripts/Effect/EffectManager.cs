@@ -39,19 +39,19 @@ public class EffectManager : NetworkBehaviour
         _effectObject.SetActive(false);
     }
 
-
     [ClientRpc]
     public void DestroyEffectClientRpc(Vector3 position)
     {
         DestroyEffect(position).Forget();
     }
-    
+
     /// <summary>
     /// 알이 사라질 때
     /// </summary>
     /// <param name="position"></param>
     private async UniTask DestroyEffect(Vector3 position)
     {
+        // camera
         await _cameraEffect.ZoomToPosition(position, 3.0f, 0.3f, this.GetCancellationTokenOnDestroy());
         _cameraEffect.ShakeAsync(0.3f, 0.1f, this.GetCancellationTokenOnDestroy()).Forget();
         

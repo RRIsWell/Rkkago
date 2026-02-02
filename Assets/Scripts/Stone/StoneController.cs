@@ -49,7 +49,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     /// </summary>
     public void SetRuleExecutor(MapRuleExecutor executor)
     {
-        StoneMovement.SetRuleExecutor(executor);
+        _stone.SetRuleExecutor(executor);
     }
 
     private void Start()

@@ -13,7 +13,6 @@ public class StoneMovement
     public readonly float CollisionRadius; // 충돌 범위
     private Vector2 _currentVelocity;
     private bool _isMoving = false;
-    private MapRuleExecutor _ruleExecutor;
     
     private readonly HashSet<Transform> _collidedThisFrame = new HashSet<Transform>(); // 중복 충돌 방지
     private readonly StoneController _stoneController;
@@ -230,30 +229,7 @@ public class StoneMovement
 
     private void OnDestroy(Transform target)
     {
-        // 서버에서 승패/디스폰/스킬 분배까지 처리
-        if(_networkBehaviour.IsServer && _ruleExecutor != null)
-        {
-            var stone = target.GetComponent<Stone>();
-            if(stone != null)
-            {
-                _ruleExecutor.OnStoneOut(stone);
-            }
-            else
-            {
-                Debug.LogError("[StoneMovement] target에 Stone 컴포넌트 없음");
-            }
-        }
-        
         EffectManager.Instance.DestroyEffectClientRpc(target.transform.position);
-        _stoneController.Stone.SetAnimatorTrigger(Stone.HashDead);
+        _stoneController.Stone.SetAnimatorTriggerClientRpc(Stone.HashDead);
     }
-
-    /// <summary>
-    /// MapRuleExecutor를 Set으로 받게 함
-    /// </summary>
-    public void SetRuleExecutor(MapRuleExecutor executor)
-    {
-        _ruleExecutor = executor;
-    }
-    
 }
