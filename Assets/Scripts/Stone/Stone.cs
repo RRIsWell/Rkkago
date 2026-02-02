@@ -104,11 +104,7 @@ public class Stone : NetworkBehaviour
     /// <summary>
     /// Dead 애니메이션 이벤트 실행 함수
     /// </summary>
-<<<<<<< Updated upstream
     public void OnDestroyStone()
-=======
-    public void OnDeadAnimEvent()
->>>>>>> Stashed changes
     {
         if(_deadEventCalled) return;
         _deadEventCalled = true;
