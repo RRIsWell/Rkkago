@@ -10,6 +10,9 @@ public class SkillContainer
 {
     private readonly List<SkillBase> _skills;
     private readonly SkillFactory _skillFactory;
+
+    public SkillBase CurrSkill { get; private set; }
+    
     
     public List<SkillBase> Skills => _skills;
 
@@ -18,7 +21,7 @@ public class SkillContainer
         _skills = new List<SkillBase>();
         _skillFactory = new SkillFactory();
 
-        _skills = _skillFactory.CreateSkills(stone);
+        _skills = _skillFactory.CreateSkillList(stone);
     }
     
     /// <summary>
@@ -27,6 +30,8 @@ public class SkillContainer
     public Tuple<int, SkillBase> GetRandomSkill()
     {
         int index = Random.Range(0, _skills.Count);
+        CurrSkill = _skills[index];
+        
         return Tuple.Create(index, _skills[index]);
     }
 

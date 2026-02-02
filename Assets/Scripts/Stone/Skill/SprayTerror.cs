@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class SprayTerror : SkillBase
 {
-    public override string SkillName => "SprayTerror";
-
-    public SprayTerror(Stone stone) : base(stone)
+    public SprayTerror(Stone stone, SkillSO data) : base(stone, data)
     {
     }
 

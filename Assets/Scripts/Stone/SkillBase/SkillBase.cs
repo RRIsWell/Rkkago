@@ -5,22 +5,27 @@ using UnityEngine.WSA;
 
 public interface ISkill
 {
-    string SkillName { get; }
+    public SkillSO Data { get; }
     public void Activate();
 }
 
 public abstract class SkillBase : ISkill
 {
-    public abstract string SkillName { get; }
+    public SkillName SkillName { get; }
     protected Stone Stone { get; private set; }
+    public SkillSO Data { get; private set; }
 
     /// <summary>
     /// 무조건 자식 클래스에서 부모 생성자 호출해야함
     /// </summary>
     /// <param name="stone"></param>
-    protected SkillBase(Stone stone)
+    /// <param name="data"></param>
+    protected SkillBase(Stone stone, SkillSO data)
     {
         this.Stone = stone;
+        this.Data = data;
+        
+        SkillName = data.skillName;
     }
     
     public virtual bool CanActivate()
@@ -36,15 +41,18 @@ public abstract class SkillBase : ISkill
 /// </summary>
 public class ChangeScaleSkill : SkillBase
 {
-    public override string SkillName => "ChangeScale";
-    private readonly float _scale = 2.0f;
+    private readonly float _scale;
     
-    public ChangeScaleSkill(Stone stone) : base(stone)
+    public ChangeScaleSkill(Stone stone, SkillSO data) : base(stone, data)
     {
+        var so = data as ChangeScaleSO;
+        if (so != null) _scale = so.scale;
     }
     
     public override void Activate()
     {
         Stone.ChangeStoneScale(_scale);
+        Debug.Log(Data.skillName);
     }
+    
 }

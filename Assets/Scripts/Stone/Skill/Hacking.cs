@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class Hacking : SkillBase
 {
-    public override string SkillName => "Hacking";
-
-    public Hacking(Stone stone) : base(stone)
+    public Hacking(Stone stone, SkillSO data) : base(stone, data)
     {
     }
 

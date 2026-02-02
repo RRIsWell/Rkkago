@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class NanoShift : SkillBase
 {
-    public override string SkillName => "NanoShift";
     private readonly float _scale = 0.5f;
 
-    public NanoShift(Stone stone) : base(stone)
+    public NanoShift(Stone stone, SkillSO data) : base(stone, data)
     {
         
     }
