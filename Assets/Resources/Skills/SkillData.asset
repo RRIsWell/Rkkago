@@ -15,3 +15,5 @@ MonoBehaviour:
   SkillSO:
   - {fileID: 11400000, guid: 992a06cb5751993428f9bc0c3a9db8fc, type: 2}
   - {fileID: 11400000, guid: 908389af6a0056943bfca93908182ea6, type: 2}
+  - {fileID: 11400000, guid: e6fa7861892884647aef4b4fa71d81f1, type: 2}
+  - {fileID: 11400000, guid: b88238ee65e7ce94e8fd45cd2ef3b99d, type: 2}

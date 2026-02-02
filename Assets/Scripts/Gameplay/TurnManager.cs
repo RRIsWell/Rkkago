@@ -143,7 +143,8 @@ public class TurnManager : NetworkBehaviour
         // 최초 게임 시작 시 1회 랜덤 스킬 부여
         if (IsServer && !initialSkillGiven && playerClientIds.Count == 2)
         {
-            //initialSkillGiven = true;
+            Debug.Log("[TM] Starting Skill");
+            initialSkillGiven = true;
             GiveRandomSkillsToBothPlayers();
         }
     }
@@ -182,6 +183,8 @@ public class TurnManager : NetworkBehaviour
             stone.ApplySkillClientRpc(p1Skill.Item1);
         foreach (var stone in p2Stones)
             stone.ApplySkillClientRpc(p2Skill.Item1);
+        
+        SkillInfoController.Instance.ShowSkillInfoClientRpc();
         
         Debug.Log($"[Skill] 플레이어1: {p1Skill.Item2.SkillName} 플레이어2: {p2Skill.Item2.SkillName}");
     }

@@ -7,11 +7,13 @@ public interface ISkill
 {
     public SkillSO Data { get; }
     public void Activate();
+    string SkillDescription { get; }
 }
 
 public abstract class SkillBase : ISkill
 {
     public SkillName SkillName { get; }
+    public virtual string SkillDescription => SkillDescription;
     protected Stone Stone { get; private set; }
     public SkillSO Data { get; private set; }
 
@@ -41,7 +43,9 @@ public abstract class SkillBase : ISkill
 /// </summary>
 public class ChangeScaleSkill : SkillBase
 {
-    private readonly float _scale;
+    public string SkillName => "ChangeScale";
+    public override string SkillDescription => "알의 크기가 2배로 증가합니다.";
+    private readonly float _scale = 2.0f;
     
     public ChangeScaleSkill(Stone stone, SkillSO data) : base(stone, data)
     {

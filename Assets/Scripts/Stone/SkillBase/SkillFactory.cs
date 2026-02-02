@@ -6,7 +6,8 @@ using Random = System.Random;
 public enum SkillName{
     ChangeScale,
     GravityLock,
-    
+    NanoShift,
+    Hacking,
 }
 
 /// <summary>
@@ -39,6 +40,10 @@ public class SkillFactory
                 return new ChangeScaleSkill(stone, so);
             case SkillName.GravityLock:
                 return new GravityLock(stone, so);
+            case SkillName.NanoShift:
+                return new NanoShift(stone, so);
+            case SkillName.Hacking:
+                return new Hacking(stone, so);
             
             default:
                 throw new Exception($"알 수 없는 스킬 타입: {so.skillName}");

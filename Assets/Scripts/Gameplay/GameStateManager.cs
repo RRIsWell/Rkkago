@@ -60,12 +60,23 @@ public class GameStateManager : NetworkBehaviour
         // UI 처리
         if(newState == GameState.MatchIntro && IsServer)
         {
+            CancelInvoke(nameof(TransitionToSkillInfo));
+            Invoke(nameof(TransitionToSkillInfo), 3f);
+        }
+        else if(newState == GameState.SkillInfo && IsServer)
+        {
             CancelInvoke(nameof(TransitionToPlaying));
             Invoke(nameof(TransitionToPlaying), 3f);
         }
     }
 
-    // 서버에서 3초 뒤 상태 변경
+    // 서버에서 3초 뒤 SkillInfo 상태로 변경
+    void TransitionToSkillInfo()
+    {
+        netState.Value = GameState.SkillInfo;
+    }
+
+    // 서버에서 3초 뒤 Playing 상태로 변경
     void TransitionToPlaying()
     {
         netState.Value = GameState.Playing;
