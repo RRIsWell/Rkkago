@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class GravityLock : SkillBase
 {
-    private readonly float _weight = 2.0f;
+    private float _weight;
 
     public GravityLock(Stone stone, SkillSO data) : base(stone, data)
     {
+        var so = data as GravityLockSO;
+        _weight = so.weight;
     }
 
     public override void Activate()

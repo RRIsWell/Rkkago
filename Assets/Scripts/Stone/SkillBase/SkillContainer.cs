@@ -40,7 +40,7 @@ public class SkillContainer
     /// </summary>
     /// <param name="index"></param>
     /// <returns></returns>
-    private SkillBase GetSkillByIndex(int index)
+    public SkillBase GetSkillByIndex(int index)
     {
         index = Mathf.Clamp(index, 0, _skills.Count - 1);
         return _skills[index];

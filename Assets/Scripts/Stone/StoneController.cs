@@ -30,6 +30,17 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     // Skill
     private SkillContainer _skillContainer;
     public  SkillContainer SkillContainer => _skillContainer;
+    
+    /// <summary>
+    /// 현재 부여된 스킬 인덱스 (-1이면 아직 부여 안 됨)
+    /// </summary>
+    private int _currentSkillIndex = -1;
+    public int CurrentSkillIndex => _currentSkillIndex;
+    
+    /// <summary>
+    /// 로컬 플레이어에게 스킬이 적용되었을 때 호출됨 (skillIndex)
+    /// </summary>
+    public static event System.Action<int> OnLocalPlayerSkillApplied;
 
     // 디버깅용
     private bool _isDragging;
@@ -145,7 +156,9 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         // 자기 돌만 적용
         if (!IsOwner) return;
 
+        _currentSkillIndex = skillIndex;
         _skillContainer.ActivateSkill(skillIndex);
+        OnLocalPlayerSkillApplied?.Invoke(skillIndex);
     }
     
     // ------------------- 보조선 --------------------

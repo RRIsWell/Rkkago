@@ -4,4 +4,5 @@ using UnityEngine;
 public class SkillSO : ScriptableObject
 {
     public SkillName skillName;
+    public string skillDescription;
 }
