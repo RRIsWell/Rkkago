@@ -280,6 +280,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8516309695207199423, guid: 3211524410e979a47b08178e04b4f363, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 688327840
+      objectReference: {fileID: 0}
+    - target: {fileID: 8516309695207199423, guid: 3211524410e979a47b08178e04b4f363, type: 3}
+      propertyPath: SceneMigrationSynchronization
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1221,6 +1229,14 @@ PrefabInstance:
     - target: {fileID: 7913051121002703663, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3182376013
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737168774913529548, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_Radius
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737168774913529548, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_Offset.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
