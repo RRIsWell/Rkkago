@@ -8,20 +8,19 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class SkillContainer
 {
-    private readonly List<SkillBase> _skills;
+    private readonly Dictionary<SkillName, SkillBase> _skills;
+    private readonly List<SkillName> _skillKeys;
     private readonly SkillFactory _skillFactory;
-
-    public SkillBase CurrSkill { get; private set; }
     
-    
-    public List<SkillBase> Skills => _skills;
+    public Dictionary<SkillName, SkillBase> Skills => _skills;
 
     public SkillContainer(Stone stone)
     {
-        _skills = new List<SkillBase>();
+        _skills = new Dictionary<SkillName, SkillBase>();
         _skillFactory = new SkillFactory();
 
-        _skills = _skillFactory.CreateSkillList(stone);
+        _skills = _skillFactory.CreateSkillDictionary(stone);
+        _skillKeys = new List<SkillName>(_skills.Keys);
     }
     
     /// <summary>
@@ -30,9 +29,7 @@ public class SkillContainer
     public Tuple<int, SkillBase> GetRandomSkill()
     {
         int index = Random.Range(0, _skills.Count);
-        CurrSkill = _skills[index];
-        
-        return Tuple.Create(index, _skills[index]);
+        return Tuple.Create(index, _skills[_skillKeys[index]]);
     }
 
     /// <summary>
@@ -43,7 +40,17 @@ public class SkillContainer
     public SkillBase GetSkillByIndex(int index)
     {
         index = Mathf.Clamp(index, 0, _skills.Count - 1);
-        return _skills[index];
+        return _skills[_skillKeys[index]];
+    }
+
+    /// <summary>
+    /// 이름으로 스킬 반환
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public SkillBase GetSkillByName(SkillName name)
+    {
+        return _skills[name];
     }
     
     /// <summary>

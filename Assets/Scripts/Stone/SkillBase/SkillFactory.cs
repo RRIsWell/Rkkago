@@ -8,6 +8,8 @@ public enum SkillName{
     GravityLock,
     NanoShift,
     Hacking,
+    IceAge,
+    
 }
 
 /// <summary>
@@ -16,39 +18,39 @@ public enum SkillName{
 public class SkillFactory
 {
     /// <summary>
-    /// 스킬 객체 리스트 생성 후 반환하는 함수 
+    /// 스킬 객체 딕셔너리 생성 후 반환하는 함수 
     /// </summary>
     /// <param name="stone"></param>
-    public List<SkillBase> CreateSkillList(Stone stone)
+    public Dictionary<SkillName, SkillBase> CreateSkillDictionary(Stone stone)
     {
         var datas = Resources.Load<SkillData>("Skills/SkillData");
-        List<SkillBase> skills = new List<SkillBase>();
+        Dictionary<SkillName, SkillBase> skills = new Dictionary<SkillName, SkillBase>();
         
-        foreach (var data in datas.SkillSO)
+        foreach (var so in datas.SkillSO)
         {
-            skills.Add(CreateSKill(stone, data));
+            switch (so.skillName)
+            {
+                case SkillName.ChangeScale:
+                    skills.Add(SkillName.ChangeScale, new ChangeScaleSkill(stone, so));
+                    break;
+                case SkillName.GravityLock:
+                    skills.Add(SkillName.GravityLock, new GravityLock(stone, so));
+                    break;
+                case SkillName.NanoShift:
+                    skills.Add(SkillName.NanoShift, new NanoShift(stone, so));
+                    break;
+                case SkillName.Hacking:
+                    skills.Add(SkillName.Hacking, new Hacking(stone, so));
+                    break;
+                case SkillName.IceAge:
+                    skills.Add(SkillName.IceAge, new IceAge(stone, so));
+                    break;
+            
+                default:
+                    throw new Exception($"알 수 없는 스킬 타입: {so.skillName}");
+            }
         }
 
         return skills;
     }
-
-    public SkillBase CreateSKill(Stone stone, SkillSO so)
-    {
-        switch (so.skillName)
-        {
-            case SkillName.ChangeScale:
-                return new ChangeScaleSkill(stone, so);
-            case SkillName.GravityLock:
-                return new GravityLock(stone, so);
-            case SkillName.NanoShift:
-                return new NanoShift(stone, so);
-            case SkillName.Hacking:
-                return new Hacking(stone, so);
-            
-            default:
-                throw new Exception($"알 수 없는 스킬 타입: {so.skillName}");
-        }
-    }
-
-
 }
