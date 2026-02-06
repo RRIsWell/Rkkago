@@ -11,7 +11,17 @@ public class TurnUI : MonoBehaviour
 {
     [SerializeField] private GameObject turnPanel;
     [SerializeField] private TMP_Text turnText;
-    [SerializeField] private TMP_Text timerText;
+    [SerializeField] private TMP_Text timerText; // 중앙 타이머 (이제 안 씀)
+
+    /// <summary>
+    /// 타이머 UI
+    /// </summary>
+    [SerializeField] private TMP_Text leftTimerText;
+    [SerializeField] private TMP_Text rightTimerText;
+
+    [SerializeField] private TMP_Text leftTurnCountText;
+    [SerializeField] private TMP_Text rightTurnCountText;
+
 
     private bool hasDeferredTurn = false;
     private ulong deferredTurnId;
@@ -28,6 +38,26 @@ public class TurnUI : MonoBehaviour
 
         timerText.text =
             Mathf.Ceil(TurnManager.Instance.GetRemainingTime()).ToString();
+
+        // 턴 쌍 표시
+        int turnN = 1;
+        if(TurnManager.Instance.TurnNumber != null)
+            turnN = TurnManager.Instance.TurnNumber.Value;
+        
+        if(leftTurnCountText !=  null) 
+            leftTurnCountText.text = $"Turn {turnN}";
+        if(rightTurnCountText !=  null) 
+            rightTurnCountText.text = $"Turn {turnN}";
+        
+        // 현재 턴 주인 쪽만 타이머 표시 (호스트 왼쪽, 클라이언트 오른쪽)
+        string timeStr = Mathf.Ceil(TurnManager.Instance.GetRemainingTime()).ToString();
+        ulong ownerId = TurnManager.Instance.CurrentTurnClientId.Value;
+
+        if(leftTimerText != null)
+            leftTimerText.text = (ownerId == 0) ? timeStr : "--";
+        if(rightTimerText != null)
+            rightTimerText.text = (ownerId == 1) ? timeStr : "--";
+
     }
 
     public void OnEnable()

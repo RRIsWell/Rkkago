@@ -46,10 +46,24 @@ public class TurnManager : NetworkBehaviour
 
     
     // =========================
-    // [ADD] Map3(컬링)용 턴쌍 카운터
+    // Map3(컬링)용 턴쌍 카운터
     // =========================
     private int turnStep = 0;
     private int TurnPairs => turnStep / 2;
+
+    // =========================
+    // UI용 턴 쌍 네트워크 동기화
+    // =========================
+    private NetworkVariable<int> turnNumber = 
+        new NetworkVariable<int>(
+            1,
+            NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Server
+        );
+
+    public NetworkVariable<int> TurnNumber => turnNumber;
+
+    private int CalcTurnNumber() => (turnStep / 2) + 1;
     
     private void Awake()
     {
@@ -65,7 +79,7 @@ public class TurnManager : NetworkBehaviour
     // 서버는 플레이어로 간주하지 않도록 로직 구현
     public override void OnNetworkSpawn()
     {
-        if(!IsServer) return; // 서버에서만 실행
+        if(!IsServer) return; //버에서만 실행
 
         // 이미 연결된 클라이언트를 먼저 채워넣음
         playerClientIds.Clear();
@@ -140,13 +154,16 @@ public class TurnManager : NetworkBehaviour
         isTurnActive = false;
         Debug.Log($"Turn Started for: {clientId}");
 
+        // UI용 턴 쌍 갱신
+        if(IsServer)
+            turnNumber.Value = CalcTurnNumber();
+
         OnTurnChanged?.Invoke(clientId);
 
         // 최초 게임 시작 시 1회 랜덤 스킬 부여
         if (IsServer && !initialSkillGiven && playerClientIds.Count == 2)
         {
-            Debug.Log("[TM] Starting Skill");
-            initialSkillGiven = true;
+            //initialSkillGiven = true;
             GiveRandomSkillsToBothPlayers();
         }
     }
@@ -185,6 +202,7 @@ public class TurnManager : NetworkBehaviour
         List<int> p1Index = PickRandomIndices(p1Stones.Count, p1Skill.Item2.Data.applyStoneCount);
         List<int> p2Index = PickRandomIndices(p2Stones.Count, p2Skill.Item2.Data.applyStoneCount);
         
+<<<<<<< HEAD
         foreach (var i in p1Index)
             p1Stones[i].ApplySkillClientRpc(p1Skill.Item1);
         foreach (var i in p2Index)
@@ -193,6 +211,8 @@ public class TurnManager : NetworkBehaviour
         // 스킬 팝업창 생성
         SkillInfoController.Instance.ShowSkillInfoClientRpc();
         
+=======
+>>>>>>> a4b688f (Fix: 턴 UI와 로직 수정)
         Debug.Log($"[Skill] 플레이어1: {p1Skill.Item2.SkillName} 플레이어2: {p2Skill.Item2.SkillName}");
     }
     
@@ -231,6 +251,7 @@ public class TurnManager : NetworkBehaviour
     {
         if(!IsServer) return;
         turnStep = 0;
+        turnNumber.Value = 1; // 턴 수도 1로 맞춤 
     }
 
 
