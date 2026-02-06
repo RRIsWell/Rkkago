@@ -40,7 +40,7 @@ public class IceAge : SkillBase
         TurnManager.Instance.OnTurnChanged += DestroySingleIceTile;
     }
 
-    public override void Deactivate()
+    public void Deactivate()
     {
         // 모든 이벤트 구독 해제
         _movement.OnMovement -= OnMovementHandler;
