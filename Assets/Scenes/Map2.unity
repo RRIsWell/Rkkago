@@ -672,7 +672,11 @@ PrefabInstance:
     - target: {fileID: 8608872105784876832, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
       propertyPath: ruleExecutor
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 952620658824526429}
+    - target: {fileID: 8608872105784876832, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
+      propertyPath: currentMapConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 30496a4dd468de24db4a4c9752c4dc59, type: 2}
     - target: {fileID: 8929117062803574608, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2728700205
@@ -1262,6 +1266,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e4145373b87ded439dd940c6e78840a, type: 3}
+--- !u!114 &952620658824526429 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8377235497957686644, guid: 2e4145373b87ded439dd940c6e78840a, type: 3}
+  m_PrefabInstance: {fileID: 952620658824526428}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7baf81f4b57ee08459c2caf8a3ab6aea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapRuleExecutor
 --- !u!224 &5472647349727020794 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6056759430004806555, guid: 2e4145373b87ded439dd940c6e78840a, type: 3}
