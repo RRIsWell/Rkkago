@@ -22,7 +22,7 @@ public class IceAge : SkillBase
         _so = data as  IceAgeSO;
         if (_so != null)
         {
-            _durationTurns = _so.durationTurns;
+            // _durationTurns = _so.durationTurns;
             _icePrefab = _so.icePrefab;
             _tileSpacing = _so.tileSpacing;
         }
