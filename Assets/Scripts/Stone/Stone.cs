@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.U2D.Animation;
 
 
 /// <summary>
@@ -15,6 +16,10 @@ public class Stone : NetworkBehaviour
     private SpriteRenderer _renderer;
     private StoneVisualController _visualController;
     private MapRuleExecutor _ruleExecutor;
+    
+    public Animator Animator => _animator;
+    public SpriteResolver Resolver;
+    
     private bool _deadEventCalled = false;
     
     private float _defaultScale;
@@ -28,6 +33,7 @@ public class Stone : NetworkBehaviour
         _animator =  GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
         _visualController = GetComponent<StoneVisualController>();
+        Resolver = GetComponent<SpriteResolver>();
         
         _defaultScale = stoneData.scale;
         _defaultWeight = stoneData.weight;
@@ -93,6 +99,7 @@ public class Stone : NetworkBehaviour
     [ClientRpc]
     public void SetAnimatorTriggerClientRpc(int param)
     {
+        _animator.enabled = true;
         _animator.SetTrigger(param);
     }
     
@@ -106,6 +113,8 @@ public class Stone : NetworkBehaviour
     /// </summary>
     public void OnDestroyStone()
     {
+        _animator.enabled = false;
+        
         if(_deadEventCalled) return;
         _deadEventCalled = true;
 

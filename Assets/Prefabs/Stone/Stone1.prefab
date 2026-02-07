@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 8777337735980758525}
   - component: {fileID: 8888580116224590807}
   - component: {fileID: 640516936450638873}
+  - component: {fileID: 7976481865877139004}
+  - component: {fileID: 1740357627593418421}
   m_Layer: 6
   m_Name: Stone1
   m_TagString: Untagged
@@ -93,7 +95,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.84375, y: 0.83984375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -142,7 +144,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 647225764294854384}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 79c7193b6635cd34090d23f26dbcd1f5, type: 2}
   m_CullingMode: 0
@@ -168,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2229731402
+  GlobalObjectIdHash: 3521244976
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 8
@@ -241,6 +243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Stone
   ShowTopMostFoldoutHeaderGroup: 1
   stoneData: {fileID: 11400000, guid: d5a41bd8908febd49afe2e1207568d26, type: 2}
+  Resolver: {fileID: 0}
 --- !u!114 &8888580116224590807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,3 +276,33 @@ MonoBehaviour:
   _renderer: {fileID: 6662523608536544660}
   currentVisualState:
     m_InternalValue: 0
+--- !u!114 &7976481865877139004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647225764294854384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 0fec4ffcdad72324580606659b41256e, type: 3}
+--- !u!114 &1740357627593418421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647225764294854384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 0.009161512
+  m_labelHash: 2.9085758e-28
+  m_SpriteKey: 0
+  m_SpriteHash: 874665322

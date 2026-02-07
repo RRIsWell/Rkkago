@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrarySourceAsset
+  m_Library:
+  - m_Name: Idle
+    m_Hash: 1008081451
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Basic
+      m_Hash: 297294423
+      m_Sprite: {fileID: -2311659948842064771, guid: 672cdccf07108b643b87d26e8e29b335, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -2311659948842064771, guid: 672cdccf07108b643b87d26e8e29b335, type: 3}
+    - m_Name: IceAge
+      m_Hash: 767786987
+      m_Sprite: {fileID: -6130256823635300305, guid: 9c11d4beea225834cab47783c93ed3be, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -6130256823635300305, guid: 9c11d4beea225834cab47783c93ed3be, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 2
+  - m_Name: Dead
+    m_Hash: 219670042
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: DeadEffect_0
+      m_Hash: 829196038
+      m_Sprite: {fileID: -8343368284053012178, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -8343368284053012178, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+    - m_Name: DeadEffect_1
+      m_Hash: 107722640
+      m_Sprite: {fileID: 5691132271809073306, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 5691132271809073306, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+    - m_Name: DeadEffect_2
+      m_Hash: 526575146
+      m_Sprite: {fileID: -7189901286529438948, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -7189901286529438948, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+    - m_Name: DeadEffect_3
+      m_Hash: 677762748
+      m_Sprite: {fileID: -1791512274128560574, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1791512274128560574, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+    - m_Name: DeadEffect_4
+      m_Hash: 906052383
+      m_Sprite: {fileID: -8364003961722644767, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -8364003961722644767, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+    - m_Name: DeadEffect_5
+      m_Hash: 17200009
+      m_Sprite: {fileID: 5373615445754416160, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 5373615445754416160, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+    - m_Name: DeadEffect_6
+      m_Hash: 403644979
+      m_Sprite: {fileID: 371781929166607844, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 371781929166607844, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+    - m_Name: DeadEffect_7
+      m_Hash: 789058213
+      m_Sprite: {fileID: 1016907448576285236, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1016907448576285236, guid: 353ee933ce624ea4a8ca2ca3cfe8147f, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 8
+  m_PrimaryLibraryGUID: 
+  m_ModificationHash: 639061027468909641
+  m_Version: 1

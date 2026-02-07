@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 1399029885569440533}
   - component: {fileID: 8777337735980758525}
   - component: {fileID: 8888580116224590807}
+  - component: {fileID: 6249792010129897693}
+  - component: {fileID: 1146824399582617398}
   m_Layer: 6
   m_Name: Stone2
   m_TagString: Untagged
@@ -141,7 +143,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 647225764294854384}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: cec048139ab2e8a4ba45f6955d8379ad, type: 2}
   m_CullingMode: 0
@@ -167,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2982078263
+  GlobalObjectIdHash: 2866392274
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 8
@@ -240,6 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Stone
   ShowTopMostFoldoutHeaderGroup: 1
   stoneData: {fileID: 11400000, guid: d5a41bd8908febd49afe2e1207568d26, type: 2}
+  Resolver: {fileID: 0}
 --- !u!114 &8888580116224590807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,3 +258,33 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   dragLinePrefab: {fileID: 9013337079741339517, guid: e6c11b4f77f5d7a4a8a7c88eecdacc65, type: 3}
   maxDrag: 1.5
+--- !u!114 &6249792010129897693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647225764294854384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: f78fa6b0802cd88458a84e3657f7e0f8, type: 3}
+--- !u!114 &1146824399582617398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647225764294854384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 0.009161512
+  m_labelHash: 2.9085758e-28
+  m_SpriteKey: 0
+  m_SpriteHash: 874665322
