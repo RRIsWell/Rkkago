@@ -355,7 +355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillInfoController
   ShowTopMostFoldoutHeaderGroup: 1
-  skillInfoPrefab: {fileID: 8431488671766379742, guid: d3e4f5a6b7c8901234567890abcdef12, type: 3}
+  skillInfoPrefab: {fileID: 933598896366193165, guid: d3e4f5a6b7c8901234567890abcdef12, type: 3}
   autoHideDuration: 2
 --- !u!114 &394998830
 MonoBehaviour:

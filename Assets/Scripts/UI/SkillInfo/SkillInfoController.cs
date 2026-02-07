@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using Unity.Netcode;
 
@@ -11,11 +12,14 @@ public class SkillInfoController : NetworkBehaviour
 {
     public static SkillInfoController Instance { get; private set; }
 
-    [SerializeField] private SkillInfoUI skillInfoPrefab;
+    [SerializeField] private GameObject skillInfoPrefab;
+    [SerializeField] private float preShowDuration = 1f;
     [SerializeField] private float autoHideDuration = 2f;
 
     private SkillInfoUI _instance;
+    private GameObject _skillActivateObj;
     private Coroutine _autoHideCoroutine;
+    private Coroutine _displaySequenceCoroutine;
 
     private void Awake()
     {
@@ -89,13 +93,34 @@ public class SkillInfoController : NetworkBehaviour
         }
 
         EnsureInstance();
-        _instance.Show(skill.Data.skillName, skill.Data.skillDescription);
+        if (_displaySequenceCoroutine != null)
+            StopCoroutine(_displaySequenceCoroutine);
 
-        if (_autoHideCoroutine != null)
-            StopCoroutine(_autoHideCoroutine);
+        _displaySequenceCoroutine =
+            StartCoroutine(DisplaySequence(skill.Data.skillName, skill.Data.skillDescription, autoHide));
+    }
 
+    private IEnumerator DisplaySequence(SkillName skillName, string skillDesc, bool autoHide = true)
+    {
+        // 1. 초기 상태 설정 (둘 다 끄기)
+        _instance.Hide();
+        if (_skillActivateObj != null) _skillActivateObj.SetActive(true);
+
+        // 2. 첫 번째 오브젝트 1초간 대기
+        yield return new WaitForSeconds(preShowDuration);
+
+        // 3. 첫 번째 오브젝트 끄고 메인 스킬 UI 켜기
+        if (_skillActivateObj != null) _skillActivateObj.SetActive(false);
+        _instance.Show(skillName, skillDesc);
+
+        // 4. autoHide가 true일 때만 일정 시간 후 메인 UI도 닫기
         if (autoHide)
-            _autoHideCoroutine = StartCoroutine(AutoHideAfterDelay());
+        {
+            yield return new WaitForSeconds(autoHideDuration);
+            _instance.Hide();
+        }
+
+        _displaySequenceCoroutine = null;
     }
 
     private IEnumerator AutoHideAfterDelay()
@@ -110,8 +135,14 @@ public class SkillInfoController : NetworkBehaviour
     /// </summary>
     public void Hide()
     {
+        if (_displaySequenceCoroutine != null)
+        {
+            StopCoroutine(_displaySequenceCoroutine);
+            _displaySequenceCoroutine = null;
+        }
         if (_instance != null)
             _instance.Hide();
+        if (_skillActivateObj != null)  _skillActivateObj.SetActive(false);
     }
 
     private void EnsureInstance()
@@ -123,8 +154,23 @@ public class SkillInfoController : NetworkBehaviour
             Debug.LogError("[SkillInfo] skillInfoPrefab이 할당되지 않았습니다.");
             return;
         }
+        
+        GameObject go = Instantiate(skillInfoPrefab);
 
-        _instance = Instantiate(skillInfoPrefab, transform);
+        _instance = go.GetComponentInChildren<SkillInfoUI>();
+        
+        Transform activateTrans = go.transform.Find("SkillActivate");
+        if (activateTrans != null)
+        {
+            _skillActivateObj = activateTrans.gameObject;
+            _skillActivateObj.SetActive(false);
+        }
+        else
+        {
+            // 만약 자식의 자식 단계에 있다면 GetComponentsInChildren 사용
+            _skillActivateObj = go.transform.GetComponentsInChildren<Transform>(true)
+                .FirstOrDefault(t => t.name == "SkillActivate")?.gameObject;
+        }
     }
 
     /// <summary>
