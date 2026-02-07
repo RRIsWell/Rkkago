@@ -179,15 +179,41 @@ public class TurnManager : NetworkBehaviour
         var p2Skill = p2Stones[0].SkillContainer.GetRandomSkill();
 
         // 스킬 적용
-        foreach (var stone in p1Stones)
-            stone.ApplySkillClientRpc(p1Skill.Item1);
-        foreach (var stone in p2Stones)
-            stone.ApplySkillClientRpc(p2Skill.Item1);
+        // 몇 개의 스킬에 적용할 건지
+        List<int> p1Index = PickRandomIndices(p1Stones.Count, p1Skill.Item2.Data.applyStoneCount);
+        List<int> p2Index = PickRandomIndices(p2Stones.Count, p2Skill.Item2.Data.applyStoneCount);
         
+        foreach (var i in p1Index)
+            p1Stones[i].ApplySkillClientRpc(p1Skill.Item1);
+        foreach (var i in p2Index)
+            p2Stones[i].ApplySkillClientRpc(p2Skill.Item1);
+        
+        // 스킬 팝업창 생성
         SkillInfoController.Instance.ShowSkillInfoClientRpc();
         
         Debug.Log($"[Skill] 플레이어1: {p1Skill.Item2.SkillName} 플레이어2: {p2Skill.Item2.SkillName}");
     }
+    
+    List<int> PickRandomIndices(int totalCount, int pickCount)
+    {
+        // pickCount가 totalCount보다 크면 오류 방지
+        pickCount = Mathf.Clamp(pickCount, 0, totalCount);
+        
+        List<int> indices = new List<int>();
+        for (int i = 0; i < totalCount; i++)
+            indices.Add(i);
+
+        // Fisher–Yates 셔플
+        for (int i = indices.Count - 1; i > 0; i--)
+        {
+            int r = Random.Range(0, i + 1);
+            (indices[i], indices[r]) = (indices[r], indices[i]);
+        }
+
+        // 앞에서 n개 반환
+        return indices.GetRange(0, pickCount);
+    }
+
 
     public void GiveRandomSkillsPublic()
     {
