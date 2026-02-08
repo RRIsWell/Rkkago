@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 using Unity.Netcode;
 using System.Collections.Generic;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 public class TurnManager : NetworkBehaviour 
 {

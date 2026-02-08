@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
@@ -58,5 +59,39 @@ public class EffectManager : NetworkBehaviour
         await UniTask.Delay(500);
         
         await _cameraEffect.ZoomOut(0.1f, this.GetCancellationTokenOnDestroy());
+    }
+
+    /// <summary>
+    /// 빙판길 생성
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="ownerRef"></param>
+    public void CreateIceTile(Vector2 position, NetworkObjectReference ownerRef)
+    {
+        CreateIceTileServerRpc(position, ownerRef);
+    }
+    
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void CreateIceTileServerRpc(Vector2 position, NetworkObjectReference ownerRef)
+    {
+        CreateIceTileClientRpc(position, ownerRef);
+    }
+    
+    [ClientRpc]
+    private void CreateIceTileClientRpc(Vector2 position, NetworkObjectReference ownerRef)
+    {
+        // NetworkObjectReference를 통해 원래 Stone 찾기
+        if (ownerRef.TryGet(out NetworkObject netObj))
+        {
+            var controller = netObj.GetComponent<StoneController>();
+            if (controller != null)
+            {
+                var skill = controller.SkillContainer.GetSkillByName(SkillName.IceAge);
+                if (skill is IceAge iceAge)
+                {
+                    iceAge.CreateSingleIceTile(position);
+                }
+            }
+        }
     }
 }

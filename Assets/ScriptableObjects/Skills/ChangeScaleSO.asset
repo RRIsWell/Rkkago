@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ChangeScaleSO
   m_EditorClassIdentifier: Assembly-CSharp::ChangeScale
   skillName: 0
-  test: 0
+  activationType: 1
   scale: 0.8

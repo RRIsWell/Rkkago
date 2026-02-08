@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
@@ -11,7 +12,6 @@ public class StoneMovement
     private readonly float _deceleration = 50.0f;   // 감속량(마찰력)
     private readonly float _bounceDamping = 0.9f;   // 충돌시 에너지 손실양
     public readonly float CollisionRadius; // 충돌 범위
-    private Vector2 _currentVelocity;
     private bool _isMoving = false;
     
     private readonly HashSet<Transform> _collidedThisFrame = new HashSet<Transform>(); // 중복 충돌 방지
@@ -19,11 +19,39 @@ public class StoneMovement
     private readonly NetworkBehaviour _networkBehaviour;
     private readonly StoneCollision _stoneCollision;
     
+    // 움직일 때 이벤트 -> 외부에서 필요시 구독
+    public event Action<Vector2> OnMovement;
+    public event Action OnMovementEnded;
+    
     //---------------
     // Direction(Vector2) : 방향
     // Velocity(Vector2) : 방향 + 크기
     // Speed(float): 크기
     //---------------
+    
+    private Vector2 _currentDirection;
+    private Vector2 _currentVelocity;
+    private float _currentSpeed;
+
+    public float Speed
+    {
+        get => _currentSpeed;
+        set
+        {
+            _currentSpeed = Mathf.Max(0, value);
+            _currentVelocity = _currentDirection * _currentSpeed;
+        }
+    }
+
+    public Vector2 Direction
+    {
+        get => _currentDirection;
+        set
+        {
+            _currentDirection = value.normalized;
+            _currentVelocity = _currentDirection * _currentSpeed;
+        }
+    }
     
     public StoneMovement(StoneController stoneController, NetworkBehaviour networkBehaviour)
     {
@@ -66,14 +94,12 @@ public class StoneMovement
         
         _isMoving = true;
 
-        float currentSpeed = speed;
-        _currentVelocity = currentSpeed * direction.normalized;
+        _currentSpeed = speed;
+        _currentDirection = direction.normalized;
+        _currentVelocity = _currentSpeed * _currentDirection;
         //_collidedThisFrame.Clear();
         
-        NetworkBehaviour netBehaviour = target.GetComponent<NetworkBehaviour>();
-        bool isServer = netBehaviour != null && netBehaviour.IsServer;
-        
-        while (target != null && currentSpeed > 0f)
+        while (target != null && _currentSpeed > 0f)
         {
             // 충돌 체크
             if (_stoneCollision.IsOutOfOutline(target))
@@ -96,7 +122,7 @@ public class StoneMovement
                 _collidedThisFrame.Add(collidedStone);
             
                 // 충돌 처리
-                currentSpeed = CalculateSpeedAfterCollision(target, collidedStone, currentSpeed);
+                _currentSpeed = CalculateSpeedAfterCollision(target, collidedStone, _currentSpeed);
                 HandleCollision(target, collidedStone);
             
                 // 충돌 반영 시간 확보
@@ -106,13 +132,18 @@ public class StoneMovement
             
             // 이동
             Vector2 pos = target.position;
-            float moveStep = currentSpeed * Time.deltaTime;
-            target.position = pos + _currentVelocity.normalized * moveStep;
+            float moveStep = _currentSpeed * Time.deltaTime;
+            target.position = pos + _currentDirection * moveStep;
+            
+            _stoneController.NotifyMovementClientRpc(pos); // 직전 위치로 이벤트
 
-            // 감속
-            currentSpeed -= _deceleration * Time.deltaTime;
-            _currentVelocity = _currentVelocity.normalized * currentSpeed;
-
+            if (!_stoneCollision.IsOnIcePath(target))
+            {
+                // 감속
+                _currentSpeed -= _deceleration * Time.deltaTime;
+                _currentVelocity = _currentDirection * _currentSpeed;
+            }
+            
             // 다음 프레임까지 대기
             await UniTask.Yield(PlayerLoopTiming.Update);
         }
@@ -126,6 +157,9 @@ public class StoneMovement
         {
             HandleOutOfMap(target, 0);
         }
+        
+        // 움직임 끝났을 때 이벤트
+        _stoneController.NotifyMovementEndedClientRpc();
     }
     
     /// <summary>
@@ -231,5 +265,15 @@ public class StoneMovement
     {
         EffectManager.Instance.DestroyEffectClientRpc(target.transform.position);
         _stoneController.Stone.SetAnimatorTriggerClientRpc(Stone.HashDead);
+    }
+    
+    public void TriggerMovementEvent(Vector2 position)
+    {
+        OnMovement?.Invoke(position);
+    }
+    
+    public void TriggerMovementEndedEvent()
+    {
+        OnMovementEnded?.Invoke();
     }
 }

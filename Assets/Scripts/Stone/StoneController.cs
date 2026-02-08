@@ -41,6 +41,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     /// 로컬 플레이어에게 스킬이 적용되었을 때 호출됨 (skillIndex)
     /// </summary>
     public static event System.Action<int> OnLocalPlayerSkillApplied;
+    private event Action<int> OnMouseUp; // 마우스 뗐을 때 스킬 발동
 
     // 디버깅용
     private bool _isDragging;
@@ -121,6 +122,9 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         float speed = _stone.CalculateSpeed() * distance;
 
         RequestShoot(direction, speed);
+        
+        // 스킬 발동
+        OnMouseUp?.Invoke(_currentSkillIndex);
     }
     
     // ---------------- Network --------------------
@@ -148,6 +152,20 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     {
         StoneMovement.Shoot(transform, direction, speed);
     }
+    
+    [ClientRpc]
+    public void NotifyMovementClientRpc(Vector2 position)
+    {
+        if (!IsOwner) return;
+        _stoneMovement.TriggerMovementEvent(position);
+    }
+    
+    [ClientRpc]
+    public void NotifyMovementEndedClientRpc()
+    {
+        if (!IsOwner) return;
+        _stoneMovement.TriggerMovementEndedEvent();
+    }
 
     // 서버가 정한 스킬을 클라이언트에게 적용
     [ClientRpc]
@@ -156,9 +174,31 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         // 자기 돌만 적용
         if (!IsOwner) return;
 
+        // 기존 스킬 비활성화
+        if (_currentSkillIndex != -1)
+        {
+            _skillContainer.GetSkillByIndex(_currentSkillIndex).Deactivate();
+        }
+
+        // 새 스킬 부여
         _currentSkillIndex = skillIndex;
-        _skillContainer.ActivateSkill(skillIndex);
         OnLocalPlayerSkillApplied?.Invoke(skillIndex);
+        
+        // 스킬 Activate
+        var skill = _skillContainer.GetSkillByIndex(skillIndex);
+        _skillContainer.InitSkill(skill);
+        
+        if (skill.ActivationType == SkillActivationType.OnEquip)
+        {
+            // 바로 실행
+            _skillContainer.ActivateSkill(skill);
+        }
+        else if (skill.ActivationType == SkillActivationType.OnReleaseMouse)
+        {
+            // 마우스 뗄 때 실행
+            OnMouseUp -= _skillContainer.ActivateSkill;
+            OnMouseUp += _skillContainer.ActivateSkill;
+        }
     }
     
     // ------------------- 보조선 --------------------

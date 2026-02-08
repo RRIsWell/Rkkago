@@ -52,6 +52,15 @@ public class SkillContainer
     {
         return _skills[name];
     }
+
+    /// <summary>
+    /// 스킬 기본 세팅
+    /// </summary>
+    /// <param name="skill"></param>
+    public void InitSkill(SkillBase skill)
+    {
+        skill.Init();
+    }
     
     /// <summary>
     /// 스킬 실행 부분

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.U2D.Animation;
 
 
@@ -13,12 +14,13 @@ public class Stone : NetworkBehaviour
     private StoneData stoneData;
     
     private Animator _animator;
+    private SpriteResolver _resolver;
     private SpriteRenderer _renderer;
     private StoneVisualController _visualController;
     private MapRuleExecutor _ruleExecutor;
     
     public Animator Animator => _animator;
-    public SpriteResolver Resolver;
+    public SpriteResolver Resolver => _resolver;
     
     private bool _deadEventCalled = false;
     
@@ -33,10 +35,12 @@ public class Stone : NetworkBehaviour
         _animator =  GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
         _visualController = GetComponent<StoneVisualController>();
-        Resolver = GetComponent<SpriteResolver>();
+        _resolver = GetComponent<SpriteResolver>();
         
         _defaultScale = stoneData.scale;
         _defaultWeight = stoneData.weight;
+        
+        _animator.enabled = false;
     }
     
     public void SetTeam(int teamId)

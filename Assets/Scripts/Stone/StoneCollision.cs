@@ -127,4 +127,20 @@ public class StoneCollision
         
         return hits != null;
     }
+
+    /// <summary>
+    /// 빙판길 확인
+    /// </summary>
+    public bool IsOnIcePath(Transform target)
+    {
+        int mask = LayerMask.GetMask("Ice");
+        
+        var hits = Physics2D.OverlapCircle(
+            target.position,
+            _collisionRadius,
+            mask
+        );
+        
+        return hits != null;
+    }
 }
