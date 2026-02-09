@@ -163,7 +163,7 @@ public class TurnManager : NetworkBehaviour
         // 최초 게임 시작 시 1회 랜덤 스킬 부여
         if (IsServer && !initialSkillGiven && playerClientIds.Count == 2)
         {
-            //initialSkillGiven = true;
+            initialSkillGiven = true;
             GiveRandomSkillsToBothPlayers();
         }
     }
