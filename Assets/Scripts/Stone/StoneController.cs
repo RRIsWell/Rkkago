@@ -167,9 +167,12 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         _stoneMovement.TriggerMovementEndedEvent();
     }
 
-    // 서버가 정한 스킬을 클라이언트에게 적용
+    /// <summary>
+    /// 기존 스킬 비활성화
+    /// </summary>
+    /// <param name="skillIndex"></param>
     [ClientRpc]
-    public void ApplySkillClientRpc(int skillIndex)
+    public void DeActivateSkillClientRpc()
     {
         // 자기 돌만 적용
         if (!IsOwner) return;
@@ -179,6 +182,14 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         {
             _skillContainer.GetSkillByIndex(_currentSkillIndex).Deactivate();
         }
+    }
+    
+    // 서버가 정한 스킬을 클라이언트에게 적용
+    [ClientRpc]
+    public void ApplySkillClientRpc(int skillIndex)
+    {
+        // 자기 돌만 적용
+        if (!IsOwner) return;
 
         // 새 스킬 부여
         _currentSkillIndex = skillIndex;

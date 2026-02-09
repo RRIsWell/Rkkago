@@ -143,6 +143,12 @@ public class TurnManager : NetworkBehaviour
     // 턴 시작
     public event System.Action<ulong> OnTurnChanged;
 
+    [ClientRpc]
+    private void InvokeTurnChangedClientRpc(ulong clientId)
+    {
+        OnTurnChanged?.Invoke(clientId);
+    }
+
     public void StartTurn(ulong clientId) 
     {
         currentTurnClientId.Value = ulong.MaxValue;
@@ -158,7 +164,8 @@ public class TurnManager : NetworkBehaviour
         if(IsServer)
             turnNumber.Value = CalcTurnNumber();
 
-        OnTurnChanged?.Invoke(clientId);
+        // 턴 교체 이벤트 발생
+        InvokeTurnChangedClientRpc(clientId);
 
         // 최초 게임 시작 시 1회 랜덤 스킬 부여
         if (IsServer && !initialSkillGiven && playerClientIds.Count == 2)
@@ -185,6 +192,9 @@ public class TurnManager : NetworkBehaviour
                 p1Stones.Add(s);
             else if (no.OwnerClientId == 1)
                 p2Stones.Add(s);
+            
+            // 기존 스킬 비활성화
+            s.DeActivateSkillClientRpc();
         }
 
         if (p1Stones.Count == 0 || p2Stones.Count == 0)

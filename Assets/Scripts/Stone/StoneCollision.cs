@@ -127,7 +127,7 @@ public class StoneCollision
         
         return hits != null;
     }
-
+    
     /// <summary>
     /// 빙판길 확인
     /// </summary>
@@ -137,10 +137,9 @@ public class StoneCollision
         
         var hits = Physics2D.OverlapCircle(
             target.position,
-            _collisionRadius,
+            _collisionRadius * 1.5f,
             mask
         );
-        
         return hits != null;
     }
 }

@@ -14,14 +14,18 @@ public class StoneMovement
     public readonly float CollisionRadius; // 충돌 범위
     private bool _isMoving = false;
     
-    private readonly HashSet<Transform> _collidedThisFrame = new HashSet<Transform>(); // 중복 충돌 방지
+    // 컴포넌트
     private readonly StoneController _stoneController;
     private readonly NetworkBehaviour _networkBehaviour;
     private readonly StoneCollision _stoneCollision;
     
-    // 움직일 때 이벤트 -> 외부에서 필요시 구독
-    public event Action<Vector2> OnMovement;
-    public event Action OnMovementEnded;
+    private readonly HashSet<Transform> _collidedThisFrame = new HashSet<Transform>(); // 중복 충돌 방지
+    
+    /// <summary>
+    /// 움직일 때 이벤트 -> 외부에서 필요시 구독
+    /// </summary>
+    public event Action<Vector2> OnMovement;    // 움직이는 매 프레임 실행
+    public event Action OnMovementEnded;        // 움직임 끝나고 실행
     
     //---------------
     // Direction(Vector2) : 방향
@@ -33,6 +37,9 @@ public class StoneMovement
     private Vector2 _currentVelocity;
     private float _currentSpeed;
 
+    /// <summary>
+    /// 외부에서 알 움직임 제어할 시 사용
+    /// </summary>
     public float Speed
     {
         get => _currentSpeed;

@@ -31,37 +31,67 @@ public class IceAge : SkillBase
         _networkObject = _controller.NetworkObject;
     }
     
-    
     public override void Activate()
     {        
         // 움직일 때 빙판길 생성
-        _movement.OnMovement += OnMovementHandler;
+        _movement.OnMovement += RequestToCreateIceTile;
 
         // 턴 바뀔 때
-        TurnManager.Instance.OnTurnChanged += DestroySingleIceTile;
+        TurnManager.Instance.OnTurnChanged += RequestToDestroyIceTile;
     }
 
-    public void Deactivate()
+    public override void Deactivate()
     {
+        base.Deactivate();
+        
         // 모든 이벤트 구독 해제
-        _movement.OnMovement -= OnMovementHandler;
-        TurnManager.Instance.OnTurnChanged -= DestroySingleIceTile;
+        _movement.OnMovement -= RequestToCreateIceTile;
+        TurnManager.Instance.OnTurnChanged -= RequestToDestroyIceTile;
 
         // 생성한 빙판길 모두 삭제
-        DestroyAllIceTiles();
+        RequestToDestroyAllIceTiles();
     }
     
     /// <summary>
     /// 네트워크 호출을 통한 빙판길 생성 함수 실행
     /// </summary>
     /// <param name="position"></param>
-    private void OnMovementHandler(Vector2 position)
+    private void RequestToCreateIceTile(Vector2 position)
     {
         // MapEffectManager를 통해 네트워크 호출(빙판길 생성)
         if (EffectManager.Instance != null)
         {
             EffectManager.Instance.CreateIceTile(
                 position, 
+                new NetworkObjectReference(_networkObject)
+            );
+        }
+    }
+    
+    /// <summary>
+    /// 네트워크 호출을 통한 빙판길 삭제 함수 실행
+    /// </summary>
+    /// <param name="clientId"></param>
+    private void RequestToDestroyIceTile(ulong clientId)
+    {
+        // MapEffectManager를 통해 네트워크 호출(빙판길 삭제)
+        if (EffectManager.Instance != null)
+        {
+            EffectManager.Instance.DestroyIceTile(
+                new NetworkObjectReference(_networkObject)
+            );
+        }
+    }
+    
+    /// <summary>
+    /// 네트워크 호출을 통한 빙판길 모두 삭제 함수 실행
+    /// </summary>
+    private void RequestToDestroyAllIceTiles()
+    {
+        // MapEffectManager를 통해 네트워크 호출(빙판길 모두 삭제)
+        if (EffectManager.Instance != null)
+        {
+            EffectManager.Instance.DestroyAllIceTiles(
                 new NetworkObjectReference(_networkObject)
             );
         }
@@ -89,10 +119,8 @@ public class IceAge : SkillBase
     /// <summary>
     /// 일정 턴 수 지나면 빙판길 삭제
     /// </summary>
-    /// <param name="clientId"></param>
-    private void DestroySingleIceTile(ulong clientId)
+    public void DestroySingleIceTile()
     {
-        Debug.Log("제발 사라져");
         foreach (var key in _activeTiles.Keys.ToList())
         {
             if (_activeTiles[key].Item2 <= 0)
@@ -112,7 +140,7 @@ public class IceAge : SkillBase
     /// <summary>
     /// 모든 빙판길 삭제 후 자료구조 초기화
     /// </summary>
-    private void DestroyAllIceTiles()
+    public void DestroyAllIceTiles()
     {
         foreach (var key in _activeTiles.Keys)
         {

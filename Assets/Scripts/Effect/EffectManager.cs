@@ -94,4 +94,70 @@ public class EffectManager : NetworkBehaviour
             }
         }
     }
+    
+    /// <summary>
+    /// 빙판길 삭제
+    /// </summary>
+    /// <param name="ownerRef"></param>
+    public void DestroyIceTile(NetworkObjectReference ownerRef)
+    {
+        DstroyIceTileServerRpc(ownerRef);
+    }
+    
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void DstroyIceTileServerRpc(NetworkObjectReference ownerRef)
+    {
+        DestroyIceTileClientRpc(ownerRef);
+    }
+    
+    [ClientRpc]
+    private void DestroyIceTileClientRpc(NetworkObjectReference ownerRef)
+    {
+        // NetworkObjectReference를 통해 원래 Stone 찾기
+        if (ownerRef.TryGet(out NetworkObject netObj))
+        {
+            var controller = netObj.GetComponent<StoneController>();
+            if (controller != null)
+            {
+                var skill = controller.SkillContainer.GetSkillByName(SkillName.IceAge);
+                if (skill is IceAge iceAge)
+                {
+                    iceAge.DestroySingleIceTile();
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 모든 빙판길 삭제
+    /// </summary>
+    /// <param name="ownerRef"></param>
+    public void DestroyAllIceTiles(NetworkObjectReference ownerRef)
+    {
+        DstroyAllIceTilesServerRpc(ownerRef);
+    }
+    
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void DstroyAllIceTilesServerRpc(NetworkObjectReference ownerRef)
+    {
+        DestroyAllIceTilesClientRpc(ownerRef);
+    }
+    
+    [ClientRpc]
+    private void DestroyAllIceTilesClientRpc(NetworkObjectReference ownerRef)
+    {
+        // NetworkObjectReference를 통해 원래 Stone 찾기
+        if (ownerRef.TryGet(out NetworkObject netObj))
+        {
+            var controller = netObj.GetComponent<StoneController>();
+            if (controller != null)
+            {
+                var skill = controller.SkillContainer.GetSkillByName(SkillName.IceAge);
+                if (skill is IceAge iceAge)
+                {
+                    iceAge.DestroyAllIceTiles();
+                }
+            }
+        }
+    }
 }
