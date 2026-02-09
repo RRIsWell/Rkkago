@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EffectManager
   ShowTopMostFoldoutHeaderGroup: 1
-  effectPrefab: {fileID: 6069330293569023417, guid: 3cc915543c1366b4982412e9f3bf8689, type: 3}
+  effectPrefab: {fileID: 2119674108452054702, guid: 2fee03216be340c4c8e3c20745fa1227, type: 3}
 --- !u!114 &4854342940323320468
 MonoBehaviour:
   m_ObjectHideFlags: 0
