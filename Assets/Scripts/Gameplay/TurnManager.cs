@@ -163,7 +163,7 @@ public class TurnManager : NetworkBehaviour
         // 최초 게임 시작 시 1회 랜덤 스킬 부여
         if (IsServer && !initialSkillGiven && playerClientIds.Count == 2)
         {
-            //initialSkillGiven = true;
+            initialSkillGiven = true;
             GiveRandomSkillsToBothPlayers();
         }
     }
@@ -202,7 +202,6 @@ public class TurnManager : NetworkBehaviour
         List<int> p1Index = PickRandomIndices(p1Stones.Count, p1Skill.Item2.Data.applyStoneCount);
         List<int> p2Index = PickRandomIndices(p2Stones.Count, p2Skill.Item2.Data.applyStoneCount);
         
-<<<<<<< HEAD
         foreach (var i in p1Index)
             p1Stones[i].ApplySkillClientRpc(p1Skill.Item1);
         foreach (var i in p2Index)
@@ -211,8 +210,6 @@ public class TurnManager : NetworkBehaviour
         // 스킬 팝업창 생성
         SkillInfoController.Instance.ShowSkillInfoClientRpc();
         
-=======
->>>>>>> a4b688f (Fix: 턴 UI와 로직 수정)
         Debug.Log($"[Skill] 플레이어1: {p1Skill.Item2.SkillName} 플레이어2: {p2Skill.Item2.SkillName}");
     }
     
