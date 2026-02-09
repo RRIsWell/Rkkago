@@ -58,7 +58,7 @@ public abstract class SkillBase : ISkill
     // 스킬 비활성화 (스킬 바뀔 때 실행됨)
     public virtual void Deactivate()
     {
-        
+        Stone.Resolver.SetCategoryAndLabel("Idle", "Basic");
     }  
 }
 
