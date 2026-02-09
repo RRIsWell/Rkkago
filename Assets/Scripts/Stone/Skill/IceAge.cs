@@ -31,8 +31,9 @@ public class IceAge : SkillBase
         _networkObject = _controller.NetworkObject;
     }
     
+    
     public override void Activate()
-    {
+    {        
         // 움직일 때 빙판길 생성
         _movement.OnMovement += OnMovementHandler;
 
@@ -40,7 +41,7 @@ public class IceAge : SkillBase
         TurnManager.Instance.OnTurnChanged += DestroySingleIceTile;
     }
 
-    public override void Deactivate()
+    public void Deactivate()
     {
         // 모든 이벤트 구독 해제
         _movement.OnMovement -= OnMovementHandler;

@@ -171,10 +171,10 @@ RectTransform:
   - {fileID: 14429956241285350}
   m_Father: {fileID: 6837009077349166108}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -90}
-  m_SizeDelta: {x: 100, y: 20}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4882770608920671840
 CanvasRenderer:
@@ -454,6 +454,10 @@ MonoBehaviour:
   turnPanel: {fileID: 6214578256481136085}
   turnText: {fileID: 2736113185352230430}
   timerText: {fileID: 3413395423633392057}
+  leftTimerText: {fileID: 0}
+  rightTimerText: {fileID: 0}
+  leftTurnCountText: {fileID: 0}
+  rightTurnCountText: {fileID: 0}
 --- !u!1 &5245389251095322902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,10 +1156,10 @@ RectTransform:
   - {fileID: 8323385131057743721}
   m_Father: {fileID: 6837009077349166108}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -30}
-  m_SizeDelta: {x: 100, y: 20}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4759632488104515410
 CanvasRenderer:
@@ -1410,10 +1414,10 @@ RectTransform:
   - {fileID: 6050756591100356630}
   m_Father: {fileID: 6837009077349166108}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -60}
-  m_SizeDelta: {x: 100, y: 20}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5816338097146175272
 CanvasRenderer:
@@ -1544,7 +1548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 971795489
+  GlobalObjectIdHash: 3143222545
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1588,10 +1592,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6837009077349166108}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -5}
-  m_SizeDelta: {x: 100, y: 10}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8901269439032733202
 MonoBehaviour:
