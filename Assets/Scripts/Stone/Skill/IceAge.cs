@@ -19,28 +19,21 @@ public class IceAge : SkillBase
     
     public IceAge(Stone stone, SkillSO data) : base(stone, data)
     {
-        
-        // 일단 주석 처리
-        /*
         _so = data as  IceAgeSO;
         if (_so != null)
         {
-            // _durationTurns = _so.durationTurns;
+            _durationTurns = _so.durationTurns;
             _icePrefab = _so.icePrefab;
             _tileSpacing = _so.tileSpacing;
         }
         _controller = stone.GetComponent<StoneController>();
         _movement = _controller.StoneMovement;
         _networkObject = _controller.NetworkObject;
-        */
     }
     
     
     public override void Activate()
-    {
-        // 일단 주석 처리
-        /*
-        
+    {        
         // 움직일 때 빙판길 생성
         _movement.OnMovement += OnMovementHandler;
 
@@ -48,7 +41,6 @@ public class IceAge : SkillBase
         TurnManager.Instance.OnTurnChanged += DestroySingleIceTile;
     }
 
-    /*
     public void Deactivate()
     {
         // 모든 이벤트 구독 해제
@@ -137,5 +129,4 @@ public class IceAge : SkillBase
             Mathf.RoundToInt(worldPos.y / _tileSpacing)
         );
     }
-    */
 }
