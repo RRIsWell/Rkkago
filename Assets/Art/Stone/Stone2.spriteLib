@@ -24,19 +24,19 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: 3345508739736421500, guid: 41c40d86d74d34c459e1cf2c517ff753, type: 3}
     - m_Name: GravityLock
       m_Hash: 1003080358
-      m_Sprite: {fileID: 7495026615647637030, guid: f8c20bab93571404f8aba22fb9542fd0, type: 3}
+      m_Sprite: {fileID: 2320782235945157512, guid: fe0fc4719f171834fb896c361385b72d, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 7495026615647637030, guid: f8c20bab93571404f8aba22fb9542fd0, type: 3}
+      m_SpriteOverride: {fileID: 2320782235945157512, guid: fe0fc4719f171834fb896c361385b72d, type: 3}
     - m_Name: NanoShift
       m_Hash: 752551285
-      m_Sprite: {fileID: 5339003843607090662, guid: d8026000fc4fa0c4fb07bd780de7b087, type: 3}
+      m_Sprite: {fileID: 2066738075315478716, guid: 2536033fce50ff64490dc8195b7bfb69, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: 5339003843607090662, guid: d8026000fc4fa0c4fb07bd780de7b087, type: 3}
+      m_SpriteOverride: {fileID: 2066738075315478716, guid: 2536033fce50ff64490dc8195b7bfb69, type: 3}
     - m_Name: IceAge
       m_Hash: 767786987
-      m_Sprite: {fileID: -6130256823635300305, guid: 9c11d4beea225834cab47783c93ed3be, type: 3}
+      m_Sprite: {fileID: 9058983716417219639, guid: 41f903a80f5e2d548a85b70ce2e3d4b9, type: 3}
       m_FromMain: 0
-      m_SpriteOverride: {fileID: -6130256823635300305, guid: 9c11d4beea225834cab47783c93ed3be, type: 3}
+      m_SpriteOverride: {fileID: 9058983716417219639, guid: 41f903a80f5e2d548a85b70ce2e3d4b9, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 4
   - m_Name: Dead
@@ -86,5 +86,5 @@ MonoBehaviour:
     m_FromMain: 0
     m_EntryOverrideCount: 8
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 639062801727041768
+  m_ModificationHash: 639063309997227951
   m_Version: 1
