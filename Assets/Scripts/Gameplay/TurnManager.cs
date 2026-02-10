@@ -12,7 +12,8 @@ public class TurnManager : NetworkBehaviour
     [SerializeField] private float turnTime = 10f;
     private bool isChangingTurn = false; // 턴 교체 중복 방지용
     private bool isTurnActive = false; // 팝업 뜰 땐 타이머X
-    private bool initialSkillGiven = false;
+    private bool initialSkillGiven = false; // 처음에 스킬 부여
+    private bool gameStarted = false; // 게임 시작 1회만 선공 결정
 
     // FindObjectOfType 제거하고 주입 받기
     private MapRuleExecutor ruleExecutor;
@@ -40,10 +41,30 @@ public class TurnManager : NetworkBehaviour
         return currentTurnClientId;
     }
 
-    // 접속한 플레이어 정보
+    // 접속한 플레이어 정보 (왼쪽이 P1, 오른쪽이 P2)
     private List<ulong> playerClientIds = new List<ulong>();
     public List<ulong> PlayerClientIds => playerClientIds;
 
+    // P1(왼쪽), P2(오른쪽) 배정 네트워크 변수
+    private NetworkVariable<ulong> playerClientId = 
+        new NetworkVariable<ulong>(
+            ulong.MaxValue,
+            NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Server
+        );
+
+    public ulong Player1ClientIds => playerClientId.Value;
+    public ulong Player2ClientId
+    {
+        get
+        {
+            if(playerClientIds.Count < 2) return ulong.MaxValue;
+            if(player1ClientIds.Value == ulong.MaxValue) return ulong.MaxValue;
+
+            // 1번이 P2
+            return playerClientIds[1];
+        }
+    }
     
     // =========================
     // Map3(컬링)용 턴쌍 카운터
@@ -64,6 +85,12 @@ public class TurnManager : NetworkBehaviour
     public NetworkVariable<int> TurnNumber => turnNumber;
 
     private int CalcTurnNumber() => (turnStep / 2) + 1;
+
+    /// <summary>
+    /// 동전 던지기 결과 알림 (TurnUI에서 애니메이션 트리거)
+    /// </summary>
+    public event Action<bool, ulong, ulong> OnSeatsDecided;
+    // (isHeads, p1LeftId, p2RightId)
     
     private void Awake()
     {
@@ -92,11 +119,8 @@ public class TurnManager : NetworkBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback 
             += OnClientConnected;
 
-        // 이미 2명 모여있으면 바로 시작
-        /*if (playerClientIds.Count == 2)
-        {
-            StartTurn(playerClientIds[0]);
-        }*/
+        // 이미 2명인 상태로 스폰되는 경우 시작 시도
+        TryStartGame();
 
         Debug.Log($"[TM] OnNetworkSpawn, players={string.Join(",", playerClientIds)}");
     }
@@ -106,11 +130,50 @@ public class TurnManager : NetworkBehaviour
         if(!playerClientIds.Contains(clientId)) // 중복 방지
             playerClientIds.Add(clientId);
 
-        // 정확히 2명 모였을 때만 게임 시작
-        /*if(playerClientIds.Count == 2)
-        {
-            StartTurn(playerClientIds[0]);
-        }*/
+        // 2명 모이면 시작 시도
+        TryStartGame();
+    }
+
+    /// <summary>
+    /// 2명 모이면 동전 던지기로 P1/P2 배정 + 첫 턴 시작
+    /// </summary>
+    private void TryStartGame()
+    {
+        if(!IsServer) return;
+        if(gameStarted) return;
+        if(playerClientIds.Count < 2) return;
+
+        gameStarted = true;
+
+        // 서버만 동전 던지기 (true=앞면, false=뒷면)
+        bool isHeads = Random.Range(0, 2) == 0;
+
+        // 앞면이면 지금 리스트[0]이 P1, 뒷면이면 리스트[1]이 P1
+        ulong p1 = isHeads ? playerClientIds[0] : playerClientIds[1];
+        ulong p2 = isHeads ? playerClientIds[1] : playerClientIds[0];
+
+        // P1(왼쪽) 네트워크로 공유
+        player1ClientId.Value = p1;
+
+        // 앞으로 모든 로직이 [P1, P2] 순서를 쓰게 리스트 정렬
+        playerClientIds.Clear();
+        playerClientIds.Add(p1);
+        playerClientIds.Add(p2);
+
+        // UI들에게 동전 결과 알림 (애니메이션 트리거)
+        SeatsDecidedClientRpc(isHeads, p1, p2);
+
+        // 턴 카운터 초기화 후 P1이 선공
+        ResetTurnCounter();
+        StartTurn(p1);
+
+        Debug.Log($"[TM] Seats decided. Heads={isHeads}, P1(left)={p1}, P2(right)={p2}");
+    }
+
+    [ClientRpc]
+    private void SeatsDecidedClientRpc(bool isHeads, ulong p1Id, ulong p2Id)
+    {
+        OnSeatsDecided?.Invoke(isHead, p1Id, p2Id);
     }
 
     public event System.Action<float> OnRemainingTimeChanged;
@@ -178,10 +241,16 @@ public class TurnManager : NetworkBehaviour
     // 랜덤 스킬 부여용
     private void GiveRandomSkillsToBothPlayers()
     {
+        if(playerClientIds.Count < 2) return;
+        if(Player1ClientId == ulong.MaxValue) return;
+        
         var stones = FindObjectsOfType<StoneController>();
 
         List<StoneController> p1Stones = new();
         List<StoneController> p2Stones = new();
+
+        ulong p1Id = Player1ClientId;
+        ulong p2Id = Player2ClientId;
 
         foreach (var s in stones)
         {
