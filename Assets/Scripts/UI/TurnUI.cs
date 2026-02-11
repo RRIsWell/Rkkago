@@ -98,7 +98,7 @@ public class TurnUI : MonoBehaviour
     }
 
     // 동전 결과 받기 (애니메이션 시작)
-    private void HandleSeatsDecided(bool isHeads, ulong p1LeftId, ulong p2RightId
+    private void HandleSeatsDecided(bool isHeads, ulong p1LeftId, ulong p2RightId)
     {
         // coinFlipUI.Play(isHeads);
         Debug.Log($"[TurnUI] Coin result: Heads={isHeads}, P1(left)={p1LeftId}, P2(right)={p2RightId}");
