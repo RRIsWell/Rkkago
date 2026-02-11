@@ -46,20 +46,20 @@ public class TurnManager : NetworkBehaviour
     public List<ulong> PlayerClientIds => playerClientIds;
 
     // P1(왼쪽), P2(오른쪽) 배정 네트워크 변수
-    private NetworkVariable<ulong> playerClientId = 
+    private NetworkVariable<ulong> player1ClientId = 
         new NetworkVariable<ulong>(
             ulong.MaxValue,
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server
         );
 
-    public ulong Player1ClientIds => playerClientId.Value;
+    public ulong Player1ClientId => player1ClientId.Value;
     public ulong Player2ClientId
     {
         get
         {
             if(playerClientIds.Count < 2) return ulong.MaxValue;
-            if(player1ClientIds.Value == ulong.MaxValue) return ulong.MaxValue;
+            if(player1ClientId.Value == ulong.MaxValue) return ulong.MaxValue;
 
             // 1번이 P2
             return playerClientIds[1];
@@ -173,7 +173,7 @@ public class TurnManager : NetworkBehaviour
     [ClientRpc]
     private void SeatsDecidedClientRpc(bool isHeads, ulong p1Id, ulong p2Id)
     {
-        OnSeatsDecided?.Invoke(isHead, p1Id, p2Id);
+        OnSeatsDecided?.Invoke(isHeads, p1Id, p2Id);
     }
 
     public event System.Action<float> OnRemainingTimeChanged;
@@ -257,9 +257,9 @@ public class TurnManager : NetworkBehaviour
             var no = s.GetComponent<NetworkObject>();
             if (no == null) continue;
 
-            if (no.OwnerClientId == 0)
+            if (no.OwnerClientId == p1Id)
                 p1Stones.Add(s);
-            else if (no.OwnerClientId == 1)
+            else if (no.OwnerClientId == p2Id)
                 p2Stones.Add(s);
             
             // 기존 스킬 비활성화
