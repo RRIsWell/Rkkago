@@ -22,6 +22,9 @@ public class TurnUI : MonoBehaviour
     [SerializeField] private TMP_Text leftTurnCountText;
     [SerializeField] private TMP_Text rightTurnCountText;
 
+    // 동전 애니메이션 UI 연결용
+    // [SerializeField] private CoinFlipUI coinFlipUI;
+
 
     private bool hasDeferredTurn = false;
     private ulong deferredTurnId;
@@ -49,14 +52,17 @@ public class TurnUI : MonoBehaviour
         if(rightTurnCountText !=  null) 
             rightTurnCountText.text = $"Turn {turnN}";
         
-        // 현재 턴 주인 쪽만 타이머 표시 (호스트 왼쪽, 클라이언트 오른쪽)
+        // 현재 턴 주인 쪽만 타이머 표시 (P1 왼쪽, P2 오른쪽)
         string timeStr = Mathf.Ceil(TurnManager.Instance.GetRemainingTime()).ToString();
         ulong ownerId = TurnManager.Instance.CurrentTurnClientId.Value;
 
+        ulong leftId = TurnManager.Instance.Player1ClientId;
+        ulong rightId = TurnManager.Instance.Player2ClientId;
+
         if(leftTimerText != null)
-            leftTimerText.text = (ownerId == 0) ? timeStr : "--";
+            leftTimerText.text = (ownerId == leftId && leftId != ulong.MaxValue) ? timeStr : "--";
         if(rightTimerText != null)
-            rightTimerText.text = (ownerId == 1) ? timeStr : "--";
+            rightTimerText.text = (ownerId == rightId && rightId != ulong.MaxValue) ? timeStr : "--";
 
     }
 
@@ -77,6 +83,9 @@ public class TurnUI : MonoBehaviour
         TurnManager.Instance.CurrentTurnClientId.OnValueChanged
             += HandleTurnClientIdChanged;
 
+        // 동전 던지기 이벤트 구독
+        TurnManager.Instance.OnSeatsDecided += HandleSeatsDecided;
+
         // 첫 턴 팝업 처리
         if(NetworkManager.Singleton != null &&
             NetworkManager.Singleton.IsListening)
@@ -86,6 +95,13 @@ public class TurnUI : MonoBehaviour
                 TurnManager.Instance.CurrentTurnClientId.Value
             );
         }
+    }
+
+    // 동전 결과 받기 (애니메이션 시작)
+    private void HandleSeatsDecided(bool isHeads, ulong p1LeftId, ulong p2RightId)
+    {
+        // coinFlipUI.Play(isHeads);
+        Debug.Log($"[TurnUI] Coin result: Heads={isHeads}, P1(left)={p1LeftId}, P2(right)={p2RightId}");
     }
 
     // ID 비교해서 턴 판정
@@ -118,6 +134,9 @@ public class TurnUI : MonoBehaviour
             // 중복 호출 방지
         TurnManager.Instance.CurrentTurnClientId.OnValueChanged
             -= HandleTurnClientIdChanged;
+
+            // 이벤트 해제
+            TurnManager.Instance.OnSeatsDecided -= HandleSeatsDecided;
         }        
     }
 
