@@ -23,7 +23,7 @@ public class TurnUI : MonoBehaviour
     [SerializeField] private TMP_Text rightTurnCountText;
 
     // 동전 애니메이션 UI 연결용
-    [SerializeField] private CoinFlipUI coinFlipUI;
+    // [SerializeField] private CoinFlipUI coinFlipUI;
 
 
     private bool hasDeferredTurn = false;
