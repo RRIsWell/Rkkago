@@ -61,6 +61,9 @@ public class EffectManager : NetworkBehaviour
         await _cameraEffect.ZoomOut(0.1f, this.GetCancellationTokenOnDestroy());
     }
 
+    
+    // ------------------------------- 빙판길 스킬 ---------------------------------
+    
     /// <summary>
     /// 빙판길 생성
     /// </summary>
@@ -90,6 +93,40 @@ public class EffectManager : NetworkBehaviour
                 if (skill is IceAge iceAge)
                 {
                     iceAge.CreateSingleIceTile(position);
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 빙판길 업데이트
+    /// </summary>
+    /// <param name="stonePos"></param>
+    /// <param name="ownerRef"></param>
+    public void UpdateIceTile(Vector2 stonePos, NetworkObjectReference ownerRef)
+    {
+        UpdateIceTileServerRpc(stonePos, ownerRef);
+    }
+    
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void UpdateIceTileServerRpc(Vector2 stonePos, NetworkObjectReference ownerRef)
+    {
+        UpdateIceTileClientRpc(stonePos, ownerRef);
+    }
+    
+    [ClientRpc]
+    private void UpdateIceTileClientRpc(Vector2 stonePos, NetworkObjectReference ownerRef)
+    {
+        // NetworkObjectReference를 통해 원래 Stone 찾기
+        if (ownerRef.TryGet(out NetworkObject netObj))
+        {
+            var controller = netObj.GetComponent<StoneController>();
+            if (controller != null)
+            {
+                var skill = controller.SkillContainer.GetSkillByName(SkillName.IceAge);
+                if (skill is IceAge iceAge)
+                {
+                    iceAge.UpdateIceScale(stonePos);
                 }
             }
         }

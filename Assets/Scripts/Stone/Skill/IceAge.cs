@@ -16,6 +16,8 @@ public class IceAge : SkillBase
     private StoneController _controller;
     private StoneMovement _movement;
     private NetworkObject _networkObject;
+
+    private Vector2Int _currentTilePos;
     
     public IceAge(Stone stone, SkillSO data) : base(stone, data)
     {
@@ -29,14 +31,24 @@ public class IceAge : SkillBase
         _controller = stone.GetComponent<StoneController>();
         _movement = _controller.StoneMovement;
         _networkObject = _controller.NetworkObject;
+        
+        _currentTilePos = Vector2Int.zero;
     }
     
     public override void Activate()
     {        
-        // 움직일 때 빙판길 생성
-        _movement.OnMovement += RequestToCreateIceTile;
+        // 빙판길 생성
+        RequestToCreateIceTile(Stone.gameObject.transform.position);
+        
+        // 움직일 때 빙판길 업데이트
+        _movement.OnMovement -= RequestToUpdateIceTile;
+        _movement.OnMovement += RequestToUpdateIceTile;
+        
+        // 움직임 끝나면 빙판길 업데이트 해제
+        _movement.OnMovementEnded += EndUpdateIceScale;
 
         // 턴 바뀔 때
+        TurnManager.Instance.OnTurnChanged -= RequestToDestroyIceTile;
         TurnManager.Instance.OnTurnChanged += RequestToDestroyIceTile;
     }
 
@@ -45,7 +57,7 @@ public class IceAge : SkillBase
         base.Deactivate();
         
         // 모든 이벤트 구독 해제
-        _movement.OnMovement -= RequestToCreateIceTile;
+        _movement.OnMovement -= RequestToUpdateIceTile;
         TurnManager.Instance.OnTurnChanged -= RequestToDestroyIceTile;
 
         // 생성한 빙판길 모두 삭제
@@ -63,6 +75,22 @@ public class IceAge : SkillBase
         {
             EffectManager.Instance.CreateIceTile(
                 position, 
+                new NetworkObjectReference(_networkObject)
+            );
+        }
+    }
+    
+    /// <summary>
+    /// 네트워크 호출을 통한 빙판길 업데이트 함수 실행
+    /// </summary>
+    /// <param name="stonePos"></param>
+    private void RequestToUpdateIceTile(Vector2 stonePos)
+    {
+        // MapEffectManager를 통해 네트워크 호출(빙판길 생성)
+        if (EffectManager.Instance != null)
+        {
+            EffectManager.Instance.UpdateIceTile(
+                stonePos, 
                 new NetworkObjectReference(_networkObject)
             );
         }
@@ -113,7 +141,36 @@ public class IceAge : SkillBase
         
         // 새 타일 생성
         GameObject iceTile = Object.Instantiate(_icePrefab, position,  Quaternion.identity, GameObject.FindWithTag("MainUI").transform);
+        iceTile.transform.localScale = new Vector3(1, 0, 1);;
+        
         _activeTiles.Add(gridPos, (iceTile, Data.durationTurns));
+        _currentTilePos = gridPos;
+    }
+
+    /// <summary>
+    /// 빙판길 위치, 길이 업데이트
+    /// </summary>
+    /// <param name="stonePos"></param>
+    public void UpdateIceScale(Vector2 stonePos)
+    {
+        Transform curTile = _activeTiles[_currentTilePos].Item1.transform;
+        
+        Vector2 direction = stonePos - (Vector2)curTile.position;
+        float distance = Vector2.Distance(stonePos, curTile.position);
+        
+        // 회전값
+        float angle = Vector2.SignedAngle(Vector2.up, direction);
+        curTile.rotation = Quaternion.Euler(0, 0, angle);
+        
+        // 길이
+        Vector3 scale = curTile.localScale;
+        scale.y = distance;
+        curTile.localScale = scale;
+    }
+
+    private void EndUpdateIceScale()
+    {
+        _movement.OnMovement -= RequestToUpdateIceTile;
     }
 
     /// <summary>

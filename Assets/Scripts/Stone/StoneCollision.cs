@@ -137,7 +137,7 @@ public class StoneCollision
         
         var hits = Physics2D.OverlapCircle(
             target.position,
-            _collisionRadius * 1.5f,
+            _collisionRadius * 2.0f,
             mask
         );
         return hits != null;

@@ -17,7 +17,7 @@ public class MapManager : NetworkBehaviour
 
     private void Start()
     {
-        SoundManager.Instance.PlayBGM(currentMapConfig.bgmName);
+        SoundManager.Instance?.PlayBGM(currentMapConfig.bgmName);
     }
 
     public override void OnNetworkSpawn()

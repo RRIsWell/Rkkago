@@ -101,9 +101,9 @@ public class StoneMovement
         
         _isMoving = true;
 
-        _currentSpeed = speed;
-        _currentDirection = direction.normalized;
-        _currentVelocity = _currentSpeed * _currentDirection;
+        Speed = speed;
+        Direction = direction.normalized;
+        //_currentVelocity = _currentSpeed * _currentDirection;
         //_collidedThisFrame.Clear();
         
         while (target != null && _currentSpeed > 0f)
@@ -129,8 +129,8 @@ public class StoneMovement
                 _collidedThisFrame.Add(collidedStone);
             
                 // 충돌 처리
-                _currentSpeed = CalculateSpeedAfterCollision(target, collidedStone, _currentSpeed);
                 HandleCollision(target, collidedStone);
+                Speed = CalculateSpeedAfterCollision(target, collidedStone, _currentSpeed);
             
                 // 충돌 반영 시간 확보
                 await UniTask.DelayFrame(2);
@@ -147,8 +147,8 @@ public class StoneMovement
             if (!_stoneCollision.IsOnIcePath(target))
             {
                 // 감속
-                _currentSpeed -= _deceleration * Time.deltaTime;
-                _currentVelocity = _currentDirection * _currentSpeed;
+                Speed -= _deceleration * Time.deltaTime;
+                //_currentVelocity = _currentDirection * _currentSpeed;
             }
             
             // 다음 프레임까지 대기
@@ -210,7 +210,7 @@ public class StoneMovement
         if (stoneMovement != null && !stoneMovement._isMoving)
         {
             // 정지한 상태일 때
-            float impactSpeed = _currentVelocity.magnitude * _bounceDamping;
+            float impactSpeed = _currentSpeed * _bounceDamping;
             otherStone.GetComponent<StoneController>().TriggerShootFromCollision(collisionNormal, impactSpeed);
             stoneMovement.MoveAsync(otherStone, collisionNormal, impactSpeed).Forget();
         }
@@ -237,8 +237,10 @@ public class StoneMovement
     /// <param name="collisionNormal"></param>
     private void ReflectStone(Vector2 collisionNormal)
     {
-        Vector2 reflectedVelocity = Vector2.Reflect(_currentVelocity, -collisionNormal);
-        _currentVelocity = reflectedVelocity * _bounceDamping;
+        Vector2 reflectedDirection = Vector2.Reflect(_currentDirection, -collisionNormal);
+        Direction = reflectedDirection;
+        Speed *= _bounceDamping;
+        //_currentVelocity = reflectedVelocity * _bounceDamping;
     }
 
     /// <summary>
