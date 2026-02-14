@@ -8,6 +8,7 @@ using Unity.Services.Multiplayer;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
+using Random = System.Random;
 
 public class CreateSession : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class CreateSession : MonoBehaviour
     private SessionSettings sessionSettings;
     
     [SerializeField] 
-    private string gameSceneName = "GameScene";
+    private int mapCount = 3;   // 맵 개수
     public event Action<bool> CreateSessioinBtnOnClick;
     
     public SessionSettings SessionSettings
@@ -115,8 +116,15 @@ public class CreateSession : MonoBehaviour
         // NetworkManager로 씬 전환 (Host만 실행)
         if (NetworkManager.Singleton.IsServer)
         {
-            Debug.Log("게임을 시작합니다!");
-            NetworkManager.Singleton.SceneManager.LoadScene(gameSceneName, UnityEngine.SceneManagement.LoadSceneMode.Single);
+            Debug.Log("게임시작");
+            if (mapCount <= 0)
+            {
+                Debug.LogError("사용 가능한 맵이 없습니다.");
+                return;
+            }
+            
+            int mapIndex = UnityEngine.Random.Range(1, mapCount + 1);   // 랜덤 맵
+            NetworkManager.Singleton.SceneManager.LoadScene($"Map{mapIndex}", UnityEngine.SceneManagement.LoadSceneMode.Single);
         }
     }
 }
