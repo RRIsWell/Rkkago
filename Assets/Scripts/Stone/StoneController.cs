@@ -16,7 +16,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     private DragLine _dragLine;
     
     [SerializeField]
-    private float maxDrag = 1.5f;
+    private float maxDrag = 1.0f;
     private Camera _camera;
     
     // Stone 데이터
@@ -119,7 +119,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         
         float distance = Vector2.Distance(transform.position, worldPos);
         if(distance > maxDrag) distance = maxDrag;
-        float speed = _stone.CalculateSpeed() * distance;
+        float speed = _stone.CalculateBaseSpeed() * distance;
 
         RequestShoot(direction, speed);
         

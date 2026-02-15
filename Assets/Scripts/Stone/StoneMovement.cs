@@ -9,7 +9,6 @@ using Vector2 = UnityEngine.Vector2;
 public class StoneMovement
 {
     // 임시 데이터
-    private readonly float _deceleration = 50.0f;   // 감속량(마찰력)
     private readonly float _bounceDamping = 0.9f;   // 충돌시 에너지 손실양
     public readonly float CollisionRadius; // 충돌 범위
     private bool _isMoving = false;
@@ -147,7 +146,8 @@ public class StoneMovement
             if (!_stoneCollision.IsOnIcePath(target))
             {
                 // 감속
-                Speed -= _deceleration * Time.deltaTime;
+                float deceleration = _stoneController.Stone.CalculateDeceleration();
+                Speed -= deceleration * Time.deltaTime;
                 //_currentVelocity = _currentDirection * _currentSpeed;
             }
             
@@ -204,15 +204,16 @@ public class StoneMovement
         ReflectStone(collisionNormal);
         
         // 상대방 알도 힘을 받고 움직임
-        StoneMovement stoneMovement = otherStone.GetComponent<StoneController>().StoneMovement;
-        stoneMovement?._collidedThisFrame.Add(target);
+        StoneController otherController = otherStone.GetComponent<StoneController>();
+        StoneMovement otherMovement = otherController.StoneMovement;
+        otherMovement?._collidedThisFrame.Add(target);
         
-        if (stoneMovement != null && !stoneMovement._isMoving)
+        if (otherMovement != null && !otherMovement._isMoving)
         {
             // 정지한 상태일 때
-            float impactSpeed = _currentSpeed * _bounceDamping;
-            otherStone.GetComponent<StoneController>().TriggerShootFromCollision(collisionNormal, impactSpeed);
-            stoneMovement.MoveAsync(otherStone, collisionNormal, impactSpeed).Forget();
+            float impactSpeed = otherController.Stone.CalculateCollisionSpeed(_currentSpeed);
+            otherController.TriggerShootFromCollision(collisionNormal, impactSpeed);
+            otherMovement.MoveAsync(otherStone, collisionNormal, impactSpeed).Forget();
         }
         else
         {

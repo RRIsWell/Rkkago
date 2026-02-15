@@ -4,18 +4,27 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "StoneData", menuName = "Scriptable Objects/StoneData")]
 public class StoneData : ScriptableObject
 {
-    // 예시 입니다
-    // 기획 구체화 되고 개발하면서 추가할 예정
-    [Header("Physics")] 
-    public float baseSpeed;
-    public float weight;
-    public float scale;
-    public float bounceForce;
-    
-    [Header("Skills")]
-    public float damage;
-    public float health;
+    // 모든 알이 공통으로 가지고 있고 변하지 않는 값 (Base)
+    [Header("Physics Base")] 
+    [SerializeField] private float baseSpeed;
+    [SerializeField] private float baseDeceleration;
 
-    [Header("Design")] 
-    public Sprite sprite;
+    [Header("Physics Stone")]
+    [SerializeField] private float weight;
+    [SerializeField] private float scale;
+    [SerializeField] private float power;
+
+    [Header("Skills")]
+    [SerializeField] private float damage;
+    [SerializeField] private float health;
+
+    public float BaseSpeed => baseSpeed;
+    public float BaseDeceleration => baseDeceleration;
+    
+    public float Weight => weight;
+    public float Scale => scale;
+    public float Power => power;
+
+    public float Damage => damage;
+    public float Health => health;
 }

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1826491953824637606}
   - component: {fileID: 1399029885569440533}
   - component: {fileID: 8777337735980758525}
+  - component: {fileID: 1480134735433606259}
   - component: {fileID: 8888580116224590807}
   - component: {fileID: 640516936450638873}
   - component: {fileID: 7976481865877139004}
@@ -170,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3521244976
+  GlobalObjectIdHash: 2229731402
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 8
@@ -242,8 +243,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Stone
   ShowTopMostFoldoutHeaderGroup: 1
+  _defaultScale: 0
+  _defaultWeight: 0
+--- !u!114 &1480134735433606259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647225764294854384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ccf2befced6634ab4796d6dd586147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StoneAttribute
   stoneData: {fileID: 11400000, guid: d5a41bd8908febd49afe2e1207568d26, type: 2}
-  Resolver: {fileID: 0}
+  baseSpeed: 0
+  baseDeceleration: 0
+  weight: 0
+  scale: 0
+  power: 0
+  damage: 0
+  health: 0
 --- !u!114 &8888580116224590807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StoneController
   ShowTopMostFoldoutHeaderGroup: 1
   dragLinePrefab: {fileID: 9013337079741339517, guid: 97ac4c486955d1f43a993ad9a6e113f6, type: 3}
-  maxDrag: 1.5
+  maxDrag: 1
 --- !u!114 &640516936450638873
 MonoBehaviour:
   m_ObjectHideFlags: 0
