@@ -58,7 +58,7 @@ public class MapManager : NetworkBehaviour
         TurnManager.Instance.ResetTurnCounter();
         
         // 턴 시작(Host부터)
-        TurnManager.Instance.StartTurn(TurnManager.Instance.PlayerClientIds[0]);
+        TurnManager.Instance.TryStartGame();
     }
 
     void InitializeSystems(GameObject layout)

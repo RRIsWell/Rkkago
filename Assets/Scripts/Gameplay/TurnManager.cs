@@ -131,13 +131,13 @@ public class TurnManager : NetworkBehaviour
             playerClientIds.Add(clientId);
 
         // 2명 모이면 시작 시도
-        TryStartGame();
+        //TryStartGame();
     }
 
     /// <summary>
     /// 2명 모이면 동전 던지기로 P1/P2 배정 + 첫 턴 시작
     /// </summary>
-    private void TryStartGame()
+    public void TryStartGame()
     {
         if(!IsServer) return;
         if(gameStarted) return;
@@ -244,7 +244,8 @@ public class TurnManager : NetworkBehaviour
         if(playerClientIds.Count < 2) return;
         if(Player1ClientId == ulong.MaxValue) return;
         
-        var stones = FindObjectsOfType<StoneController>();
+        var stonesBeforeFrame = FindObjectsOfType<StoneController>(); // 이전 프레임 알들 (삭제되기 전)
+        var stones = ruleExecutor?.aliveStones;
 
         List<StoneController> p1Stones = new();
         List<StoneController> p2Stones = new();
@@ -252,18 +253,24 @@ public class TurnManager : NetworkBehaviour
         ulong p1Id = Player1ClientId;
         ulong p2Id = Player2ClientId;
 
+        // 기존 스킬 비활성화
+        foreach (var s in stonesBeforeFrame)
+        {
+            s.DeActivateSkillClientRpc();
+        }
+        
+        // 살아남은 알 리스트 업데이트
         foreach (var s in stones)
         {
             var no = s.GetComponent<NetworkObject>();
+            var sc = s.GetComponent<StoneController>();
+            
             if (no == null) continue;
 
             if (no.OwnerClientId == p1Id)
-                p1Stones.Add(s);
+                p1Stones.Add(sc);
             else if (no.OwnerClientId == p2Id)
-                p2Stones.Add(s);
-            
-            // 기존 스킬 비활성화
-            s.DeActivateSkillClientRpc();
+                p2Stones.Add(sc);
         }
 
         if (p1Stones.Count == 0 || p2Stones.Count == 0)
