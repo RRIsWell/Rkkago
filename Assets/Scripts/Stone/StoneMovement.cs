@@ -82,7 +82,7 @@ public class StoneMovement
         }
 
         // 충돌 범위 설정
-        _stoneCollision.CollisionRadius = target.GetComponent<CircleCollider2D>().radius;
+        _stoneCollision.CollisionRadius = target.GetComponent<StoneAttribute>().Scale * 0.45f;
         
         // 알 이동
         MoveAsync(target, direction, speed).Forget();
@@ -102,7 +102,14 @@ public class StoneMovement
         _isMoving = true;
 
         Speed = speed;
-        Direction = direction.normalized;
+        if (direction.sqrMagnitude < 0.000001f)
+        {
+            Direction = Vector3.zero;
+        }
+        else
+        {
+            Direction = direction.normalized;
+        }
         //_currentVelocity = _currentSpeed * _currentDirection;
         //_collidedThisFrame.Clear();
         
