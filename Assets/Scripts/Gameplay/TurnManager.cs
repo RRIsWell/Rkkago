@@ -236,7 +236,7 @@ public class TurnManager : NetworkBehaviour
             GiveRandomSkillsToBothPlayers();
         }
     }
-
+    
     // 랜덤 스킬 부여용
     private void GiveRandomSkillsToBothPlayers()
     {
@@ -256,7 +256,8 @@ public class TurnManager : NetworkBehaviour
         // 기존 스킬 비활성화
         foreach (var s in stones)
         {
-            s.DeActivateSkillClientRpc();
+            if(s != null)
+                s.DeActivateSkillClientRpc();
         }
 
         // 살아남은 알 리스트 업데이트

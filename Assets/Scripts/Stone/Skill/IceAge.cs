@@ -31,25 +31,31 @@ public class IceAge : SkillBase
         _controller = stone.GetComponent<StoneController>();
         _movement = _controller.StoneMovement;
         _networkObject = _controller.NetworkObject;
-        
-        _currentTilePos = Vector2Int.zero;
     }
-    
+
+    public override void Init()
+    {
+        base.Init();
+        
+        // 움직임 끝나면 빙판길 업데이트 해제
+        _movement.OnMovementEnded -= EndUpdateIceScale;
+        _movement.OnMovementEnded += EndUpdateIceScale;
+        
+        // 턴 바뀔 때
+        TurnManager.Instance.OnTurnChanged -= RequestToDestroyIceTile;
+        TurnManager.Instance.OnTurnChanged += RequestToDestroyIceTile;
+    }
+
     public override void Activate()
     {        
+        _currentTilePos = Vector2Int.zero;
+        
         // 빙판길 생성
         RequestToCreateIceTile(Stone.gameObject.transform.position);
         
         // 움직일 때 빙판길 업데이트
         _movement.OnMovement -= RequestToUpdateIceTile;
         _movement.OnMovement += RequestToUpdateIceTile;
-        
-        // 움직임 끝나면 빙판길 업데이트 해제
-        _movement.OnMovementEnded += EndUpdateIceScale;
-
-        // 턴 바뀔 때
-        TurnManager.Instance.OnTurnChanged -= RequestToDestroyIceTile;
-        TurnManager.Instance.OnTurnChanged += RequestToDestroyIceTile;
     }
 
     public override void Deactivate()
@@ -58,6 +64,7 @@ public class IceAge : SkillBase
         
         // 모든 이벤트 구독 해제
         _movement.OnMovement -= RequestToUpdateIceTile;
+        _movement.OnMovementEnded -= EndUpdateIceScale;
         TurnManager.Instance.OnTurnChanged -= RequestToDestroyIceTile;
 
         // 생성한 빙판길 모두 삭제
@@ -153,7 +160,10 @@ public class IceAge : SkillBase
     /// <param name="stonePos"></param>
     public void UpdateIceScale(Vector2 stonePos)
     {
-        Transform curTile = _activeTiles[_currentTilePos].Item1.transform;
+        if (!_activeTiles.TryGetValue(_currentTilePos, out var tile) || tile.Item1 == null) 
+            return;
+        
+        Transform curTile = tile.Item1.transform;
         
         Vector2 direction = stonePos - (Vector2)curTile.position;
         float distance = Vector2.Distance(stonePos, curTile.position);

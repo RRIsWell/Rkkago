@@ -120,11 +120,12 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         float distance = Vector2.Distance(transform.position, worldPos);
         if(distance > maxDrag) distance = maxDrag;
         float speed = _stone.CalculateBaseSpeed() * distance;
-
-        RequestShoot(direction, speed);
         
         // 스킬 발동
         OnMouseUp?.Invoke(_currentSkillIndex);
+        
+        // 알 실제 움직임
+        RequestShoot(direction, speed);
     }
     
     // ---------------- Network --------------------

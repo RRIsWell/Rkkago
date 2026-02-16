@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
@@ -59,12 +60,20 @@ public class MapRuleExecutor : NetworkBehaviour
         // 돌 하나라도 죽으면 즉시 새 스킬 분배
         TurnManager.Instance?.GiveRandomSkillsPublic();
 
-        netObj.Despawn(); // 서버에서 삭제
+        // 서버에서 삭제
+        StartCoroutine(DelayedDespawn(netObj)); 
+        //netObj.Despawn(); 
 
         if(remain[owner] <= 0)
             OnPlayerLose(owner);
     }
-
+    private IEnumerator DelayedDespawn(NetworkObject netObj)
+    {
+        // RPC 처리 시간 확보
+        yield return new WaitForSeconds(0.1f);
+        
+        netObj.Despawn();
+    }
     
     /// <summary>
     /// Map3 전용 : 턴 쌍 기준 타이브레이크하고 승패 판정

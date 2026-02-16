@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: IceAgeSO
   m_EditorClassIdentifier: Assembly-CSharp::IceAgeSO
   skillName: 4
-  skillIcon: {fileID: -6130256823635300305, guid: 9c11d4beea225834cab47783c93ed3be, type: 3}
-  activationType: 0
+  activationType: 1
   skillDescription: R slipped
   applyStoneCount: 2
   durationTurns: 2
