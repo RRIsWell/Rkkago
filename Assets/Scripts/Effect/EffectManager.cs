@@ -138,11 +138,11 @@ public class EffectManager : NetworkBehaviour
     /// <param name="ownerRef"></param>
     public void DestroyIceTile(NetworkObjectReference ownerRef)
     {
-        DstroyIceTileServerRpc(ownerRef);
+        DestroyIceTileServerRpc(ownerRef);
     }
     
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
-    private void DstroyIceTileServerRpc(NetworkObjectReference ownerRef)
+    private void DestroyIceTileServerRpc(NetworkObjectReference ownerRef)
     {
         DestroyIceTileClientRpc(ownerRef);
     }
@@ -171,11 +171,11 @@ public class EffectManager : NetworkBehaviour
     /// <param name="ownerRef"></param>
     public void DestroyAllIceTiles(NetworkObjectReference ownerRef)
     {
-        DstroyAllIceTilesServerRpc(ownerRef);
+        DestroyAllIceTilesServerRpc(ownerRef);
     }
     
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
-    private void DstroyAllIceTilesServerRpc(NetworkObjectReference ownerRef)
+    private void DestroyAllIceTilesServerRpc(NetworkObjectReference ownerRef)
     {
         DestroyAllIceTilesClientRpc(ownerRef);
     }
