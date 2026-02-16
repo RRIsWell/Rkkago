@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21458b7a743eb24c9be9f0903a3faac, type: 3}
   m_Name: Map1Config
   m_EditorClassIdentifier: Assembly-CSharp::MapConfig
+  ruleType: 0
   stonesPerPlayer: 5
   allowHalfOut: 1
   friction: 0.8
@@ -34,3 +35,10 @@ MonoBehaviour:
     - {fileID: 505895420034379239, guid: 1b895a0c13bd5d3488775630f27af450, type: 3}
     - {fileID: 7440544021984997125, guid: d9e058b637b0b9a4c9fd496fc257a8ba, type: 3}
     - {fileID: 2279587777418233771, guid: ef974227c4b09de418166eb8c2d4a1cc, type: 3}
+  damage: 0.5
+  maxTurnPairs: 15
+  outMargin: 0.05
+  center: {x: 0, y: 0}
+  isCircleMap: 0
+  mapHalfSize: {x: 3.5, y: 3.5}
+  mapRadius: 3.5

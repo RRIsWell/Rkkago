@@ -210,6 +210,36 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
             OnMouseUp -= _skillContainer.ActivateSkill;
             OnMouseUp += _skillContainer.ActivateSkill;
         }
+        else if (skill.ActivationType == SkillActivationType.OnTurnStarted)
+        {
+            TurnManager.Instance.OnTurnChanged -= HandleTurnStartedSkill;
+            TurnManager.Instance.OnTurnChanged += HandleTurnStartedSkill;
+        }
+    }
+    
+    private void HandleTurnStartedSkill(ulong currentTurnPlayerId)
+    {
+        // 스킬 인덱스가 유효할 때만
+        if (_currentSkillIndex != -1)
+        {
+            var skill = _skillContainer.GetSkillByIndex(_currentSkillIndex);
+        
+            // 스킬이 텔레포트인지 확인하고 실행
+            if (skill is Teleportation) 
+            {
+                skill.Activate(); // SkillBase의 가상 함수 호출
+            }
+        }
+    }
+    
+    // 오브젝트가 파괴될 때 이벤트 구독 해제
+    public override void OnDestroy()
+    {
+        if (TurnManager.Instance != null)
+        {
+            TurnManager.Instance.OnTurnChanged -= HandleTurnStartedSkill;
+        }
+        base.OnDestroy();
     }
     
     // ------------------- 보조선 --------------------

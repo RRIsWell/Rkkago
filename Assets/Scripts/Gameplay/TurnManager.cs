@@ -3,6 +3,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class TurnManager : NetworkBehaviour 

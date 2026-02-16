@@ -231,6 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SkillInfoController
   ShowTopMostFoldoutHeaderGroup: 1
   skillInfoPrefab: {fileID: 933598896366193165, guid: d3e4f5a6b7c8901234567890abcdef12, type: 3}
+  preShowDuration: 1
   autoHideDuration: 2
 --- !u!114 &394998830
 MonoBehaviour:
@@ -835,9 +836,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c3d4e5f6789012345678abcdef0123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillInfoController
-  ShowTopMostFoldoutHeaderGroup: 1
-  skillInfoPrefab: {fileID: 0}
-  autoHideDuration: 3
 --- !u!224 &1713545046 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1478144143542324368, guid: 1688507a286ea934bbd65f13bb0a7b11, type: 3}
@@ -853,7 +851,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1327952231260631829, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4725542583690851829, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: m_AnchorMax.y
