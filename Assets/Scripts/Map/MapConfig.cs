@@ -58,4 +58,17 @@ public class MapConfig : ScriptableObject
     public int maxTurnPairs = 15; // 서로 한 번씩 15턴
     public float outMargin = 0.05f; // 화면 밖 판정
     public Vector2 center = Vector2.zero; // 중앙점
+    
+    
+    /// <summary>
+    /// 스킬 및 텔레포트용 범위 설정
+    /// </summary>
+    [Header("스킬/텔레포트 범위")]
+    public bool isCircleMap = false; // 원형 맵 여부 체크
+    
+    [Tooltip("사각 맵일 때 사용: 중심점에서 가로/세로 이동 가능 거리")]
+    public Vector2 mapHalfSize = new Vector2(3.5f, 3.5f); 
+    
+    [Tooltip("원형 맵일 때 사용: 중심점으로부터의 최대 반지름")]
+    public float mapRadius = 3.5f;
 }
