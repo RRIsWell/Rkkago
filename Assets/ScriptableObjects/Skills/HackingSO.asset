@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: HackingSO
   m_EditorClassIdentifier: Assembly-CSharp::SkillSO
   skillName: 3
+  activationType: 0
   skillDescription: All white
+  applyStoneCount: 5
+  durationTurns: 0

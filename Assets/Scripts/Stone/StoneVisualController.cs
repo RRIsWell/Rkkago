@@ -71,7 +71,7 @@ public class StoneVisualController : NetworkBehaviour
                 // 남이 보고 있다면 -> 모두 회색으로 통일해서 보여줌
                 if (!IsOwner) 
                 {
-                    finalColor = Color.white;
+                    finalColor = Color.black;
                 }
                 break;
                 
@@ -117,7 +117,8 @@ public class StoneVisualController : NetworkBehaviour
     private void ResetVisualsClientRpc()
     {
         // 색상 복구 (팀 색상으로)
-        GetComponent<SpriteRenderer>().color = (_myTeamId == 1) ? Color.cyan : new Color(1f, 0.4f, 0.4f);; // 혹은 원래 로직대로 복구
+        // GetComponent<SpriteRenderer>().color = (_myTeamId == 1) ? Color.cyan : new Color(1f, 0.4f, 0.4f);; // 혹은 원래 로직대로 복구
+        GetComponent<SpriteRenderer>().color = Color.white;
         
         // 지금 떠 있는 낙서가 있다면 즉시 삭제 ★
         if (_currentEffectObject != null)

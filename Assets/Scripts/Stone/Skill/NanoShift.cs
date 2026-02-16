@@ -3,15 +3,18 @@ using UnityEngine;
 public class NanoShift : SkillBase
 {
     private readonly float _scale;
+    private readonly float _weight;
 
     public NanoShift(Stone stone, SkillSO data) : base(stone, data)
     {
-        var so = data as ChangeScaleSO;
+        var so = data as NanoShiftSO;
         _scale = so.scale;
+        _weight = so.weight;
     }
 
     public override void Activate()
     {
         Stone.ChangeStoneScale(_scale);
+        Stone.ChangeStoneWeight(_weight);
     }
 }
