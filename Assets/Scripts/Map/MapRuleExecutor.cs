@@ -11,8 +11,12 @@ public class MapRuleExecutor : NetworkBehaviour
     // clientId -> 남은 돌
     private Dictionary<ulong, int> remain = new Dictionary<ulong, int>();
 
+    // 현재 맵에 스폰된 모든 알 리스트
+    public readonly List<StoneController> stones = new List<StoneController>();
+    
     // 살아있는 돌 목록 (기준으로 컬링 맵 판정)
     public readonly List<Stone> aliveStones = new();
+    
 
     public void Init(MapConfig mapConfig)
     {
@@ -31,8 +35,12 @@ public class MapRuleExecutor : NetworkBehaviour
             remain[owner] = config.stonesPerPlayer;
         }
 
-        if(!aliveStones.Contains(stone))
+        if (!aliveStones.Contains(stone))
+        {
             aliveStones.Add(stone);
+            stones.Add(stone.GetComponent<StoneController>());
+        }
+            
     }
 
     // 경계 밖으로 나갔을 때 호출

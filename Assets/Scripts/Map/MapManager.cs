@@ -50,7 +50,6 @@ public class MapManager : NetworkBehaviour
 
         // 알 생성
         SpawnAllStones();
-
         
         // =========================
         // 게임 시작 시 TurnPairs 카운터 리셋

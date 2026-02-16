@@ -5,8 +5,18 @@ using UnityEngine;
 /// </summary>
 public class StoneCollision
 {
-    public readonly float _collisionRadius = 0.45f; // 충돌 범위
+    private float _collisionRadius = 0.45f; // 충돌 범위
+    public float CollisionRadius
+    {
+        get => _collisionRadius;
+        set
+        {
+            _collisionRadius = value;
+        }
+    }
+    
     private Vector3[] _mapCorners;
+    
     
     /// <summary>
     /// 다른 물체와 충돌했는지 감지하는 함수

@@ -10,7 +10,7 @@ public class StoneMovement
 {
     // 임시 데이터
     private readonly float _bounceDamping = 0.9f;   // 충돌시 에너지 손실양
-    public readonly float CollisionRadius; // 충돌 범위
+    public float CollisionRadius => _stoneCollision.CollisionRadius;
     private bool _isMoving = false;
     
     // 컴포넌트
@@ -64,8 +64,6 @@ public class StoneMovement
         _stoneController = stoneController;
         _networkBehaviour = networkBehaviour;
         _stoneCollision = new StoneCollision();
-        
-        CollisionRadius = _stoneCollision._collisionRadius;
     }
     
     /// <summary>
@@ -82,6 +80,9 @@ public class StoneMovement
             Debug.LogError("Shoot can only be called on Server!");
             return;
         }
+
+        // 충돌 범위 설정
+        _stoneCollision.CollisionRadius = target.GetComponent<CircleCollider2D>().radius;
         
         // 알 이동
         MoveAsync(target, direction, speed).Forget();
@@ -222,7 +223,7 @@ public class StoneMovement
         
         // 겹침 방지
         float distance = Vector2.Distance(target.position, otherStone.position);
-        float overlap = CollisionRadius * 2 - distance;
+        float overlap = _stoneCollision.CollisionRadius * 2 - distance;
         
         if (overlap > 0)
         {

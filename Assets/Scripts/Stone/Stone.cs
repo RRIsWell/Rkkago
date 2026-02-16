@@ -58,9 +58,10 @@ public class Stone : NetworkBehaviour
     /// </summary>
     public void ResetStoneState()
     {
-        // 물리적 수치 원상복구
-        ChangeStoneScale(_stoneData.BaseData.Scale);
-        ChangeStoneWeight(_stoneData.BaseData.Weight);
+        if (!IsOwner) return;
+        
+        // 데이터 초기화
+        _stoneData.ResetData();
 
         // 시각적 효과(낙서, 색상 등) 모두 제거 요청
         if (_visualController != null)
@@ -76,8 +77,8 @@ public class Stone : NetworkBehaviour
     /// <returns></returns>
     public float CalculateBaseSpeed()
     {
-        float weightFactor = (_stoneData.weight - 1.0f) * 0.2f + 1.0f;   // 무게 가중치
-        return _stoneData.baseSpeed * _stoneData.power * weightFactor;
+        float weightFactor = (_stoneData.Weight - 1.0f) * 0.2f + 1.0f;   // 무게 가중치
+        return _stoneData.baseSpeed * _stoneData.Power * weightFactor;
     }
 
     /// <summary>
@@ -88,7 +89,7 @@ public class Stone : NetworkBehaviour
     /// <returns></returns>
     public float CalculateCollisionSpeed(float otherSpeed)
     {
-        return otherSpeed / _stoneData.weight;
+        return otherSpeed / _stoneData.Weight;
     }
 
     /// <summary>
@@ -98,19 +99,21 @@ public class Stone : NetworkBehaviour
     /// <returns></returns>
     public float CalculateDeceleration()
     {
-        return Mathf.Clamp(_stoneData.baseDeceleration + 300.0f * (_stoneData.weight - 1.0f), 0, 200f);
+        return Mathf.Clamp(_stoneData.baseDeceleration + 300.0f * (_stoneData.Weight - 1.0f), 0, 200f);
     }
     
-    public void ChangeStoneScale(float scale)
+    [ServerRpc]
+    public void ChangeStoneScaleServerRpc(float scale)
     {
-        _stoneData.scale = scale;
-        //Debug.Log($"크기 변화 {stoneData.scale}");
+        _stoneData.Scale = scale;
+        Debug.Log($"크기 변화 {_stoneData.Scale}");
     }
     
-    public void ChangeStoneWeight(float weight)
+    [ServerRpc]
+    public void ChangeStoneWeightServerRpc(float weight)
     {
-        _stoneData.weight = weight;
-        //Debug.Log($"무게 변화 {stoneData.weight}");
+        _stoneData.Weight = weight;
+        Debug.Log($"무게 변화 {_stoneData.Weight}");
     }
 
     [ClientRpc]

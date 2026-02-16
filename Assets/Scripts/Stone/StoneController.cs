@@ -148,6 +148,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         StoneMovement.Shoot(transform, direction, speed);
     }
     
+    // 충돌해서 쏠 때 (서버에서 실행)
     public void TriggerShootFromCollision(Vector2 direction, float speed)
     {
         StoneMovement.Shoot(transform, direction, speed);
@@ -182,6 +183,9 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         {
             _skillContainer.GetSkillByIndex(_currentSkillIndex).Deactivate();
         }
+        
+        // 데이터 초기화
+        _stone.ResetStoneState();
     }
     
     // 서버가 정한 스킬을 클라이언트에게 적용

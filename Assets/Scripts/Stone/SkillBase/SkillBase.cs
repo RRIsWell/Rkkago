@@ -59,6 +59,7 @@ public abstract class SkillBase : ISkill
     // 스킬 비활성화 (스킬 바뀔 때 실행됨)
     public virtual void Deactivate()
     {
+        // 스킬 아이콘 리셋
         Stone.Resolver.SetCategoryAndLabel("Idle", "Basic");
     }  
 }
@@ -78,7 +79,7 @@ public class ChangeScaleSkill : SkillBase
     
     public override void Activate()
     {
-        Stone.ChangeStoneScale(_scale);
+        Stone.ChangeStoneScaleServerRpc(_scale);
         Debug.Log(Data.skillName);
     }
 

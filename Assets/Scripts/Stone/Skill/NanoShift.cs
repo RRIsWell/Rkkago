@@ -14,7 +14,7 @@ public class NanoShift : SkillBase
 
     public override void Activate()
     {
-        Stone.ChangeStoneScale(_scale);
-        Stone.ChangeStoneWeight(_weight);
+        Stone.ChangeStoneScaleServerRpc(_scale);
+        Stone.ChangeStoneWeightServerRpc(_weight);
     }
 }

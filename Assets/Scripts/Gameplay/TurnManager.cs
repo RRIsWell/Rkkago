@@ -245,8 +245,8 @@ public class TurnManager : NetworkBehaviour
         if(playerClientIds.Count < 2) return;
         if(Player1ClientId == ulong.MaxValue) return;
         
-        var stonesBeforeFrame = FindObjectsOfType<StoneController>(); // 이전 프레임 알들 (삭제되기 전)
-        var stones = ruleExecutor?.aliveStones;
+        var stones = ruleExecutor?.stones; 
+        var aliveStones = ruleExecutor?.aliveStones;
 
         List<StoneController> p1Stones = new();
         List<StoneController> p2Stones = new();
@@ -255,13 +255,13 @@ public class TurnManager : NetworkBehaviour
         ulong p2Id = Player2ClientId;
 
         // 기존 스킬 비활성화
-        foreach (var s in stonesBeforeFrame)
+        foreach (var s in stones)
         {
             s.DeActivateSkillClientRpc();
         }
-        
+
         // 살아남은 알 리스트 업데이트
-        foreach (var s in stones)
+        foreach (var s in aliveStones)
         {
             var no = s.GetComponent<NetworkObject>();
             var sc = s.GetComponent<StoneController>();

@@ -12,7 +12,7 @@ public class GravityLock : SkillBase
 
     public override void Activate()
     {
-        Stone.ChangeStoneWeight(_weight);
+        Stone.ChangeStoneWeightServerRpc(_weight);
         Debug.Log(Data.skillName);
     }
 }
