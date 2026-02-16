@@ -7,6 +7,7 @@ public enum SkillActivationType
 {
     OnEquip,        // 스킬이 부여될 때
     OnReleaseMouse, // 마우스 드래그 후 뗄 때
+    OnTurnStarted, // 턴 시작할 때
 }
 
 public interface ISkill
