@@ -54,18 +54,15 @@ public class TurnManager : NetworkBehaviour
             NetworkVariableWritePermission.Server
         );
 
-    public ulong Player1ClientId => player1ClientId.Value;
-    public ulong Player2ClientId
-    {
-        get
-        {
-            if(playerClientIds.Count < 2) return ulong.MaxValue;
-            if(player1ClientId.Value == ulong.MaxValue) return ulong.MaxValue;
+    private NetworkVariable<ulong> player2ClientId = 
+        new NetworkVariable<ulong>(
+            ulong.MaxValue,
+            NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Server
+        );
 
-            // 1번이 P2
-            return playerClientIds[1];
-        }
-    }
+    public ulong Player1ClientId => player1ClientId.Value;
+    public ulong Player2ClientId => player2ClientId.Value;
     
     // =========================
     // Map3(컬링)용 턴쌍 카운터
@@ -155,6 +152,7 @@ public class TurnManager : NetworkBehaviour
 
         // P1(왼쪽) 네트워크로 공유
         player1ClientId.Value = p1;
+        player2ClientId.Value = p2;
 
         // 앞으로 모든 로직이 [P1, P2] 순서를 쓰게 리스트 정렬
         playerClientIds.Clear();
@@ -244,6 +242,7 @@ public class TurnManager : NetworkBehaviour
     {
         if(playerClientIds.Count < 2) return;
         if(Player1ClientId == ulong.MaxValue) return;
+        if(Player2ClientId == ulong.MaxValue) return;
         
         var stones = ruleExecutor?.stones; 
         var aliveStones = ruleExecutor?.aliveStones;
