@@ -73,8 +73,9 @@ public class SkillInfoController : NetworkBehaviour
     /// <param name="autoHide">true면 일정 시간 후 자동으로 닫힘</param>
     public void ShowCurrentSkillInfo(bool autoHide = true)
     {
-        var (skillIndex, _) = GetLocalPlayerCurrentSkill();
-        ShowCurrentSkillInfoInternal(skillIndex, autoHide);
+        // 바로 띄우지 말고, 코루틴을 통해 스킬 데이터가 로컬에 도착했는지 확인하며 띄움
+        StopAllCoroutines(); // 이전 대기 로직이 있다면 중단
+        StartCoroutine(WaitForSkillAndShow());
     }
 
     private void ShowCurrentSkillInfoInternal(int skillIndex, bool autoHide)
@@ -219,14 +220,18 @@ public class SkillInfoController : NetworkBehaviour
         float elapsed = 0f;
         while (elapsed < 5f)
         {
-            var (idx, _) = GetLocalPlayerCurrentSkill();
-            if (idx >= 0)
+            var (idx, skill) = GetLocalPlayerCurrentSkill();
+        
+            // 스킬 인덱스가 세팅되었고, 실제 SkillBase 객체까지 생성되었다면
+            if (idx >= 0 && skill != null)
             {
-                ShowCurrentSkillInfoInternal(idx, autoHide: false);
-                yield break;
+                // 드디어 정보를 띄움
+                ShowCurrentSkillInfoInternal(idx, autoHide: true);
+                yield break; 
             }
+
             elapsed += Time.deltaTime;
-            yield return null;
+            yield return null; // 다음 프레임에 다시 확인
         }
 
         Debug.Log("[SkillInfo] 매칭 후 스킬 대기 시간 초과");
