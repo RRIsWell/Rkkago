@@ -99,7 +99,7 @@ public class Stone : NetworkBehaviour
     /// <returns></returns>
     public float CalculateDeceleration()
     {
-        return Mathf.Clamp(_stoneData.baseDeceleration + 300.0f * (_stoneData.Weight - 1.0f), 0, 200f);
+        return Mathf.Clamp(_stoneData.baseDeceleration + 200.0f * (_stoneData.Weight - 1.0f), 20, 200f);
     }
     
     [ServerRpc]

@@ -17,5 +17,5 @@ MonoBehaviour:
   skillDescription: R became Smaller
   applyStoneCount: 3
   durationTurns: 0
-  scale: 0.7
+  scale: 0.3
   weight: 0.7
