@@ -1,7 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
 using System.Collections.Generic;
-using System.Runtime.Intrinsics.X86;
 
 /// <summary>
 /// BounceCore의 효과를 서버에서만 적용
