@@ -13,7 +13,8 @@ public class StoneData : ScriptableObject
     [SerializeField] private float weight;
     [SerializeField] private float scale;
     [SerializeField] private float power;
-
+    [SerializeField] private bool canCollide;
+    
     [Header("Skills")]
     [SerializeField] private float damage;
     [SerializeField] private float health;
@@ -24,6 +25,7 @@ public class StoneData : ScriptableObject
     public float Weight => weight;
     public float Scale => scale;
     public float Power => power;
+    public bool CanCollide => canCollide;
 
     public float Damage => damage;
     public float Health => health;

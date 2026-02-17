@@ -10,6 +10,7 @@ public enum SkillName{
     Hacking,
     IceAge,
     Teleportation,
+    KingShield,
     TheGiant,
 }
 
@@ -48,6 +49,9 @@ public class SkillFactory
                     break;
                 case SkillName.Teleportation:
                     skills.Add(SkillName.Teleportation, new Teleportation(stone, so));
+                    break;
+                case SkillName.KingShield:
+                    skills.Add(SkillName.KingShield, new KingShield(stone, so));
                     break;
                 case SkillName.TheGiant:
                     skills.Add(SkillName.TheGiant, new TheGiant(stone, so));

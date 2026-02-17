@@ -221,7 +221,7 @@ public class StoneMovement
             // 정지한 상태일 때
             float impactSpeed = otherController.Stone.CalculateCollisionSpeed(_currentSpeed);
             otherController.TriggerShootFromCollision(collisionNormal, impactSpeed);
-            otherMovement.MoveAsync(otherStone, collisionNormal, impactSpeed).Forget();
+            //otherMovement.MoveAsync(otherStone, collisionNormal, impactSpeed).Forget();
         }
         else
         {
@@ -235,8 +235,8 @@ public class StoneMovement
         if (overlap > 0)
         {
             Vector2 separation = -collisionNormal * ((overlap / 2) + 0.1f);
-            target.position = (Vector2)target.position + separation;
-            otherStone.position = (Vector2)otherStone.position - separation;
+            target.position = (Vector2)target.position + 2.0f * separation;
+            //otherStone.position = (Vector2)otherStone.position - separation;
         }
     }
 

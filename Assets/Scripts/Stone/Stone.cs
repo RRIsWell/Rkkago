@@ -89,6 +89,9 @@ public class Stone : NetworkBehaviour
     /// <returns></returns>
     public float CalculateCollisionSpeed(float otherSpeed)
     {
+        if (!_stoneData.CanCollide)
+            return 0;
+        
         return otherSpeed / _stoneData.Weight;
     }
 
@@ -114,6 +117,12 @@ public class Stone : NetworkBehaviour
     {
         _stoneData.Weight = weight;
         Debug.Log($"무게 변화 {_stoneData.Weight}");
+    }
+    
+    [ServerRpc]
+    public void ChangeStoneCollisionServerRpc(bool canCollide)
+    {
+        _stoneData.CanCollide = canCollide;
     }
 
     [ClientRpc]

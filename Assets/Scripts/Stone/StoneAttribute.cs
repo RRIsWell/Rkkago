@@ -15,7 +15,7 @@ public class StoneAttribute : NetworkBehaviour
 
     // 무게
     private readonly NetworkVariable<float> _weight = new NetworkVariable<float>(
-        0f, 
+        1f, 
         NetworkVariableReadPermission.Everyone, 
         NetworkVariableWritePermission.Server
     );
@@ -28,6 +28,13 @@ public class StoneAttribute : NetworkBehaviour
     // 힘
     private readonly NetworkVariable<float> _power = new NetworkVariable<float>(
         1f,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+    
+    // 충돌 가능 여부
+    private readonly NetworkVariable<bool> _canCollide = new NetworkVariable<bool>(
+        true,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
@@ -66,6 +73,17 @@ public class StoneAttribute : NetworkBehaviour
             }
         }
     }
+    public bool CanCollide
+    {
+        get => _canCollide.Value;
+        set
+        {
+            if (IsServer)
+            {
+                _canCollide.Value = value;
+            }
+        }
+    }
     
     public float damage;
     public float health;
@@ -88,6 +106,7 @@ public class StoneAttribute : NetworkBehaviour
             SetWeightServerRpc(stoneData.Weight);
             SetScaleServerRpc(stoneData.Scale);
             SetPowerServerRpc(stoneData.Power);
+            SetCanCollideServerRpc(stoneData.CanCollide);
         }
         
         damage = stoneData.Damage;
@@ -108,6 +127,11 @@ public class StoneAttribute : NetworkBehaviour
     private void SetPowerServerRpc(float power)
     {
         Power = power;
+    }
+    [ServerRpc]
+    private void SetCanCollideServerRpc(bool canCollide)
+    {
+        CanCollide = canCollide;
     }
     
 }

@@ -17,6 +17,6 @@ MonoBehaviour:
   weight: 1
   scale: 1
   power: 1
+  canCollide: 1
   damage: 3
   health: 100
-  sprite: {fileID: 0}
