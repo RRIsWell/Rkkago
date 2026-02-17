@@ -37,8 +37,28 @@ MonoBehaviour:
       m_Sprite: {fileID: 2713246326524623457, guid: 380ea2b4b70f7c846abad6673b27ef57, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: 2713246326524623457, guid: 380ea2b4b70f7c846abad6673b27ef57, type: 3}
+    - m_Name: CurveBall
+      m_Hash: 666655490
+      m_Sprite: {fileID: 55533417358151637, guid: a37d41e8b86052d48a5d41d572cb5233, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 55533417358151637, guid: a37d41e8b86052d48a5d41d572cb5233, type: 3}
+    - m_Name: KingShield
+      m_Hash: 379393345
+      m_Sprite: {fileID: -2693429666045476935, guid: d37692a50eac4ab4a9e38f5454b15795, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -2693429666045476935, guid: d37692a50eac4ab4a9e38f5454b15795, type: 3}
+    - m_Name: SecondChance
+      m_Hash: 7651361
+      m_Sprite: {fileID: -8605681583063428015, guid: 5c285f9628c7afa4ca0672698a5ff69c, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -8605681583063428015, guid: 5c285f9628c7afa4ca0672698a5ff69c, type: 3}
+    - m_Name: Teleportation
+      m_Hash: 117216783
+      m_Sprite: {fileID: -2605527503152021424, guid: 08d5ae51bd517b5408e5e31f55781fe2, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -2605527503152021424, guid: 08d5ae51bd517b5408e5e31f55781fe2, type: 3}
     m_FromMain: 0
-    m_EntryOverrideCount: 4
+    m_EntryOverrideCount: 8
   - m_Name: Dead
     m_Hash: 219670042
     m_CategoryList: []
@@ -86,5 +106,5 @@ MonoBehaviour:
     m_FromMain: 0
     m_EntryOverrideCount: 8
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 639063309765116513
+  m_ModificationHash: 639069450705684782
   m_Version: 1

@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: d8026000fc4fa0c4fb07bd780de7b087
+guid: d37692a50eac4ab4a9e38f5454b15795
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5339003843607090662
-    second: SkillIcon2_0
-  - first:
-      213: -114434160708585846
-    second: SkillIcon2_1
-  - first:
-      213: 2265996086793682728
-    second: SkillIcon2_2
-  - first:
-      213: -5459027943602983827
-    second: SkillIcon2_3
+      213: -2693429666045476935
+    second: SkillIcon6_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SkillIcon2_0
+      name: SkillIcon6_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 66
-        width: 51
-        height: 54
+        x: 18
+        y: 18
+        width: 220
+        height: 220
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,74 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6e555a065b3f71a40800000000000000
-      internalID: 5339003843607090662
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SkillIcon2_1
-      rect:
-        serializedVersion: 2
-        x: 63
-        y: 66
-        width: 52
-        height: 54
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a867bc4bcb2796ef0800000000000000
-      internalID: -114434160708585846
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SkillIcon2_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 51
-        height: 54
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 82f33c76f6f627f10800000000000000
-      internalID: 2265996086793682728
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SkillIcon2_3
-      rect:
-        serializedVersion: 2
-        x: 63
-        y: 0
-        width: 52
-        height: 54
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d6cec9a2203ad34b0800000000000000
-      internalID: -5459027943602983827
+      spriteID: 9bf3cd73df30f9ad0800000000000000
+      internalID: -2693429666045476935
       vertices: []
       indices: 
       edges: []
@@ -210,10 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SkillIcon2_0: 5339003843607090662
-      SkillIcon2_1: -114434160708585846
-      SkillIcon2_2: 2265996086793682728
-      SkillIcon2_3: -5459027943602983827
+      SkillIcon6_0: -2693429666045476935
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
