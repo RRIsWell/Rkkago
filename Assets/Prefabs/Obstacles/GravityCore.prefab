@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7731447445049261624}
   - component: {fileID: 5447355500671581978}
   - component: {fileID: 6432121892347951910}
+  - component: {fileID: -2807634741369204327}
   m_Layer: 0
   m_Name: GravityCore
   m_TagString: Untagged
@@ -107,6 +108,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Obstacle
   config: {fileID: 11400000, guid: a547f9033f9152447af7e1f8197a888b, type: 2}
   triggerArea: {fileID: 1692973634356129919}
+--- !u!114 &-2807634741369204327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444316642784893741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0627ff195c7350e4db17a97aa294cfbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GravityCoreObstacle
 --- !u!1 &5609884935157777006
 GameObject:
   m_ObjectHideFlags: 0
