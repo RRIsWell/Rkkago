@@ -47,6 +47,46 @@ MonoBehaviour:
       m_Sprite: {fileID: -2693429666045476935, guid: d37692a50eac4ab4a9e38f5454b15795, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: -2693429666045476935, guid: d37692a50eac4ab4a9e38f5454b15795, type: 3}
+    - m_Name: ShadowPartner
+      m_Hash: 445244465
+      m_Sprite: {fileID: 7806430860586441817, guid: 7434c2115a98e0444a610744d91cbc7d, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 7806430860586441817, guid: 7434c2115a98e0444a610744d91cbc7d, type: 3}
+    - m_Name: SlotMachine
+      m_Hash: 756287054
+      m_Sprite: {fileID: -6572605556832502025, guid: 2a0fd9f536ee3cc40b399ba5a90f8387, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -6572605556832502025, guid: 2a0fd9f536ee3cc40b399ba5a90f8387, type: 3}
+    - m_Name: SlotMachine2
+      m_Hash: 186435228
+      m_Sprite: {fileID: 7464626747039074550, guid: d2147a48abd3e0242ade044229323d86, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 7464626747039074550, guid: d2147a48abd3e0242ade044229323d86, type: 3}
+    - m_Name: SlotMachine3
+      m_Hash: 1008465418
+      m_Sprite: {fileID: 6632002090773791399, guid: 0fb409ef0f01d9c4b80d82143dacb7f8, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 6632002090773791399, guid: 0fb409ef0f01d9c4b80d82143dacb7f8, type: 3}
+    - m_Name: TheGiant
+      m_Hash: 500224245
+      m_Sprite: {fileID: -7403398122342449453, guid: 7b62265b716300f4b8d5e252142df8f6, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -7403398122342449453, guid: 7b62265b716300f4b8d5e252142df8f6, type: 3}
+    - m_Name: LateBloomer
+      m_Hash: 247403189
+      m_Sprite: {fileID: -7671670458124985466, guid: 77d805b70407a94428ccaa5033cacf55, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -7671670458124985466, guid: 77d805b70407a94428ccaa5033cacf55, type: 3}
+    - m_Name: LateBloomer2
+      m_Hash: 558908956
+      m_Sprite: {fileID: -6909183078773193982, guid: 59a8bcc56eb95334b833174675998c44, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -6909183078773193982, guid: 59a8bcc56eb95334b833174675998c44, type: 3}
+    - m_Name: LateBloomer3
+      m_Hash: 374830730
+      m_Sprite: {fileID: 6098826025701212236, guid: 30d6dd977197a6445ac0bf70e5c7fb80, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 6098826025701212236, guid: 30d6dd977197a6445ac0bf70e5c7fb80, type: 3}
     - m_Name: SecondChance
       m_Hash: 7651361
       m_Sprite: {fileID: -8605681583063428015, guid: 5c285f9628c7afa4ca0672698a5ff69c, type: 3}
@@ -58,7 +98,7 @@ MonoBehaviour:
       m_FromMain: 0
       m_SpriteOverride: {fileID: -2605527503152021424, guid: 08d5ae51bd517b5408e5e31f55781fe2, type: 3}
     m_FromMain: 0
-    m_EntryOverrideCount: 8
+    m_EntryOverrideCount: 16
   - m_Name: Dead
     m_Hash: 219670042
     m_CategoryList: []
@@ -106,5 +146,5 @@ MonoBehaviour:
     m_FromMain: 0
     m_EntryOverrideCount: 8
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 639069450705684782
+  m_ModificationHash: 639070625680645923
   m_Version: 1
