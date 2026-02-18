@@ -874,6 +874,10 @@ PrefabInstance:
       propertyPath: ruleExecutor
       value: 
       objectReference: {fileID: 3102174197927629044}
+    - target: {fileID: 8608872105784876832, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
+      propertyPath: obstacleSpawner
+      value: 
+      objectReference: {fileID: 1461213886}
     - target: {fileID: 8929117062803574608, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2722942334
@@ -987,6 +991,11 @@ MonoBehaviour:
   - {fileID: 3444316642784893741, guid: 244e8b9f6818d9841b907c15e24f05b3, type: 3}
   - {fileID: 8522652004070926760, guid: e77d4c8f81e673b48ab852808fee0069, type: 3}
   spawnArea: {fileID: 1586918320}
+  spawnOnce: 1
+  clearBeforeSpawn: 1
+  maxTriesPerObstacle: 30
+  useMinDistance: 0
+  minDistance: 1
 --- !u!4 &1461213887
 Transform:
   m_ObjectHideFlags: 0

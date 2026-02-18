@@ -9,6 +9,9 @@ public class MapManager : NetworkBehaviour
     // 맵
     [SerializeField] MapConfig currentMapConfig;
     [SerializeField] private MapRuleExecutor ruleExecutor;
+
+    // 장애물 스폰
+    [SerializeField] private ObstacleSpawner obstacleSpawner;
     
     // 알 스폰
     [SerializeField] private GameObject stone1Prefab;
@@ -48,6 +51,15 @@ public class MapManager : NetworkBehaviour
         ruleExecutor.Init(currentMapConfig);
         TurnManager.Instance.SetRuleExecutor(ruleExecutor);
 
+        // 장애물 스폰
+        if(currentMapConfig != null && currentMapConfig.useObstacle)
+        {
+            if(obstacleSpawner == null)
+                obstacleSpawner = FindObjectOfType<ObstacleSpawner>();
+
+            obstacleSpawner?.Init(currentMapConfig);
+        }
+
         // 알 생성
         SpawnAllStones();
         
@@ -60,6 +72,7 @@ public class MapManager : NetworkBehaviour
         TurnManager.Instance.TryStartGame();
     }
 
+    // 지금은 호출 안 되고 있긴 한데 일단 남겨둠
     void InitializeSystems(GameObject layout)
     {
         if(ruleExecutor != null)
