@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Netcode;
 
 public class ObstacleSpawner : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class ObstacleSpawner : MonoBehaviour
     [SerializeField] private float minDistance = 1.0f;       // 장애물 간 최소 거리
 
     private bool _spawned = false;                           // 중복 스폰 방지
-    private readonly List<GameObject> _spawnedObjects = new(); // 스폰한 장애물 추적
+    private readonly List<NetworkObject> _spawnedNetObjects = new(); // 스폰한 장애물 추적
 
     /// <summary>
     /// MapConfig 기반으로 장애물 스폰 시작.
@@ -27,6 +28,10 @@ public class ObstacleSpawner : MonoBehaviour
     /// </summary>
     public void Init(MapConfig config)
     {
+        // 서버에서만 스폰
+        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsServer)
+            return;
+        
         if (config == null)
         {
             Debug.LogError($"{name}: MapConfig가 null이라 장애물을 스폰할 수 없음");
@@ -74,12 +79,23 @@ public class ObstacleSpawner : MonoBehaviour
                 continue;
             }
 
-            // 프리팹 랜덤 선택
+            
+            // prefab 변수 먼저 선언
             GameObject prefab = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
 
-            // Instantiate
-            GameObject go = Instantiate(prefab, pos, Quaternion.identity, transform);
-            _spawnedObjects.Add(go); // 추적 리스트에 등록
+
+            // Instantiate 후 NetworkObject.Spawn()
+            GameObject go = Instantiate(prefab, pos, Quaternion.identity);
+            var netObj = go.GetComponent<NetworkObject>();
+            if (netObj == null)
+            {
+                Debug.LogError($"{prefab.name} 프리팹에 NetworkObject가 없음");
+                Destroy(go);
+                continue;
+            }
+
+            netObj.Spawn(true); // 모든 클라에 스폰 동기화
+            _spawnedNetObjects.Add(netObj);
         }
     }
 
@@ -89,12 +105,22 @@ public class ObstacleSpawner : MonoBehaviour
     /// </summary>
     public void ClearSpawned()
     {
-        for (int i = _spawnedObjects.Count - 1; i >= 0; i--)
+        // 서버에서만 처리
+        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsServer)
+            return;
+        
+        for (int i = _spawnedNetObjects.Count - 1; i >= 0; i--)
         {
-            if (_spawnedObjects[i] != null)
-                Destroy(_spawnedObjects[i]);
+            var no = _spawnedNetObjects[i];
+            if (no == null) continue;
+
+            if (no.IsSpawned)
+                no.Despawn(true); // 네트워크로 제거(클라도 같이 사라짐)
+            else
+                Destroy(no.gameObject);
         }
-        _spawnedObjects.Clear();
+
+        _spawnedNetObjects.Clear();
         _spawned = false;
     }
 
@@ -122,9 +148,9 @@ public class ObstacleSpawner : MonoBehaviour
 
             // 최소 거리 체크
             bool ok = true;
-            for (int i = 0; i < _spawnedObjects.Count; i++)
+            for (int i = 0; i < _spawnedNetObjects.Count; i++)
             {
-                var o = _spawnedObjects[i];
+                var o = _spawnedNetObjects[i];
                 if (o == null) continue;
 
                 if (Vector2.Distance(candidate, o.transform.position) < minDistance)
