@@ -79,11 +79,11 @@ public class GravityCoreObstacle : MonoBehaviour
             float normalized = Mathf.Clamp01(1f - (dist / r));
 
             // 방향을 강하게 중심으로 수렴
-            float turn = cfg.gravityStrength * (0.5f + 1.5f * normalized);
+            float turn = cfg.gravityStrength * (0.2f + 0.8f*normalized);
             mv.Direction = Vector2.Lerp(mv.Direction, pullDir, turn * tickInterval).normalized;
 
             // 코어 안에서는 속도를 줄여서(드래그) 통과/튕김 방지
-            float drag = (cfg.gravityStrength * dragMultiplier) * (0.2f + 0.8f * normalized);
+            float drag = (cfg.gravityStrength * dragMultiplier) * Mathf.Pow(normalized, 2f);
             mv.Speed = Mathf.Max(0f, mv.Speed - drag * tickInterval);
 
             // 코어의 중심 근처에 오면 더 이상 통과 못 하게 붙도록 함(캡처)
