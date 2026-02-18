@@ -870,10 +870,18 @@ PrefabInstance:
       propertyPath: matchIntroPrefab
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4383213319760818671, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
+      propertyPath: m_TagString
+      value: Stone
+      objectReference: {fileID: 0}
     - target: {fileID: 8608872105784876832, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
       propertyPath: ruleExecutor
       value: 
       objectReference: {fileID: 3102174197927629044}
+    - target: {fileID: 8608872105784876832, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
+      propertyPath: obstacleSpawner
+      value: 
+      objectReference: {fileID: 1461213886}
     - target: {fileID: 8929117062803574608, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2722942334
@@ -954,6 +962,138 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c3d4e5f6789012345678abcdef0123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillInfoController
+--- !u!1 &1461213885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1461213887}
+  - component: {fileID: 1461213886}
+  m_Layer: 0
+  m_Name: ObstacleSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1461213886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461213885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38def2ab7b8252a439041c019ef5f76c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleSpawner
+  obstaclePrefabs:
+  - {fileID: 3444316642784893741, guid: 244e8b9f6818d9841b907c15e24f05b3, type: 3}
+  - {fileID: 8522652004070926760, guid: e77d4c8f81e673b48ab852808fee0069, type: 3}
+  spawnArea: {fileID: 1586918320}
+  spawnOnce: 1
+  clearBeforeSpawn: 1
+  maxTriesPerObstacle: 30
+  useMinDistance: 0
+  minDistance: 1
+--- !u!4 &1461213887
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461213885}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.35463, y: -4.67447, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1586918319}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1586918318
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1586918319}
+  - component: {fileID: 1586918320}
+  m_Layer: 0
+  m_Name: SpawnArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1586918319
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586918318}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.03, y: 4.26, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1461213887}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1586918320
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586918318}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.36640012, y: 0.41636276}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 8.128135, y: 8.094822}
+  m_EdgeRadius: 0
 --- !u!224 &1713545046 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1478144143542324368, guid: 1688507a286ea934bbd65f13bb0a7b11, type: 3}
@@ -1185,6 +1325,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6795716849243302445, guid: de2438f926ebd8e45b59e1e933ac31e3, type: 3}
+      propertyPath: NetworkConfig.Prefabs.NetworkPrefabsLists.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6795716849243302445, guid: de2438f926ebd8e45b59e1e933ac31e3, type: 3}
+      propertyPath: 'NetworkConfig.Prefabs.NetworkPrefabsLists.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: be5dcd2bc9dae0245b9cc49122c5bc7f, type: 2}
     - target: {fileID: 8707369142885995841, guid: de2438f926ebd8e45b59e1e933ac31e3, type: 3}
       propertyPath: m_Name
       value: NetworkManager
@@ -1545,6 +1693,7 @@ SceneRoots:
   - {fileID: 559887448}
   - {fileID: 613669317}
   - {fileID: 415970218}
+  - {fileID: 1461213887}
   - {fileID: 1310513087}
   - {fileID: 1877659025}
   - {fileID: 1990512086}
