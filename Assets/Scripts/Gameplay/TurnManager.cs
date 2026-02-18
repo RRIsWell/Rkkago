@@ -99,6 +99,10 @@ public class TurnManager : NetworkBehaviour
         }
 
         Instance = this;
+        
+        // 새로 들어오는 클라이언트 받음
+        NetworkManager.Singleton.OnClientConnectedCallback 
+            += OnClientConnected; 
     }
 
     // 서버는 플레이어로 간주하지 않도록 로직 구현
@@ -113,9 +117,9 @@ public class TurnManager : NetworkBehaviour
             playerClientIds.Add(id);
         }
 
-        // 새로 들어오는 클라이언트 받음
+        /*// 새로 들어오는 클라이언트 받음
         NetworkManager.Singleton.OnClientConnectedCallback 
-            += OnClientConnected;
+            += OnClientConnected; */
 
         // 이미 2명인 상태로 스폰되는 경우 시작 시도
         TryStartGame();
