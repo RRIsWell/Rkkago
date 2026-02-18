@@ -18,7 +18,7 @@ MonoBehaviour:
   friction: 0.8
   slippery: 0
   useObstacle: 1
-  obstacleCount: 5
+  obstacleCount: 2
   obstacleMargin: 1.5
   loseStoneCount: 5
   bgmName: 1
