@@ -150,7 +150,7 @@ public class BounceCoreObstacle : MonoBehaviour
             Vector2 diff = p - closest;
 
             // 겹침 판정: 돌 중심과 closest의 거리가 반지름 이하
-            float bounceRadiusScale = 0.6f;
+            float bounceRadiusScale = 0.2f;
             float rr= stoneR * bounceRadiusScale;
             
             if (diff.sqrMagnitude <= rr * rr)
