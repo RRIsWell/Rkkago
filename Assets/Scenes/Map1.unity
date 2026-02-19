@@ -962,6 +962,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c3d4e5f6789012345678abcdef0123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillInfoController
+  ShowTopMostFoldoutHeaderGroup: 1
+  skillInfoPrefab: {fileID: 0}
+  preShowDuration: 1
+  autoHideDuration: 2
 --- !u!1 &1461213885
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,6 +998,7 @@ MonoBehaviour:
   obstaclePrefabs:
   - {fileID: 3444316642784893741, guid: 244e8b9f6818d9841b907c15e24f05b3, type: 3}
   - {fileID: 8522652004070926760, guid: e77d4c8f81e673b48ab852808fee0069, type: 3}
+  - {fileID: 501394412683837242, guid: 659689ea5d39f4444a79c636db8b6a8c, type: 3}
   spawnArea: {fileID: 1586918320}
   spawnOnce: 1
   clearBeforeSpawn: 1
