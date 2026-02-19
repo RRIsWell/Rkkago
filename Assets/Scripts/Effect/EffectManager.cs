@@ -197,4 +197,104 @@ public class EffectManager : NetworkBehaviour
             }
         }
     }
+    
+    // --------------------- Shadow Partner -----------------------------
+
+    public void CreateAndShootShadowObjects(Vector2 velocity, NetworkObjectReference ownerRef)
+    {
+        CreateAndShootShadowObjectsServerRpc(velocity, ownerRef);
+    }
+    
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void CreateAndShootShadowObjectsServerRpc(Vector2 velocity, NetworkObjectReference ownerRef)
+    {
+        if (ownerRef.TryGet(out NetworkObject netObj))
+        {
+            var controller = netObj.GetComponent<StoneController>();
+            if (controller != null)
+            {
+                var skill = controller.SkillContainer.GetSkillByName(SkillName.ShadowPartner);
+                if (skill is ShadowPartner shadowPartner)
+                {
+                    shadowPartner.CreateTwoShadowObjectsAndShoot(velocity);
+                }
+            }
+        }
+    }
+
+    public void SetShadowObjects(NetworkObjectReference ownerRef, NetworkObjectReference shadowRef1,
+        NetworkObjectReference shadowRef2)
+    {
+        SetColorAlphaClientRpc(ownerRef, shadowRef1, shadowRef2);
+    }
+    [ClientRpc]
+    private void SetColorAlphaClientRpc(NetworkObjectReference ownerRef, NetworkObjectReference shadowRef1, NetworkObjectReference shadowRef2)
+    {
+        if (ownerRef.TryGet(out NetworkObject netObj))
+        {
+            if (netObj.OwnerClientId != NetworkManager.Singleton.LocalClientId) return;
+            
+            var controller = netObj.GetComponent<StoneController>();
+            if (controller != null)
+            {
+                var skill = controller.SkillContainer.GetSkillByName(SkillName.ShadowPartner);
+                if (skill is ShadowPartner shadowPartner)
+                {
+                    shadowPartner.SetColorAlpha(shadowRef1, shadowRef2);
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 분신 삭제
+    /// </summary>
+    /// <param name="ownerRef"></param>
+    public void DestroyShadowObjects(NetworkObjectReference ownerRef)
+    {
+        DestroyShadowObjectsServerRpc(ownerRef);
+    }
+    
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void DestroyShadowObjectsServerRpc(NetworkObjectReference ownerRef)
+    {
+        if (ownerRef.TryGet(out NetworkObject netObj))
+        {
+            var controller = netObj.GetComponent<StoneController>();
+            if (controller != null)
+            {
+                var skill = controller.SkillContainer.GetSkillByName(SkillName.ShadowPartner);
+                if (skill is ShadowPartner shadowPartner)
+                {
+                    shadowPartner.DestroyShadowObjects();
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 분신 모두 삭제
+    /// </summary>
+    /// <param name="ownerRef"></param>
+    public void DestroyAllShadowObjects(NetworkObjectReference ownerRef)
+    {
+        DestroyAllShadowObjectsServerRpc(ownerRef);
+    }
+    
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void DestroyAllShadowObjectsServerRpc(NetworkObjectReference ownerRef)
+    {
+        if (ownerRef.TryGet(out NetworkObject netObj))
+        {
+            var controller = netObj.GetComponent<StoneController>();
+            if (controller != null)
+            {
+                var skill = controller.SkillContainer.GetSkillByName(SkillName.ShadowPartner);
+                if (skill is ShadowPartner shadowPartner)
+                {
+                    shadowPartner.DestroyAllShadowObjects();
+                }
+            }
+        }
+    }
 }

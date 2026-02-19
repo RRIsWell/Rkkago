@@ -41,7 +41,8 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     /// 로컬 플레이어에게 스킬이 적용되었을 때 호출됨 (skillIndex)
     /// </summary>
     public static event System.Action<int> OnLocalPlayerSkillApplied;
-    private event Action<int> OnMouseUp; // 마우스 뗐을 때 스킬 발동
+    private event Action<int> OnMouseUp; // 마우스 뗐을 때 스킬 발동 (int: 스킬 인덱스)
+    public event Action<Vector2> OnShootStone; // 돌 날릴 때 (마우스 뗐을 때) (Vector2: velocity)
 
     // 디버깅용
     private bool _isDragging;
@@ -126,6 +127,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         
         // 알 실제 움직임
         RequestShoot(direction, speed);
+        OnShootStone?.Invoke(direction * speed);
     }
     
     // ---------------- Network --------------------
@@ -153,6 +155,14 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     public void TriggerShootFromCollision(Vector2 direction, float speed)
     {
         StoneMovement.Shoot(transform, direction, speed);
+    }
+    
+    // --------------- 이벤트 -----------------
+    [ClientRpc]
+    public void NotifyMovementStartedClientRpc(Vector2 velocity)
+    {
+        if (!IsOwner) return;
+        _stoneMovement.TriggerMovementStartedEvent(velocity);
     }
     
     [ClientRpc]

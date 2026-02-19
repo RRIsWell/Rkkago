@@ -23,6 +23,7 @@ public class StoneMovement
     /// <summary>
     /// 움직일 때 이벤트 -> 외부에서 필요시 구독
     /// </summary>
+    public event Action<Vector2> OnMovementStarted;    // 움직임 시작 시 실행
     public event Action<Vector2> OnMovement;    // 움직이는 매 프레임 실행
     public event Action OnMovementEnded;        // 움직임 끝나고 실행
     
@@ -112,7 +113,10 @@ public class StoneMovement
         }
         //_currentVelocity = _currentSpeed * _currentDirection;
         //_collidedThisFrame.Clear();
-        
+
+        // 움직임 시작 이벤트
+        _stoneController.NotifyMovementStartedClientRpc(_currentVelocity);
+            
         while (target != null && _currentSpeed > 0f)
         {
             // 충돌 체크
@@ -149,7 +153,8 @@ public class StoneMovement
             float moveStep = _currentSpeed * Time.deltaTime;
             target.position = pos + _currentDirection * moveStep;
             
-            _stoneController.NotifyMovementClientRpc(pos); // 직전 위치로 이벤트
+            // 직전 위치로 이벤트
+            _stoneController.NotifyMovementClientRpc(pos); 
 
             if (!_stoneCollision.IsOnIcePath(target))
             {
@@ -285,6 +290,11 @@ public class StoneMovement
         _stoneController.Stone.SetAnimatorTriggerClientRpc(Stone.HashDead);
     }
     
+    // ----------- 이벤트 호출 ----------
+    public void TriggerMovementStartedEvent(Vector2 velocity)
+    {
+        OnMovementStarted?.Invoke(velocity);
+    }
     public void TriggerMovementEvent(Vector2 position)
     {
         OnMovement?.Invoke(position);
