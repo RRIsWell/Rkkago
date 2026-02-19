@@ -89,6 +89,11 @@ public class TurnManager : NetworkBehaviour
     /// </summary>
     public event Action<bool, ulong, ulong> OnSeatsDecided;
     // (isHeads, p1LeftId, p2RightId)
+
+    // =========================
+    // 턴이 1번 진행되었다 (서버 전용 이벤트)
+    // =========================
+    public static event System.Action OnServerTurnAdvanced;
     
     private void Awake()
     {
@@ -365,6 +370,9 @@ public class TurnManager : NetworkBehaviour
         // 턴 쌍 카운트 증가 + Map3의 타이브레이크 체크
         // =========================
         turnStep++;
+
+        // 턴 1회 진행 이벤트 발행 (서버만)
+        OnServerTurnAdvanced?.Invoke();
         
         ruleExecutor?.CheckCullingTieBreaker(TurnPairs);
 
