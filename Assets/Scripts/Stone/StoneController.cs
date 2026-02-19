@@ -123,7 +123,8 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         float speed = _stone.CalculateBaseSpeed() * distance;
         
         // 스킬 발동
-        OnMouseUp?.Invoke(_currentSkillIndex);
+        if(_currentSkillIndex != -1)
+            OnMouseUp?.Invoke(_currentSkillIndex);
         
         // 알 실제 움직임
         RequestShoot(direction, speed);
@@ -193,6 +194,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         if (_currentSkillIndex != -1)
         {
             _skillContainer.GetSkillByIndex(_currentSkillIndex).Deactivate();
+            _currentSkillIndex = -1;
         }
         
         // 데이터 초기화
