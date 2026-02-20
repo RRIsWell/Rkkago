@@ -13,6 +13,7 @@ public enum SkillName{
     KingShield,
     TheGiant,
     ShadowPartner,
+    LateBloomer,
 }
 
 /// <summary>
@@ -59,6 +60,9 @@ public class SkillFactory
                     break;
                 case SkillName.ShadowPartner:
                     skills.Add(SkillName.ShadowPartner, new ShadowPartner(stone, so));
+                    break;
+                case SkillName.LateBloomer:
+                    skills.Add(SkillName.LateBloomer, new LateBloomer(stone, so));
                     break;
             
                 default:

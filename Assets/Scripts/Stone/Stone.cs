@@ -120,6 +120,13 @@ public class Stone : NetworkBehaviour
     }
     
     [ServerRpc]
+    public void ChangeStonePowerServerRpc(float power)
+    {
+        _stoneData.Power = power;
+        Debug.Log($"파워 변화 {_stoneData.Power}");
+    }
+    
+    [ServerRpc]
     public void ChangeStoneCollisionServerRpc(bool canCollide)
     {
         _stoneData.CanCollide = canCollide;
@@ -162,4 +169,7 @@ public class Stone : NetworkBehaviour
     {
         _ruleExecutor = executor;
     }
+    
+    public float GetWeight() { return _stoneData.Weight; }
+    public float GetPower(){ return _stoneData.Power;}
 }
