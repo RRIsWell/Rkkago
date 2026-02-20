@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TheGiantSO
   skillName: 7
   activationType: 0
+  countType: 0
   skillDescription: biggest R
   applyStoneCount: 1
   durationTurns: 0
-  activateCounts: 1
+  activateCounts: 100
   scale: 2
   weight: 2
