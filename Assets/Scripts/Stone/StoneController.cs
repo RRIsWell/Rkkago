@@ -294,11 +294,6 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
                 StoneMovement.OnCollisionEnter += skill.ActivateCount;
                 break;
         }
-        else if (skill.ActivationType == SkillActivationType.OnTurnStarted)
-        {
-            _stoneMovement.OnMovementEnded -= HandleTurnStartedSkill;
-            _stoneMovement.OnMovementEnded += HandleTurnStartedSkill;
-        }
     }
     
     private void HandleTurnStartedSkill()
