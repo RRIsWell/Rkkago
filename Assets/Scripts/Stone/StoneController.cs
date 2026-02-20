@@ -324,6 +324,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     }
     
     private void HandleTurnStartedSkill()
+    private void HandleTurnStartedSkill(ulong clientId)
     {
         // 스킬 인덱스가 유효할 때만
         if (_currentSkillIndex != -1 & !_hasSkillActivatedThisTurn)
