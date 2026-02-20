@@ -266,7 +266,7 @@ public class TurnManager : NetworkBehaviour
         foreach (var s in stones)
         {
             if(s != null)
-                s.DeActivateSkillClientRpc();
+                s.DeactivateSkillClientRpc();
         }
 
         // 살아남은 알 리스트 업데이트

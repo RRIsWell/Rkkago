@@ -26,6 +26,7 @@ public class StoneMovement
     public event Action<Vector2> OnMovementStarted;    // 움직임 시작 시 실행
     public event Action<Vector2> OnMovement;    // 움직이는 매 프레임 실행
     public event Action OnMovementEnded;        // 움직임 끝나고 실행
+    public event Action OnCollisionEnter;       // 다른 알에 의해 충돌 당했을 때
     
     //---------------
     // Direction(Vector2) : 방향
@@ -303,5 +304,10 @@ public class StoneMovement
     public void TriggerMovementEndedEvent()
     {
         OnMovementEnded?.Invoke();
+    }
+    
+    public void TriggerCollisionEnterEvent()
+    {
+        OnCollisionEnter?.Invoke();
     }
 }

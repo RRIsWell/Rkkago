@@ -41,7 +41,8 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     /// 로컬 플레이어에게 스킬이 적용되었을 때 호출됨 (skillIndex)
     /// </summary>
     public static event System.Action<int> OnLocalPlayerSkillApplied;
-    private event Action<int> OnMouseUp; // 마우스 뗐을 때 스킬 발동 (int: 스킬 인덱스)
+    public event Action<int> OnMouseUpInt; // 마우스 뗐을 때 스킬 발동 (int: 스킬 인덱스)
+    public event Action OnMouseUp;  // 마우스 뗐을 때 스킬 발동
     public event Action<Vector2> OnShootStone; // 돌 날릴 때 (마우스 뗐을 때) (Vector2: velocity)
 
     // 디버깅용
@@ -123,8 +124,11 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         float speed = _stone.CalculateBaseSpeed() * distance;
         
         // 스킬 발동
-        if(_currentSkillIndex != -1)
-            OnMouseUp?.Invoke(_currentSkillIndex);
+        if (_currentSkillIndex != -1)
+        {
+            OnMouseUpInt?.Invoke(_currentSkillIndex);
+            OnMouseUp?.Invoke();
+        }
         
         // 알 실제 움직임
         RequestShoot(direction, speed);
@@ -155,6 +159,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     // 충돌해서 쏠 때 (서버에서 실행)
     public void TriggerShootFromCollision(Vector2 direction, float speed)
     {
+        NotifyCollisionEnterClientRpc();
         StoneMovement.Shoot(transform, direction, speed);
     }
     
@@ -179,13 +184,43 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         if (!IsOwner) return;
         _stoneMovement.TriggerMovementEndedEvent();
     }
+    
+    [ClientRpc]
+    public void NotifyCollisionEnterClientRpc()
+    {
+        if (!IsOwner) return;
+        _stoneMovement.TriggerCollisionEnterEvent();
+    }
 
+    [ServerRpc]
+    public void ResetSkillServerRpc()
+    {
+        ResetSkillClientRpc();
+    }
+    
+    /// <summary>
+    /// 기존 스킬 리셋
+    /// </summary>
+    /// <param name="skillIndex"></param>
+    [ClientRpc]
+    public void ResetSkillClientRpc()
+    {
+        // 자기 돌만 적용
+        if (!IsOwner) return;
+
+        // 기존 스킬 비활성화
+        _currentSkillIndex = -1;
+        
+        // 데이터 초기화
+        _stone.ResetStoneState();
+    }
+    
     /// <summary>
     /// 기존 스킬 비활성화
     /// </summary>
     /// <param name="skillIndex"></param>
     [ClientRpc]
-    public void DeActivateSkillClientRpc()
+    public void DeactivateSkillClientRpc()
     {
         // 자기 돌만 적용
         if (!IsOwner) return;
@@ -215,22 +250,36 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         // 스킬 Activate
         var skill = _skillContainer.GetSkillByIndex(skillIndex);
         _skillContainer.InitSkill(skill);
+
+        // Activate 타입 설정
+        switch (skill.ActivationType)
+        {
+            case SkillActivationType.OnEquip:
+                // 바로 실행
+                _skillContainer.ActivateSkill(skill);
+                break;
+            case SkillActivationType.OnReleaseMouse:
+                // 마우스 뗄 때 실행
+                OnMouseUpInt -= _skillContainer.ActivateSkill;
+                OnMouseUpInt += _skillContainer.ActivateSkill;
+                break;
+            case  SkillActivationType.OnTurnStarted:
+                TurnManager.Instance.OnTurnChanged -= HandleTurnStartedSkill;
+                TurnManager.Instance.OnTurnChanged += HandleTurnStartedSkill;
+                break;
+        }
         
-        if (skill.ActivationType == SkillActivationType.OnEquip)
+        // Activate 카운트 타입 설정
+        switch (skill.CountType)
         {
-            // 바로 실행
-            _skillContainer.ActivateSkill(skill);
-        }
-        else if (skill.ActivationType == SkillActivationType.OnReleaseMouse)
-        {
-            // 마우스 뗄 때 실행
-            OnMouseUp -= _skillContainer.ActivateSkill;
-            OnMouseUp += _skillContainer.ActivateSkill;
-        }
-        else if (skill.ActivationType == SkillActivationType.OnTurnStarted)
-        {
-            TurnManager.Instance.OnTurnChanged -= HandleTurnStartedSkill;
-            TurnManager.Instance.OnTurnChanged += HandleTurnStartedSkill;
+            case SkillCountType.OnShoot:
+                OnMouseUp -= skill.ActivateCount;
+                OnMouseUp += skill.ActivateCount;
+                break;
+            case SkillCountType.OnCollide:
+                StoneMovement.OnCollisionEnter -= skill.ActivateCount;
+                StoneMovement.OnCollisionEnter += skill.ActivateCount;
+                break;
         }
     }
     
