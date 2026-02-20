@@ -277,8 +277,8 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
                 OnMouseUpInt += _skillContainer.ActivateSkill;
                 break;
             case  SkillActivationType.OnTurnStarted:
-                TurnManager.Instance.OnTurnChanged -= HandleTurnStartedSkill;
-                TurnManager.Instance.OnTurnChanged += HandleTurnStartedSkill;
+                _stoneMovement.OnMovementEnded -= HandleTurnStartedSkill;
+                _stoneMovement.OnMovementEnded += HandleTurnStartedSkill;
                 break;
         }
         
@@ -293,11 +293,6 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
                 StoneMovement.OnCollisionEnter -= skill.ActivateCount;
                 StoneMovement.OnCollisionEnter += skill.ActivateCount;
                 break;
-        }
-        else if (skill.ActivationType == SkillActivationType.OnTurnStarted)
-        {
-            _stoneMovement.OnMovementEnded -= HandleTurnStartedSkill;
-            _stoneMovement.OnMovementEnded += HandleTurnStartedSkill;
         }
     }
     
