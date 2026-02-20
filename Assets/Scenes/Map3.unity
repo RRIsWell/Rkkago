@@ -795,6 +795,11 @@ MonoBehaviour:
   - {fileID: 3444316642784893741, guid: 244e8b9f6818d9841b907c15e24f05b3, type: 3}
   - {fileID: 8522652004070926760, guid: e77d4c8f81e673b48ab852808fee0069, type: 3}
   spawnArea: {fileID: 0}
+  spawnOnce: 1
+  clearBeforeSpawn: 1
+  maxTriesPerObstacle: 30
+  useMinDistance: 0
+  minDistance: 1
 --- !u!4 &1030903970
 Transform:
   m_ObjectHideFlags: 0
@@ -1246,7 +1251,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1327952231260631829, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4725542583690851829, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: m_AnchorMax.y
