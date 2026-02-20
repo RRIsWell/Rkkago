@@ -79,8 +79,15 @@ public abstract class SkillBase : ISkill
     /// <summary>
     /// 스킬 활성화
     /// </summary>
-    public abstract void Activate();    
+    public abstract void Activate();
 
+    /// <summary>
+    /// 장착은 되었지만 실행은 안 되는 상태
+    /// </summary>
+    public virtual void Inactivate()
+    {
+        
+    }
     /// <summary>
     /// 스킬 비활성화 (스킬 바뀔 때 실행됨)
     /// </summary>
@@ -91,6 +98,8 @@ public abstract class SkillBase : ISkill
         
         // 스킬 카운트 리셋
         _activateCount = 0;
+        
+        _stoneController.StoneMovement.OnMovementEnded -= ResetSkill;
     }
 
     /// <summary>
@@ -106,6 +115,8 @@ public abstract class SkillBase : ISkill
 
         // 데이터 리셋
         _stoneController.ResetSkillServerRpc();
+
+        Inactivate();
     }
 
     /// <summary>

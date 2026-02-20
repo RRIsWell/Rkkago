@@ -23,10 +23,6 @@ public class ShadowPartner : SkillBase
     {
         base.Init();
         
-        // 오브젝트 생성 이벤트
-        _controller.OnShootStone -= RequestToCreateAndShootShadowObjects;
-        _controller.OnShootStone += RequestToCreateAndShootShadowObjects;
-        
         // 오브젝트 삭제 이벤트
         TurnManager.Instance.OnTurnChanged -= RequestToDestroyShadowObjects;
         TurnManager.Instance.OnTurnChanged += RequestToDestroyShadowObjects;
@@ -34,16 +30,27 @@ public class ShadowPartner : SkillBase
 
     public override void Activate()
     {
+        // 오브젝트 생성 이벤트
+        _controller.OnShootStone -= RequestToCreateAndShootShadowObjects;
+        _controller.OnShootStone += RequestToCreateAndShootShadowObjects;
+    }
+
+    public override void Inactivate()
+    {
+        base.Inactivate();
+        
+        // 이벤트 구독 해제
+        _controller.OnShootStone -= RequestToCreateAndShootShadowObjects;
     }
 
     public override void Deactivate()
     {
         base.Deactivate();
-        
+            
         // 이벤트 구독 해제
         _controller.OnShootStone -= RequestToCreateAndShootShadowObjects;
         TurnManager.Instance.OnTurnChanged -= RequestToDestroyShadowObjects;
-
+        
         // 생성한 모든 오브젝트 삭제
         RequestToDestroyAllShadowObjects();
     }

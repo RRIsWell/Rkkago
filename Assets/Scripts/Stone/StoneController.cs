@@ -5,6 +5,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+public enum SkillState
+{
+    Active,     // 스킬 실행 가능 상태
+    Inactive,   // 스킬 발동 횟수 다 차감해서 장착은 되었지만 실행되지 않는 상태
+    Deactive,   // 다른 스킬로 교환하며 완전 초기화되는 상태
+}
 /// <summary>
 /// Stone의 Input을 처리하는 곳
 /// </summary>
@@ -36,6 +42,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     /// </summary>
     private int _currentSkillIndex = -1;
     public int CurrentSkillIndex => _currentSkillIndex;
+    private SkillState _skillState = SkillState.Deactive;
     
     /// <summary>
     /// 이번 턴에 스킬을 사용했는지 확인하는 플래그
@@ -131,7 +138,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         float speed = _stone.CalculateBaseSpeed() * distance;
         
         // 스킬 발동
-        if (_currentSkillIndex != -1)
+        if (_currentSkillIndex >= 0 && _skillState == SkillState.Active)
         {
             OnMouseUpInt?.Invoke(_currentSkillIndex);
             OnMouseUp?.Invoke();
@@ -221,8 +228,11 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         // 자기 돌만 적용
         if (!IsOwner) return;
 
+        // 이벤트 구독 해제
+        UnSubscribeSkillEvents(_skillContainer.GetSkillByIndex(_currentSkillIndex));
+        
         // 기존 스킬 비활성화
-        _currentSkillIndex = -1;
+        _skillState = SkillState.Inactive;
         
         // 데이터 초기화
         _stone.ResetStoneState();
@@ -241,8 +251,10 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         // 기존 스킬 비활성화
         if (_currentSkillIndex != -1)
         {
+            UnSubscribeSkillEvents(_skillContainer.GetSkillByIndex(_currentSkillIndex));
             _skillContainer.GetSkillByIndex(_currentSkillIndex).Deactivate();
             _currentSkillIndex = -1;
+            _skillState = SkillState.Deactive;
         }
         
         // 데이터 초기화
@@ -258,6 +270,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
 
         // 새 스킬 부여
         _currentSkillIndex = skillIndex;
+        _skillState = SkillState.Active;
         OnLocalPlayerSkillApplied?.Invoke(skillIndex);
         
         // 스킬 Activate
@@ -294,6 +307,17 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
                 StoneMovement.OnCollisionEnter += skill.ActivateCount;
                 break;
         }
+    }
+    
+    private void UnSubscribeSkillEvents(SkillBase skill)
+    {
+        // Activate 타입 설정
+        OnMouseUpInt -= _skillContainer.ActivateSkill;
+        StoneMovement.OnCollisionEnter -= HandleTurnStartedSkill;
+        
+        // Activate 카운트 타입 설정
+        OnMouseUp -= skill.ActivateCount;
+        StoneMovement.OnCollisionEnter -= skill.ActivateCount;
     }
     
     private void HandleTurnStartedSkill()
