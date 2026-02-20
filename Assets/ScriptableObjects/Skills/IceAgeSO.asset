@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IceAgeSO
   skillName: 4
   activationType: 1
+  countType: 0
   skillDescription: R slipped
   applyStoneCount: 2
-  durationTurns: 2
+  durationTurns: 3
   activateCounts: 100
   icePrefab: {fileID: 5528189529195827147, guid: 69bbfaf766dbc3a47ae6db4b36467b39, type: 3}
   tileSpacing: 2

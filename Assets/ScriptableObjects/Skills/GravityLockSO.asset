@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GravityLockSO
   skillName: 1
   activationType: 0
+  countType: 0
   skillDescription: R heavier
   applyStoneCount: 3
   durationTurns: 0
-  activateCounts: 1
+  activateCounts: 100
   weight: 1.5
