@@ -307,7 +307,6 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
                 StoneMovement.OnCollisionEnter += skill.ActivateCount;
                 break;
         }
-<<<<<<< HEAD
     }
     
     private void UnSubscribeSkillEvents(SkillBase skill)
@@ -319,12 +318,9 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         // Activate 카운트 타입 설정
         OnMouseUp -= skill.ActivateCount;
         StoneMovement.OnCollisionEnter -= skill.ActivateCount;
-=======
->>>>>>> 9a9c1a4 (Fix: 구문 오류 해결 (#39))
     }
     
     private void HandleTurnStartedSkill()
-    private void HandleTurnStartedSkill(ulong clientId)
     {
         // 스킬 인덱스가 유효할 때만
         if (_currentSkillIndex != -1 & !_hasSkillActivatedThisTurn)
