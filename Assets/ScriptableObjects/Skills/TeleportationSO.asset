@@ -17,3 +17,4 @@ MonoBehaviour:
   skillDescription: 
   applyStoneCount: 2
   durationTurns: 0
+  activateCounts: 100

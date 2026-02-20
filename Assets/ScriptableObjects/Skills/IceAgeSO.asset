@@ -17,5 +17,6 @@ MonoBehaviour:
   skillDescription: R slipped
   applyStoneCount: 2
   durationTurns: 2
+  activateCounts: 100
   icePrefab: {fileID: 5528189529195827147, guid: 69bbfaf766dbc3a47ae6db4b36467b39, type: 3}
   tileSpacing: 2

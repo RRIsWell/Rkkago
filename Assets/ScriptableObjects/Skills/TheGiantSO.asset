@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 245fd51208ef3d449b1ad099fcd59206, type: 3}
   m_Name: TheGiantSO
   m_EditorClassIdentifier: Assembly-CSharp::TheGiantSO
-  skillName: 6
+  skillName: 7
   activationType: 0
-  skillDescription: 
+  skillDescription: biggest R
   applyStoneCount: 1
   durationTurns: 0
+  activateCounts: 1
   scale: 2
   weight: 2

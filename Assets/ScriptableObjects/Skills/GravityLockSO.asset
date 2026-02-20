@@ -17,4 +17,5 @@ MonoBehaviour:
   skillDescription: R heavier
   applyStoneCount: 3
   durationTurns: 0
+  activateCounts: 1
   weight: 1.5

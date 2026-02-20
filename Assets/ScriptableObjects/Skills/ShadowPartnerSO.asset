@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SkillSO
   skillName: 8
   activationType: 1
-  skillDescription: 
+  countType: 0
+  skillDescription: create shadow partners
   applyStoneCount: 2
   durationTurns: 2
+  activateCounts: 2
