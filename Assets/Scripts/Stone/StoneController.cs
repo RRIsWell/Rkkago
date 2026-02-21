@@ -103,6 +103,9 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         _mousePosition = worldPos;
         
         ActivateDragLine();
+
+        TurnManager.Instance.OnTurnChangedNoArgs -= DeActivateDragLine;
+        TurnManager.Instance.OnTurnChangedNoArgs += DeActivateDragLine;
     }
 
     public void OnDrag(PointerEventData eventData)

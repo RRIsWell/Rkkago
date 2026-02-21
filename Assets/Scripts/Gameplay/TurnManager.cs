@@ -215,11 +215,13 @@ public class TurnManager : NetworkBehaviour
     
     // 턴 시작
     public event System.Action<ulong> OnTurnChanged;
+    public event System.Action OnTurnChangedNoArgs;
 
     [ClientRpc]
     private void InvokeTurnChangedClientRpc(ulong clientId)
     {
         OnTurnChanged?.Invoke(clientId);
+        OnTurnChangedNoArgs?.Invoke();
     }
 
     public void StartTurn(ulong clientId) 
