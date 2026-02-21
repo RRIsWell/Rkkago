@@ -72,5 +72,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapManager
   ShowTopMostFoldoutHeaderGroup: 1
   currentMapConfig: {fileID: 11400000, guid: 33bf5681da64e344b8678bfd222d676b, type: 2}
+  ruleExecutor: {fileID: 0}
+  obstacleSpawner: {fileID: 0}
   stone1Prefab: {fileID: 647225764294854384, guid: 3ea4fce01e45ecd488f9236c28eef65f, type: 3}
   stone2Prefab: {fileID: 647225764294854384, guid: bd704debf193e88449942f98da56a490, type: 3}
