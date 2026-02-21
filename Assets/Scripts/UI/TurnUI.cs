@@ -179,19 +179,6 @@ public class TurnUI : MonoBehaviour
         }        
     }
 
-    public void ShowGameResult(ulong loserId)
-    {
-        // 내가 패자인지 확인
-        bool iLost = NetworkManager.Singleton.LocalClientId
-            == loserId;
-        
-        ulong localId = NetworkManager.Singleton.LocalClientId;
-        bool isLocalP1 = (TurnManager.Instance != null && localId == TurnManager.Instance.Player1ClientId);
-
-        StopAllCoroutines();
-        StartCoroutine(ShowResultPopup(!iLost, isLocalP1)); // 안 졌으면 승리
-    }
-
     IEnumerator ShowTurnPopup(bool IsMyTurn, bool isLocalP1)
     {
         // 텍스트 대신 스프라이트 교체
@@ -219,7 +206,19 @@ public class TurnUI : MonoBehaviour
         }
     }
 
-    IEnumerator ShowResultPopup(bool didIWin, bool isLocalP1)
+    // 공통 API: RuleExecutor가 이걸 호출
+    public void ShowGameResult(ulong winnerId, ulong loserId, GameEndReason reason)
+    {
+        ulong localId = NetworkManager.Singleton.LocalClientId;
+        bool didIWin = (localId == winnerId);
+
+        bool isLocalP1 = (TurnManager.Instance != null && localId == TurnManager.Instance.Player1ClientId);
+
+        StopAllCoroutines();
+        StartCoroutine(ShowResultPopup(didIWin, isLocalP1, reason));
+    }
+
+    IEnumerator ShowResultPopup(bool didIWin, bool isLocalP1, GameEndReason reason)
     {
         // 텍스트 대신 스프라이트 교체
         if (turnPopupImage != null)

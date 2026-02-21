@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
+public enum GameEndReason
+{
+    AllStonesOut,
+    TieBreaker
+}
+
 public class MapRuleExecutor : NetworkBehaviour
 {
     private MapConfig config;
@@ -22,6 +28,12 @@ public class MapRuleExecutor : NetworkBehaviour
     public void Init(MapConfig mapConfig)
     {
         config = mapConfig;
+
+        // 씬 재시작/재매치 대비 초기화
+        gameEnded = false;
+        remain.Clear();
+        stones.Clear();
+        aliveStones.Clear();
     }
 
     // 서버에서만 실행
@@ -62,10 +74,15 @@ public class MapRuleExecutor : NetworkBehaviour
 
         // 서버에서 삭제
         StartCoroutine(DelayedDespawn(netObj)); 
-        //netObj.Despawn(); 
+        //netObj.Despawn();
 
-        if(remain[owner] <= 0)
-            OnPlayerLose(owner);
+        // 공통 패배 조건: 한쪽 돌이 0개 되면 종료
+        if (remain.ContainsKey(owner) && remain[owner] <= 0)
+        {
+            ulong loserId = owner;
+            ulong winnerId = GetOpponentId(loserId);
+            EndGame(winnerId, loserId, GameEndReason.AllStonesOut);
+        }
     }
     private IEnumerator DelayedDespawn(NetworkObject netObj)
     {
@@ -74,90 +91,92 @@ public class MapRuleExecutor : NetworkBehaviour
         
         netObj.Despawn();
     }
-    
+
     /// <summary>
-    /// Map3 전용 : 턴 쌍 기준 타이브레이크하고 승패 판정
+    /// 공통 게임 종료 함수 
+    /// Map3 타이브레이크도 이걸 호출하게 만들 거임
     /// </summary>
-    /// <param name="loserId"></param>
-    public void CheckCullingTieBreaker(int currentTurnPairs)
+    public void EndGame(ulong winnerId, ulong loserId, GameEndReason reason)
     {
-        if(gameEnded) return;
-        if(!IsServer) return;
+        if (!IsServer) return;
+        if (gameEnded) return;
 
-        if(config == null) return; // null 오류 방지
-        if(config.ruleType != MapRuleType.Culling) return;
-        if(currentTurnPairs < config.maxTurnPairs) return;
-
-        ulong hostId = NetworkManager.ServerClientId;
-        ulong otherId = GetOtherClientId(hostId);
-
-        float bestHost = float.MaxValue;
-        float bestOther = float.MaxValue;
-
-        foreach(var s in aliveStones)
-        {
-            if(s == null) continue;
-
-            var no = s.GetComponent<NetworkObject>();
-            if(no == null || !no.IsSpawned) continue;
-
-            float dist = Vector2.Distance(
-                s.transform.position,
-                config.center
-            );
-
-            if(no.OwnerClientId == hostId)
-                bestHost = Mathf.Min(bestHost, dist);
-            else if(no.OwnerClientId == otherId)
-                bestOther = Mathf.Min(bestOther, dist);
-        }
-
-        if(bestHost == float.MaxValue || bestOther == float.MaxValue)
-            return;
-        
-        if(Mathf.Approximately(bestHost, bestOther))
-        {
-            Debug.Log("[Map3] TieBreaker Draw");
-            return;
-        }
-
-        // 더 먼 쪽이 패배
-        ulong loser = (bestHost < bestOther) ? otherId : hostId;
-        OnPlayerLose(loser);
-    }
-
-    private ulong GetOtherClientId(ulong hostId)
-    {
-        foreach(var c in NetworkManager.Singleton.ConnectedClientsList)
-            if(c.ClientId != hostId) return c.ClientId;
-        
-        return hostId;
-    }
-
-
-    // 패배
-    public void OnPlayerLose(ulong loser)
-    {
-        if(gameEnded) return;
         gameEnded = true;
-        
-        Debug.Log($"{loser} LOSE");
 
-        //TODO: TurnManager에 전달해서 게임 종료 처리
-        NotifyGameResultClientRpc(loser);
+        Debug.Log($"[Rule] EndGame reason={reason}, winner={winnerId}, loser={loserId}");
+
+        NotifyGameResultClientRpc(winnerId, loserId, (int)reason);
+    }
+
+    private ulong GetOpponentId(ulong oneSide)
+    {
+        if (TurnManager.Instance == null) return oneSide;
+
+        ulong p1 = TurnManager.Instance.Player1ClientId;
+        ulong p2 = TurnManager.Instance.Player2ClientId;
+
+        if (oneSide == p1) return p2;
+        if (oneSide == p2) return p1;
+
+        // 혹시 좌석이 아직 안 잡혔을 때를 대비한 fallback
+        foreach (var c in NetworkManager.Singleton.ConnectedClientsList)
+            if (c.ClientId != oneSide) return c.ClientId;
+
+        return oneSide;
     }
 
     [ClientRpc]
-    private void NotifyGameResultClientRpc(ulong loserId)
+    private void NotifyGameResultClientRpc(ulong winnerId, ulong loserId, int reasonInt)
     {
-        TurnUI ui = FindObjectOfType<TurnUI>();
-        if(ui != null)
-        {
-            ui.ShowGameResult(loserId);
-        }
+        var ui = FindObjectOfType<TurnUI>();
+        if (ui != null)
+            ui.ShowGameResult(winnerId, loserId, (GameEndReason)reasonInt);
         else
-        {
             Debug.LogError("[Rule] TurnUI를 못 찾음 (씬에 TurnUI 존재/활성 확인)");
-        }
     }
+
+    public void CheckCullingTieBreaker(int currentTurnPairs)
+{
+    if (gameEnded) return;
+    if (!IsServer) return;
+
+    if (config == null) return;
+    if (config.ruleType != MapRuleType.Culling) return;
+    if (currentTurnPairs < config.maxTurnPairs) return;
+
+    // 좌석 기반으로 비교해야 함 (hostId로 하면 "호스트가 누구냐"에 종속됨)
+    ulong p1 = TurnManager.Instance != null ? TurnManager.Instance.Player1ClientId : ulong.MaxValue;
+    ulong p2 = TurnManager.Instance != null ? TurnManager.Instance.Player2ClientId : ulong.MaxValue;
+    if (p1 == ulong.MaxValue || p2 == ulong.MaxValue) return;
+
+    float bestP1 = float.MaxValue;
+    float bestP2 = float.MaxValue;
+
+    foreach (var s in aliveStones)
+    {
+        if (s == null) continue;
+
+        var no = s.GetComponent<NetworkObject>();
+        if (no == null || !no.IsSpawned) continue;
+
+        float dist = Vector2.Distance(s.transform.position, config.center);
+
+        if (no.OwnerClientId == p1) bestP1 = Mathf.Min(bestP1, dist);
+        else if (no.OwnerClientId == p2) bestP2 = Mathf.Min(bestP2, dist);
+    }
+
+    // 둘 중 한쪽이라도 돌이 없으면 여기서 판정하면 안 됨 (이미 AllStonesOut이 처리해야 함)
+    if (bestP1 == float.MaxValue || bestP2 == float.MaxValue) return;
+
+    if (Mathf.Approximately(bestP1, bestP2))
+    {
+        return;
+    }
+
+    // 더 가까운 쪽이 승자
+    ulong winnerId = (bestP1 < bestP2) ? p1 : p2;
+    ulong loserId  = (winnerId == p1) ? p2 : p1;
+
+    EndGame(winnerId, loserId, GameEndReason.TieBreaker);
+}
 }

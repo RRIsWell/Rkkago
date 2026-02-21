@@ -88,6 +88,7 @@ public class TurnManager : NetworkBehaviour
     public NetworkVariable<int> TurnNumber => turnNumber;
 
     private int CalcTurnNumber() => (turnStep / 2) + 1;
+    public int GetTurnPairs() => turnStep / 2;
 
     /// <summary>
     /// 좌석 고정 + 동전 던지기 결과 알림 (TurnUI에서 애니메이션 트리거)

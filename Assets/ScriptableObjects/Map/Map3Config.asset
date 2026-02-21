@@ -17,7 +17,7 @@ MonoBehaviour:
   allowHalfOut: 1
   friction: 0.8
   slippery: 0
-  useObstacle: 0
+  useObstacle: 1
   obstacleCount: 5
   obstacleMargin: 1.5
   loseStoneCount: 5
@@ -39,3 +39,6 @@ MonoBehaviour:
   maxTurnPairs: 15
   outMargin: 0.05
   center: {x: 0, y: 0}
+  isCircleMap: 0
+  mapHalfSize: {x: 3.5, y: 3.5}
+  mapRadius: 3.5
