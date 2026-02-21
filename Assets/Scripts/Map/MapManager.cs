@@ -61,11 +61,6 @@ public class MapManager : NetworkBehaviour
 
             obstacleSpawner?.Init(currentMapConfig);
         }
-        
-        // =========================
-        // 게임 시작 시 TurnPairs 카운터 리셋
-        // =========================
-        TurnManager.Instance.ResetTurnCounter();
 
         // 좌석 먼저 결정
         TurnManager.Instance.DecideSeatsIfNeeded();

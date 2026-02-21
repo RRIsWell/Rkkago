@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine;
 using Unity.Netcode;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
@@ -47,7 +46,7 @@ public class TurnManager : NetworkBehaviour
         return currentTurnClientId;
     }
 
-    // 접속한 플레이어 정보 (왼쪽이 P1, 오른쪽이 P2)
+    // 접속한 플레이어 정보 (왼쪽이 P1, 오른쪽이 P2 고정)
     private List<ulong> playerClientIds = new List<ulong>();
     public List<ulong> PlayerClientIds => playerClientIds;
 
@@ -66,8 +65,8 @@ public class TurnManager : NetworkBehaviour
             NetworkVariableWritePermission.Server
         );
 
-    public ulong Player1ClientId => player1ClientId.Value;
-    public ulong Player2ClientId => player2ClientId.Value;
+    public ulong Player1ClientId => player1ClientId.Value; // 왼쪽 파랑
+    public ulong Player2ClientId => player2ClientId.Value; // 오른쪽 분홍
     
     // =========================
     // Map3(컬링)용 턴쌍 카운터
@@ -90,10 +89,10 @@ public class TurnManager : NetworkBehaviour
     private int CalcTurnNumber() => (turnStep / 2) + 1;
 
     /// <summary>
-    /// 동전 던지기 결과 알림 (TurnUI에서 애니메이션 트리거)
+    /// 좌석 고정 + 동전 던지기 결과 알림 (TurnUI에서 애니메이션 트리거)
+    /// (isHeads, p1LeftId(host), p2RightId(guest))
     /// </summary>
     public event Action<bool, ulong, ulong> OnSeatsDecided;
-    // (isHeads, p1LeftId, p2RightId)
 
     // =========================
     // 턴이 1번 진행되었다 (서버 전용 이벤트)
@@ -152,49 +151,67 @@ public class TurnManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// 2명 모이면 동전 던지기로 P1/P2 배정 + 첫 턴 시작
-    /// 이었는데 좌석 결정만 하는 걸로 바꿈
+    /// 좌석과 색 고정
+    /// 동전 던지기는 여기서 X
     /// </summary>
     public void DecideSeatsIfNeeded()
     {
         if(!IsServer) return;
         if(gameStarted) return;
-        if(playerClientIds.Count < 2) return;
+
+        var connected = NetworkManager.Singleton.ConnectedClientsIds;
+        if (connected.Count < 2) return;
 
         gameStarted = true;
 
-        // 서버만 동전 던지기 (true=앞면, false=뒷면)
-        bool isHeads = Random.Range(0, 2) == 0;
+        ulong hostId = NetworkManager.ServerClientId;
 
-        // 앞면이면 지금 리스트[0]이 P1, 뒷면이면 리스트[1]이 P1
-        ulong p1 = isHeads ? playerClientIds[0] : playerClientIds[1];
-        ulong p2 = isHeads ? playerClientIds[1] : playerClientIds[0];
+        // 게스트 찾기
+        ulong guestId = ulong.MaxValue;
+        foreach (var id in connected)
+        {
+            if (id != hostId) { guestId = id; break; }
+        }
+        if (guestId == ulong.MaxValue) return;
 
-        // P1(왼쪽) 네트워크로 공유
-        player1ClientId.Value = p1;
-        player2ClientId.Value = p2;
+        // host=P1(왼쪽), client=P1(오른쪽) 네트워크로 공유
+        player1ClientId.Value = hostId;
+        player2ClientId.Value = guestId;
 
         // 앞으로 모든 로직이 [P1, P2] 순서를 쓰게 리스트 정렬
         playerClientIds.Clear();
-        playerClientIds.Add(p1);
-        playerClientIds.Add(p2);
+        playerClientIds.Add(hostId);
+        playerClientIds.Add(guestId);
 
-        // UI들에게 동전 결과 알림 (애니메이션 트리거)
-        SeatsDecidedClientRpc(isHeads, p1, p2);
+        gameStarted = true;
     }
 
-    // =========================
-    // 첫 턴 시작만
-    // =========================
+    /// <summary>
+    /// 단판제 시작
+    /// - 좌석은 이미 고정됨
+    /// - 동전으로 선공만 결정
+    /// </summary>
     public void StartMatch()
     {
         if(!IsServer) return;
         if(Player1ClientId == ulong.MaxValue || Player2ClientId == ulong.MaxValue) return;
-
-        // 턴 카운터 초기화 후 P1이 선공
+        
+        // 단판제
         ResetTurnCounter();
-        StartTurn(Player1ClientId);
+
+        // 선공만 동전으로 결정 (좌석은 고정)
+        bool isHeads = Random.Range(0, 2) == 0;
+        ulong starter = isHeads ? Player1ClientId : Player2ClientId;
+
+        // UI에 좌석 고정 + 동전 결과를 한 번만 알림
+        SeatsDecidedClientRpc(isHeads, Player1ClientId, Player2ClientId);
+
+
+        // 첫 턴 시작
+        StartTurn(starter);
     }
+
+
 
     [ClientRpc]
     private void SeatsDecidedClientRpc(bool isHeads, ulong p1Id, ulong p2Id)
@@ -381,7 +398,17 @@ public class TurnManager : NetworkBehaviour
         if(clients.Count < 2) return;
 
         // 클라이언트의 탈주 처리
-        if(!clients.Contains(currentTurnClientId.Value))
+        bool turnOwnerStillConnected = false;
+        foreach (var id in clients)
+        {
+            if (id == currentTurnClientId.Value)
+            {
+                turnOwnerStillConnected = true;
+                break;
+            }
+        }
+
+        if (!turnOwnerStillConnected)
         {
             StartTurn(clients[0]);
             return;
