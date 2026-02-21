@@ -133,9 +133,7 @@ public class TurnManager : NetworkBehaviour
             += OnClientConnected; */
 
         // 이미 2명인 상태로 스폰되는 경우 시작 시도
-        TryStartGame();
-
-        Debug.Log($"[TM] OnNetworkSpawn, players={string.Join(",", playerClientIds)}");
+        /*TryStartGame();*/
     }
 
     /*private void OnClientConnected(ulong clientId)
@@ -155,8 +153,9 @@ public class TurnManager : NetworkBehaviour
 
     /// <summary>
     /// 2명 모이면 동전 던지기로 P1/P2 배정 + 첫 턴 시작
+    /// 이었는데 좌석 결정만 하는 걸로 바꿈
     /// </summary>
-    public void TryStartGame()
+    public void DecideSeatsIfNeeded()
     {
         if(!IsServer) return;
         if(gameStarted) return;
@@ -182,12 +181,19 @@ public class TurnManager : NetworkBehaviour
 
         // UI들에게 동전 결과 알림 (애니메이션 트리거)
         SeatsDecidedClientRpc(isHeads, p1, p2);
+    }
+
+    // =========================
+    // 첫 턴 시작만
+    // =========================
+    public void StartMatch()
+    {
+        if(!IsServer) return;
+        if(Player1ClientId == ulong.MaxValue || Player2ClientId == ulong.MaxValue) return;
 
         // 턴 카운터 초기화 후 P1이 선공
         ResetTurnCounter();
-        StartTurn(p1);
-
-        Debug.Log($"[TM] Seats decided. Heads={isHeads}, P1(left)={p1}, P2(right)={p2}");
+        StartTurn(Player1ClientId);
     }
 
     [ClientRpc]

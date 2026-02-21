@@ -14,8 +14,8 @@ public class MapManager : NetworkBehaviour
     [SerializeField] private ObstacleSpawner obstacleSpawner;
     
     // 알 스폰
-    [SerializeField] private GameObject stone1Prefab;
-    [SerializeField] private GameObject stone2Prefab;
+    [SerializeField] private GameObject stone1Prefab; 
+    [SerializeField] private GameObject stone2Prefab; 
     private bool stoneSpawned = false; // 알 중복 스폰 방지
 
     private void Start()
@@ -61,17 +61,21 @@ public class MapManager : NetworkBehaviour
 
             obstacleSpawner?.Init(currentMapConfig);
         }
-
-        // 알 생성
-        SpawnAllStones();
         
         // =========================
         // 게임 시작 시 TurnPairs 카운터 리셋
         // =========================
         TurnManager.Instance.ResetTurnCounter();
-        
-        // 턴 시작(Host부터)
-        TurnManager.Instance.TryStartGame();
+
+        // 좌석 먼저 결정
+        TurnManager.Instance.DecideSeatsIfNeeded();
+
+        // 좌석 기준으로 알 스폰하고 팀 세팅
+        SpawnAllStonesBySeats();
+
+        // 매치 시작 (첫 턴 시작)
+        TurnManager.Instance.StartMatch();
+
     }
 
     // 지금은 호출 안 되고 있긴 한데 일단 남겨둠
@@ -93,7 +97,8 @@ public class MapManager : NetworkBehaviour
         }
     }
 
-    void SpawnAllStones()
+    // 좌석 기준 스폰
+    void SpawnAllStonesBySeats()
     {
         if(!IsServer) return;
 
@@ -102,26 +107,24 @@ public class MapManager : NetworkBehaviour
         if(clients.Count < 2) return;
 
         // P1은 호스트(0번), P2는 클라이언트(1번)에게 소유권 부여
-        ulong p1Id = NetworkManager.ServerClientId;
-        ulong p2Id = p1Id;
+        ulong leftId = TurnManager.Instance.Player1ClientId;   // P1 = 왼쪽
+        ulong rightId = TurnManager.Instance.Player2ClientId;  // P2 = 오른쪽
 
-        foreach (var c in clients)
+        if (leftId == ulong.MaxValue || rightId == ulong.MaxValue)
         {
-            if (c.ClientId != p1Id)
-            {
-                p2Id = c.ClientId;
-                break;
-            }
+            Debug.LogError("[MapManager] Seats not decided yet.");
+            return;
         }
 
-        // 각각의 스폰 포인트 그룹에서 소환
-        SpawnByTeam(p1Id, 0, stone1Prefab);
-        SpawnByTeam(p2Id, 1, stone2Prefab);
+        // 각각의 스폰 포인트 그룹에서 소환 : 1=왼쪽(하늘) , 2=오른쪽(분)
+        SpawnByTeam(leftId, 0, 1, stone1Prefab);
+        SpawnByTeam(rightId, 1, 2, stone2Prefab);
         
         stoneSpawned = true; // 중복 방지
     }
 
-    void SpawnByTeam(ulong ownerId, int playerIndex, GameObject prefab)
+    // teamId 파라미터 추가
+    void SpawnByTeam(ulong ownerId, int playerIndex, int teamId, GameObject prefab)
     {
         foreach (Transform spawnPoint in currentMapConfig.stoneSpawnPoints[playerIndex].spawnPoints)
         {
@@ -150,12 +153,13 @@ public class MapManager : NetworkBehaviour
 
             // remain 초기화(RegisterStone)
             var stone = go.GetComponent<Stone>();
-            if(stone == null)
+            if(stone != null)
             {
-                Debug.LogError("[MapManager] Spawned stone has no Stone");
-            }
-            else
-            {
+                stone.SetRuleExecutor(ruleExecutor); 
+                
+                // 팀 세팅 (모든 클라에 색 동기화)
+                stone.SetTeam(teamId);
+                
                 ruleExecutor.RegisterStone(stone);
             }
         }
