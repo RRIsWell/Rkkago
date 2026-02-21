@@ -86,7 +86,22 @@ public class TurnUI : MonoBehaviour
 
     public void OnEnable()
     {
-        StartCoroutine(WaitAndRegister());
+        StartCoroutine(WaitAndBindGameState());
+
+    }
+    
+    private System.Collections.IEnumerator WaitAndBindGameState(){
+        while (GameManager.Instance == null)
+            yield return null;
+
+        GameManager.Instance.OnGameStateChanged -= StartTurnUI;
+        GameManager.Instance.OnGameStateChanged += StartTurnUI;
+    }
+
+    private void StartTurnUI(GameState oldState, GameState newState)
+    {
+        if (newState == GameState.Playing)
+            StartCoroutine(WaitAndRegister());
     }
 
     // TurnManager -> TurnUI로 신호 전달

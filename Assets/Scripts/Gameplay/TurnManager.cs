@@ -19,6 +19,7 @@ public class TurnManager : NetworkBehaviour
     private bool isTurnActive = false; // 팝업 뜰 땐 타이머X
     private bool initialSkillGiven = false; // 처음에 스킬 부여
     private bool gameStarted = false; // 게임 시작 1회만 선공 결정
+    private bool _isStarted = false; // 게임 시작 1회만 state가 바뀔 때 스킬창 실행
 
     // FindObjectOfType 제거하고 주입 받기
     private MapRuleExecutor ruleExecutor;
@@ -196,6 +197,8 @@ public class TurnManager : NetworkBehaviour
         if(!IsServer) return;
         if(Player1ClientId == ulong.MaxValue || Player2ClientId == ulong.MaxValue) return;
         
+        _isStarted = true;
+        
         // 단판제
         ResetTurnCounter();
 
@@ -277,10 +280,10 @@ public class TurnManager : NetworkBehaviour
         // UI용 턴 쌍 갱신
         if(IsServer)
             turnNumber.Value = CalcTurnNumber();
-
+        
         // 턴 교체 이벤트 발생
         InvokeTurnChangedClientRpc(clientId);
-
+        
         // 최초 게임 시작 시 1회 랜덤 스킬 부여
         if (IsServer && !initialSkillGiven && playerClientIds.Count == 2)
         {
@@ -345,9 +348,13 @@ public class TurnManager : NetworkBehaviour
             p1Stones[i].ApplySkillClientRpc(p1Skill.Item1);
         foreach (var i in p2Index)
             p2Stones[i].ApplySkillClientRpc(p2Skill.Item1);
-        
-        // 스킬 팝업창 생성
-        SkillInfoController.Instance.ShowSkillInfoClientRpc();
+
+        if (!_isStarted)
+        {
+            // 스킬 팝업창 생성
+            SkillInfoController.Instance.ShowSkillInfoClientRpc();
+        }
+        _isStarted = false;
         
         Debug.Log($"[Skill] 플레이어1: {p1Skill.Item2.SkillName} 플레이어2: {p2Skill.Item2.SkillName}");
     }

@@ -61,7 +61,7 @@ public class GameStateManager : NetworkBehaviour
         if(newState == GameState.MatchIntro && IsServer)
         {
             CancelInvoke(nameof(TransitionToSkillInfo));
-            Invoke(nameof(TransitionToSkillInfo), 3f);
+            Invoke(nameof(TransitionToSkillInfo), 2f);
         }
         else if(newState == GameState.SkillInfo && IsServer)
         {
