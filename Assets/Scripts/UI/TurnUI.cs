@@ -6,12 +6,30 @@ using System.Runtime.Serialization;
 using System.Data;
 using System.Runtime.CompilerServices;
 using System.Linq.Expressions;
+using UnityEngine.UI;
 
 public class TurnUI : MonoBehaviour
 {
     [SerializeField] private GameObject turnPanel;
     [SerializeField] private TMP_Text turnText;
     [SerializeField] private TMP_Text timerText; // 중앙 타이머 (이제 안 씀)
+
+    [Header("Popup Image")]
+    [SerializeField] private Image turnPopupImage;
+
+    [Header("Turn Popup Sprites")]
+    [SerializeField] private Sprite p1_MyTurnSprite;     // P1 테마 MY TURN
+    [SerializeField] private Sprite p1_EnemyTurnSprite;  // P1 테마 ENEMY TURN
+    [SerializeField] private Sprite p2_MyTurnSprite;     // P2 테마 MY TURN
+    [SerializeField] private Sprite p2_EnemyTurnSprite;  // P2 테마 ENEMY TURN
+
+    [Header("Result Popup Sprites")]
+    [SerializeField] private Sprite p1_WinSprite;
+    [SerializeField] private Sprite p1_LoseSprite;
+    [SerializeField] private Sprite p2_WinSprite;
+    [SerializeField] private Sprite p2_LoseSprite;
+
+    [SerializeField] private bool disableTextOnStart = true;
 
     /// <summary>
     /// 타이머 UI
@@ -123,8 +141,11 @@ public class TurnUI : MonoBehaviour
         bool IsMyTurn =
             NetworkManager.Singleton.LocalClientId == turnOwnerId;
 
+        ulong localId = NetworkManager.Singleton.LocalClientId;
+        bool isLocalP1 = (TurnManager.Instance != null && localId == TurnManager.Instance.Player1ClientId);
+
         StopAllCoroutines();
-        StartCoroutine(ShowTurnPopup(IsMyTurn));
+        StartCoroutine(ShowTurnPopup(IsMyTurn, isLocalP1));
     }
 
     private void OnDisable() // 비활성화
@@ -145,15 +166,24 @@ public class TurnUI : MonoBehaviour
         // 내가 패자인지 확인
         bool iLost = NetworkManager.Singleton.LocalClientId
             == loserId;
+        
+        ulong localId = NetworkManager.Singleton.LocalClientId;
+        bool isLocalP1 = (TurnManager.Instance != null && localId == TurnManager.Instance.Player1ClientId);
 
-            StopAllCoroutines();
-            StartCoroutine(ShowResultPopup(!iLost)); // 안 졌으면 승리
+        StopAllCoroutines();
+        StartCoroutine(ShowResultPopup(!iLost, isLocalP1)); // 안 졌으면 승리
     }
 
-    IEnumerator ShowTurnPopup(bool IsMyTurn)
+    IEnumerator ShowTurnPopup(bool IsMyTurn, bool isLocalP1)
     {
-        turnText.text = IsMyTurn ? "your turn" : "enemy's turn";
-        turnText.color = IsMyTurn ? UnityEngine.Color.green : UnityEngine.Color.red;
+        // 텍스트 대신 스프라이트 교체
+        if (turnPopupImage != null)
+        {
+            if (isLocalP1)
+                turnPopupImage.sprite = IsMyTurn ? p1_MyTurnSprite : p1_EnemyTurnSprite;
+            else
+                turnPopupImage.sprite = IsMyTurn ? p2_MyTurnSprite : p2_EnemyTurnSprite;
+        }
 
         turnPanel.SetActive(true);
 
@@ -171,10 +201,16 @@ public class TurnUI : MonoBehaviour
         }
     }
 
-    IEnumerator ShowResultPopup(bool didIWin)
+    IEnumerator ShowResultPopup(bool didIWin, bool isLocalP1)
     {
-        turnText.text = didIWin? "You Win!" : "You Lose...";
-        turnText.color = didIWin? UnityEngine.Color.green : UnityEngine.Color.red;
+        // 텍스트 대신 스프라이트 교체
+        if (turnPopupImage != null)
+        {
+            if (isLocalP1)
+                turnPopupImage.sprite = didIWin ? p1_WinSprite : p1_LoseSprite;
+            else
+                turnPopupImage.sprite = didIWin ? p2_WinSprite : p2_LoseSprite;
+        }
 
         turnPanel.SetActive(true);
 
