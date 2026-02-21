@@ -37,8 +37,12 @@ public class LateBloomer : SkillBase
         {
             ApplyTurnBuff();
         }
+        else
+        {
+            ApplyInitialDebuff();
+        }
         // 3. 2, 4, 6번째 턴에만 알 이미지 변경
-        if (_turnCnt == 2 || _turnCnt == 4 || _turnCnt == 6)
+        if (_turnCnt == 3 || _turnCnt == 7)
         {
             ChangeStoneImage();
         }
@@ -66,11 +70,11 @@ public class LateBloomer : SkillBase
     private void ChangeStoneImage()
     {
         string spriteName = SkillName.ToString();
-        if (_turnCnt == 2)
+        if (_turnCnt == 3)
         {
             spriteName = SkillName.ToString() + "2";
         }
-        else if (_turnCnt == 4)
+        else if (_turnCnt == 7)
         {
             spriteName = SkillName.ToString() + "3";
         }
@@ -79,6 +83,11 @@ public class LateBloomer : SkillBase
             _s.Resolver.SetCategoryAndLabel("Idle", spriteName);
             Debug.Log($"[{_turnCnt}턴] 알 이미지 변경 완료!");
         }
+    }
+
+    public override void Deactivate()
+    {
+        _turnCnt = 0;
     }
 
 }
