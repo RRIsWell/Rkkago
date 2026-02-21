@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleConfig
   obstacleName: 
   type: 2
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 1aa0f064bca745d4bb9c9bec20dcf567, type: 3}
   size: {x: 1, y: 1}
   weight: 1
   gravityRadius: 2.5

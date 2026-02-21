@@ -14,15 +14,15 @@ public class BombCoreObstacle : NetworkBehaviour
     [SerializeField] private string stoneTag = "Stone";   // 기존 장애물들과 통일
     [SerializeField] private LayerMask overlapMask = ~0;
 
-    [Header("비주얼")]
-    [SerializeField] private Transform radiusVisual; // 원형 표시용 자식(스프라이트)
+    /*[Header("비주얼")]
+    [SerializeField] private Transform radiusVisual;*/ // 원형 표시용 자식(스프라이트)
 
     private int turnsLeft;
     private bool exploded;
 
     public override void OnNetworkSpawn()
     {
-        ApplyRadiusVisual();
+        //ApplyRadiusVisual();
 
         if (!IsServer) return;
 
@@ -58,6 +58,7 @@ public class BombCoreObstacle : NetworkBehaviour
         if (exploded) return;
         exploded = true;
 
+        
         Vector2 center = transform.position;
 
         // 전체 Overlap -> Tag로 필터
@@ -85,24 +86,45 @@ public class BombCoreObstacle : NetworkBehaviour
             stone.SetAnimatorTriggerClientRpc(Stone.HashDead);
         }
 
-        // 폭탄 자신 제거
+        // 폭탄 터지는 애니메이션 실행
+        OnTriggerDestroyAnimationClientRpc();
+        
+        /*// 폭탄 자신 제거
         var no = GetComponent<NetworkObject>();
         if (no != null && no.IsSpawned) no.Despawn(true);
-        else Destroy(gameObject);
+        else Destroy(gameObject);*/
     }
 
-    private void ApplyRadiusVisual()
+    [ClientRpc]
+    private void OnTriggerDestroyAnimationClientRpc()
+    {
+        GetComponent<Animator>().SetTrigger("Destroy");
+    }
+    
+    // 애니메이션 이벤트 함수 (Explode 재생 끝난 뒤 실행)
+    public void OnDestroyBomb()
+    {
+        // 폭탄 자신 제거
+        if (IsServer)
+        {
+            var no = GetComponent<NetworkObject>();
+            if (no != null && no.IsSpawned) no.Despawn(true);
+            else Destroy(gameObject);
+        }
+    }
+
+    /*private void ApplyRadiusVisual()
     {
         if (radiusVisual == null) return;
 
         float diameter = radius * 2f;
         radiusVisual.localScale = new Vector3(diameter, diameter, 1f);
         radiusVisual.gameObject.SetActive(true);
-    }
+    }*/
 
     private void OnValidate()
     {
-        ApplyRadiusVisual();
+        //ApplyRadiusVisual();
     }
 
 #if UNITY_EDITOR

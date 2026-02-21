@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleConfig
   obstacleName: BounceCore
   type: 1
-  sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  size: {x: 5, y: 5}
+  sprite: {fileID: 21300000, guid: a356b9b9df0350742b3e01625f18cb62, type: 3}
+  size: {x: 1, y: 1}
   weight: 1
   gravityRadius: 2.5
   gravityStrength: 15
