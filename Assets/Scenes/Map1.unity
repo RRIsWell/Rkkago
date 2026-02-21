@@ -184,6 +184,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c72c07aa79859449884149bca1a12c0, type: 3}
+--- !u!114 &368502668 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8613631302560426574, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+  m_PrefabInstance: {fileID: 1877659025}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &394998827
 GameObject:
   m_ObjectHideFlags: 0
@@ -1112,6 +1123,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1022300573290013661, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: turnPopupImage
+      value: 
+      objectReference: {fileID: 368502668}
+    - target: {fileID: 1022300573290013661, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: p1_MyTurnSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d8ec4d83224a3ff4183fda2c07c6e0ae, type: 3}
+    - target: {fileID: 1022300573290013661, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: p2_MyTurnSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 45fd75ac70847eb43a8fd90c19ffba67, type: 3}
+    - target: {fileID: 1022300573290013661, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: p1_EnemyTurnSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ddb38a93c5d2a6f4dbfab301873e302f, type: 3}
+    - target: {fileID: 1022300573290013661, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: p2_EnemyTurnSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d10d425ba1fcbe34e8dbe4b19cc0c2a8, type: 3}
     - target: {fileID: 1327952231260631829, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1151,6 +1182,10 @@ PrefabInstance:
     - target: {fileID: 5031432312356800693, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 3143222545
+      objectReference: {fileID: 0}
+    - target: {fileID: 5245389251095322902, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7480608854127466753, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: m_AnchorMax.y
