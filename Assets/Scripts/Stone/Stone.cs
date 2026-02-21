@@ -158,7 +158,7 @@ public class Stone : NetworkBehaviour
         if(IsServer && _ruleExecutor != null)
         {
             _ruleExecutor?.OnStoneOut(this);
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
     
