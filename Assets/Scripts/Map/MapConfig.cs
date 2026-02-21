@@ -55,7 +55,7 @@ public class MapConfig : ScriptableObject
     /// Map3 (Culling)
     /// </summary>
     [Header("Map3 - Culling")]
-    public int maxTurnPairs = 15; // 서로 한 번씩 15턴
+    public int maxTurnPairs = 5; // 서로 한 번씩 15턴
     public float outMargin = 0.05f; // 화면 밖 판정
     public Vector2 center = Vector2.zero; // 중앙점
     
