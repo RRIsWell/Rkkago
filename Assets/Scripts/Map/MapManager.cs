@@ -36,6 +36,8 @@ public class MapManager : NetworkBehaviour
         if (!IsServer) return;
         if (stoneSpawned) return;
 
+        TurnManager.Instance.AddClientId(clientId);
+        
         // 반드시 2명 모였을 때만
         if(NetworkManager.Singleton.ConnectedClientsList.Count < 2)
             return;
