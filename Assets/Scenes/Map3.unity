@@ -298,6 +298,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 559887448}
     m_Modifications:
+    - target: {fileID: 426261935465268465, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 549875919175943761, guid: 881af05ac0937da448f2691b397b51b4, type: 3}
+    - target: {fileID: 1220322595705204770, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015643334366712029, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015643334366712029, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 4894573426835037935, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
       propertyPath: m_Name
       value: Map3Layout
@@ -382,12 +398,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5663822525124227089, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_Color.b
+      value: 0.24313727
+      objectReference: {fileID: 0}
+    - target: {fileID: 5663822525124227089, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_Color.g
+      value: 0.24313727
+      objectReference: {fileID: 0}
+    - target: {fileID: 5663822525124227089, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_Color.r
+      value: 0.24313727
+      objectReference: {fileID: 0}
+    - target: {fileID: 6379308578545840224, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437442569598501641, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7755830027745967390, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7913051121002703663, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1746772491
       objectReference: {fileID: 0}
+    - target: {fileID: 8398243288298152626, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -865777294120192601, guid: 7ffcd73e0c308044ca5fffb750e35695, type: 3}
+    - target: {fileID: 8859413229828801881, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4693911087576986550, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+    - {fileID: 7480781727099010263, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
+    - {fileID: 5663822525124227089, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5472647349709223371, guid: ea2577074f1326948adc1a83256e5fc3, type: 3}
@@ -1288,6 +1338,10 @@ PrefabInstance:
     - target: {fileID: 5031432312356800693, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 3143222545
+      objectReference: {fileID: 0}
+    - target: {fileID: 5245389251095322902, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7480608854127466753, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: m_AnchorMax.y
