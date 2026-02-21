@@ -206,11 +206,11 @@ public class SkillInfoController : NetworkBehaviour
     {
         if (newState == GameState.SkillInfo)
         {
-            ShowCurrentSkillInfoInternal(GetLocalPlayerCurrentSkill().skillIndex, autoHide: true);
+            //ShowCurrentSkillInfoInternal(GetLocalPlayerCurrentSkill().skillIndex, autoHide: true);
         }
         else if (newState == GameState.Playing)
         {
-            Hide();
+            //Hide();
         }
     }
 
