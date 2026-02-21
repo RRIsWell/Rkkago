@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LateBloomerSO
   skillName: 9
   activationType: 2
+  countType: 0
   skillDescription: 
   applyStoneCount: 1
   durationTurns: 0
+  activateCounts: 100
   strength: 1.2
   debuffedWeight: 0.5
