@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using Unity.Netcode;
 using System.Collections.Generic;
@@ -11,6 +12,10 @@ public class TurnManager : NetworkBehaviour
     public static TurnManager Instance;
 
     [SerializeField] private float turnTime = 10f;
+    [SerializeField] private float waitTillSKill = 1f;
+    [SerializeField] private float waitTillTurnEnd = 1f;
+    
+    
     private bool isChangingTurn = false; // 턴 교체 중복 방지용
     private bool isTurnActive = false; // 팝업 뜰 땐 타이머X
     private bool initialSkillGiven = false; // 처음에 스킬 부여
@@ -94,6 +99,11 @@ public class TurnManager : NetworkBehaviour
     // 턴이 1번 진행되었다 (서버 전용 이벤트)
     // =========================
     public static event System.Action OnServerTurnAdvanced;
+
+    /// <summary>
+    /// 턴 끝난 후 스킬 발동될 때 부르는 이벤트
+    /// </summary>
+    public event System.Action OnTurnEndedSkill;
     
     private void Awake()
     {
@@ -222,6 +232,12 @@ public class TurnManager : NetworkBehaviour
     {
         OnTurnChanged?.Invoke(clientId);
         OnTurnChangedNoArgs?.Invoke();
+    }
+    
+    [ClientRpc]
+    private void InvokeTurnEndedSkillClientRpc()
+    {
+        OnTurnEndedSkill?.Invoke();
     }
 
     public void StartTurn(ulong clientId) 
@@ -390,10 +406,8 @@ public class TurnManager : NetworkBehaviour
     {
         if(rpcParams.Receive.SenderClientId != currentTurnClientId.Value) 
             return;
-
-        // 즉시 턴 넘기기
-        isChangingTurn = true;
-        ChangeTurn();
+        
+        StartCoroutine(WaitTillTurnEnd());
     }
 
     // 턴 검사
@@ -416,5 +430,14 @@ public class TurnManager : NetworkBehaviour
     {
         Debug.Log("[TM] Popup finished -> Turn Active");
         isTurnActive = true;
+    }
+
+    private IEnumerator WaitTillTurnEnd()
+    {
+        yield return new WaitForSeconds(waitTillSKill);
+        InvokeTurnEndedSkillClientRpc();
+        yield return new WaitForSeconds(waitTillTurnEnd);
+        isChangingTurn = true;
+        ChangeTurn();
     }
 }

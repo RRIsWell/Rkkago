@@ -45,11 +45,6 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     private SkillState _skillState = SkillState.Deactive;
     
     /// <summary>
-    /// 이번 턴에 스킬을 사용했는지 확인하는 플래그
-    /// </summary>
-    private bool _hasSkillActivatedThisTurn = false;
-    
-    /// <summary>
     /// 로컬 플레이어에게 스킬이 적용되었을 때 호출됨 (skillIndex)
     /// </summary>
     public static event System.Action<int> OnLocalPlayerSkillApplied;
@@ -130,8 +125,6 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         // 드래그 끝
         DeActivateDragLine();
         
-        ResetSkillFlagServerRpc();
-        
         // 돌 날아감
         Vector2 worldPos = _camera.ScreenToWorldPoint(eventData.position);
         Vector2 direction = ((Vector2)transform.position - worldPos).normalized;
@@ -164,12 +157,6 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
 
         // 한번 쏘고 나면 즉시 턴 종료 요청
         TurnManager.Instance.EndTurnServerRpc();
-    }
-    
-    [ServerRpc]
-    private void ResetSkillFlagServerRpc()
-    {
-        _hasSkillActivatedThisTurn = false;
     }
     
     [ServerRpc]
@@ -293,8 +280,8 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
                 OnMouseUpInt += _skillContainer.ActivateSkill;
                 break;
             case  SkillActivationType.OnTurnStarted:
-                _stoneMovement.OnMovementEnded -= HandleTurnStartedSkill;
-                _stoneMovement.OnMovementEnded += HandleTurnStartedSkill;
+                TurnManager.Instance.OnTurnEndedSkill -= HandleTurnStartedSkill;
+                TurnManager.Instance.OnTurnEndedSkill += HandleTurnStartedSkill;
                 break;
         }
         
@@ -326,7 +313,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     private void HandleTurnStartedSkill()
     {
         // 스킬 인덱스가 유효할 때만
-        if (_currentSkillIndex != -1 & !_hasSkillActivatedThisTurn)
+        if (_currentSkillIndex != -1)
         {
             var skill = _skillContainer.GetSkillByIndex(_currentSkillIndex);
         
@@ -334,7 +321,10 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
             if (skill is Teleportation) 
             {
                 skill.Activate(); // SkillBase의 가상 함수 호출
-                _hasSkillActivatedThisTurn = true;
+            }
+            else if (skill is LateBloomer)
+            {
+                skill.Activate();
             }
         }
     }
@@ -344,7 +334,7 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     {
         if (TurnManager.Instance != null)
         {
-            _stoneMovement.OnMovementEnded -= HandleTurnStartedSkill;
+            TurnManager.Instance.OnTurnEndedSkill -= HandleTurnStartedSkill;
         }
         base.OnDestroy();
     }
