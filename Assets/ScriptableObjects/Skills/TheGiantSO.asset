@@ -20,4 +20,4 @@ MonoBehaviour:
   durationTurns: 0
   activateCounts: 100
   scale: 2
-  weight: 2
+  weight: 1.5
