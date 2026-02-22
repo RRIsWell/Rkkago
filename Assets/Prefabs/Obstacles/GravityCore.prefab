@@ -149,6 +149,9 @@ MonoBehaviour:
   captureRadius: 0.05
   dragMultiplier: 0.8
   capturedMaxSpeed: 0.5
+  turnPower: 0.3
+  dragPower: 0.3
+  captureSnappiness: 0.5
 --- !u!114 &2837518950156779761
 MonoBehaviour:
   m_ObjectHideFlags: 0

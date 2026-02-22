@@ -26,6 +26,13 @@ public class GravityCoreObstacle : MonoBehaviour
     // 코어 근처에서 속도 상한(0이면 완전 정지)
     [SerializeField] private float capturedMaxSpeed = 0.5f;
 
+    [SerializeField, Range(0f, 1f)]
+    private float turnPower = 0.3f;
+    [SerializeField, Range(0f, 1f)]
+    private float dragPower = 1f;
+    [SerializeField, Range(0f, 1f)]
+    private float captureSnappiness = 0.5f;
+
     private void Awake()
     {
         if (obstacle == null) obstacle = GetComponent<Obstacle>();
@@ -79,18 +86,18 @@ public class GravityCoreObstacle : MonoBehaviour
             float normalized = Mathf.Clamp01(1f - (dist / r));
 
             // 방향을 강하게 중심으로 수렴
-            float turn = cfg.gravityStrength * (0.2f + 0.8f*normalized);
+            float turn = cfg.gravityStrength * turnPower * (0.2f + 0.8f * normalized);
             mv.Direction = Vector2.Lerp(mv.Direction, pullDir, turn * tickInterval).normalized;
 
             // 코어 안에서는 속도를 줄여서(드래그) 통과/튕김 방지
-            float drag = (cfg.gravityStrength * dragMultiplier) * Mathf.Pow(normalized, 2f);
+            float drag = (cfg.gravityStrength * dragMultiplier) * dragPower * Mathf.Pow(normalized, 2f);
             mv.Speed = Mathf.Max(0f, mv.Speed - drag * tickInterval);
 
             // 코어의 중심 근처에 오면 더 이상 통과 못 하게 붙도록 함(캡처)
             if (dist <= captureRadius)
             {
-                mv.Direction = pullDir;
-                mv.Speed = Mathf.Min(mv.Speed, capturedMaxSpeed); // 0이면 완전 흡수됨
+                mv.Direction = Vector2.Lerp(mv.Direction, pullDir, captureSnappiness).normalized;
+                mv.Speed = Mathf.Min(mv.Speed, Mathf.Lerp(mv.Speed, capturedMaxSpeed, captureSnappiness));
             }
         }
     }
