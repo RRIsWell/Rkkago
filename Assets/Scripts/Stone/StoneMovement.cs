@@ -287,7 +287,8 @@ public class StoneMovement
 
     private void OnDestroy(Transform target)
     {
-        EffectManager.Instance.DestroyEffectClientRpc(target.transform.position);
+        if(!target.CompareTag("Shadow"))
+            EffectManager.Instance.DestroyEffectClientRpc(target.transform.position);
         _stoneController.Stone.SetAnimatorTriggerClientRpc(Stone.HashDead);
     }
     

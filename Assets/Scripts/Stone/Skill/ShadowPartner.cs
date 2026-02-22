@@ -134,9 +134,11 @@ public class ShadowPartner : SkillBase
         
         // 스폰
         _go1 = Object.Instantiate(Stone.gameObject, (Vector2)Stone.transform.position + left30,  Quaternion.identity);
+        _go1.tag = "Shadow";
         _go1.GetComponent<NetworkObject>().Spawn();
         
         _go2 = Object.Instantiate(Stone.gameObject, (Vector2)Stone.transform.position + right30,  Quaternion.identity);
+        _go2.tag = "Shadow";
         _go2.GetComponent<NetworkObject>().Spawn();
         
         _go1.GetComponent<CircleCollider2D>().enabled = false;
