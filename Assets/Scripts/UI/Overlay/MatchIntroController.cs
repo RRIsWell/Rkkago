@@ -3,7 +3,7 @@ using Unity.Netcode;
 
 public class MatchIntroController : MonoBehaviour
 {
-    [SerializeField] private MatchIntroUI matchIntroPrefab;
+    [SerializeField] private GameObject matchIntroPrefab;
 
     private MatchIntroUI instance;
 
@@ -102,10 +102,9 @@ public class MatchIntroController : MonoBehaviour
         
         if(instance == null)
         {
-            instance = Instantiate(
-                matchIntroPrefab,
-                transform // OverlayRoot
-            );
+            GameObject go = Instantiate(matchIntroPrefab);
+            
+            instance = go.GetComponent<MatchIntroUI>();
 
             instance.Show("Player 1", "Player 2");
         }
