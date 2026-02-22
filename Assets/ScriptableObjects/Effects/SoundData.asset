@@ -54,3 +54,27 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: ec00eee750c900e40a16c101d6210892, type: 3}
     volume: 1
     loop: 0
+  - soundName: 8
+    audioClip: {fileID: 8300000, guid: 45a097c3fc9046e4cb233c48165f59e2, type: 3}
+    volume: 1
+    loop: 0
+  - soundName: 9
+    audioClip: {fileID: 8300000, guid: 6415462474e3451439ab6ef14f561081, type: 3}
+    volume: 1
+    loop: 0
+  - soundName: 10
+    audioClip: {fileID: 8300000, guid: 8e4187baa3bec664ca855177a053e13a, type: 3}
+    volume: 1
+    loop: 0
+  - soundName: 11
+    audioClip: {fileID: 8300000, guid: 1c8bdaebad5fec144a302d785a958fd7, type: 3}
+    volume: 1
+    loop: 0
+  - soundName: 12
+    audioClip: {fileID: 8300000, guid: 2cbb149c3517f7545ac52c6bb757fc55, type: 3}
+    volume: 1
+    loop: 0
+  - soundName: 13
+    audioClip: {fileID: 8300000, guid: 3ceaf2b72964cab469899ebbf5e6dcec, type: 3}
+    volume: 1
+    loop: 0

@@ -17,6 +17,14 @@ public enum SFXName
     빙판길생성,
     텔포,
     킹실드,
+    
+    //UI
+    버튼클릭,
+    UI보이기,
+    warning,
+    동전던지기,
+    myTurn,
+    승리,
 }
 
 [System.Serializable]

@@ -215,6 +215,10 @@ public class TurnUI : MonoBehaviour
 
     IEnumerator ShowTurnPopup(bool IsMyTurn, bool isLocalP1)
     {
+        // 사운드
+        if(IsMyTurn)
+            SoundManager.Instance.PlaySFX(SFXName.myTurn);
+        
         // 텍스트 대신 스프라이트 교체
         if (turnPopupImage != null)
         {
@@ -259,6 +263,10 @@ public class TurnUI : MonoBehaviour
     // =========================================
     IEnumerator ShowResultPopup(ulong winnerId, ulong loserId, GameEndReason reason)
     {
+        // 사운드
+        if(winnerId == NetworkManager.Singleton.LocalClientId)
+            SoundManager.Instance.PlaySFX(SFXName.승리);
+        
         // 턴 팝업 끄기
         if (turnPanel != null) turnPanel.SetActive(false);
 
