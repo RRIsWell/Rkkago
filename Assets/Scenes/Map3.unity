@@ -1381,7 +1381,6 @@ GameObject:
   - component: {fileID: 1353929973}
   - component: {fileID: 1353929975}
   - component: {fileID: 1353929974}
-  - component: {fileID: 1353929976}
   m_Layer: 5
   m_Name: MatchIntroUI
   m_TagString: Untagged
@@ -1420,7 +1419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570b933444ae5c24da9a8dbb99c78327, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MatchIntroController
-  matchIntroPrefab: {fileID: 4265538419013989578, guid: c4e40f336a170fb42b3c37b13030def0, type: 3}
+  matchIntroPrefab: {fileID: 1532092611043740206, guid: 05736f4f5c5fdf1408cb9372943c2299, type: 3}
 --- !u!222 &1353929975
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1429,18 +1428,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353929972}
   m_CullTransparentMesh: 1
---- !u!114 &1353929976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353929972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2c3d4e5f6789012345678abcdef0123, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SkillInfoController
 --- !u!1001 &1498271535
 PrefabInstance:
   m_ObjectHideFlags: 0
