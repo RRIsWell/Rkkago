@@ -293,8 +293,7 @@ public class TurnUI : MonoBehaviour
 
         yield return new WaitForSeconds(4f);
 
-        // 로비로 돌아가기
-        SceneManager.LoadScene("StartScene");
+        // 씬 전환은 서버(MapRuleExecutor)에서 Netcode로 처리함
     }
 
     public void PlayDeferredTurnPopup()
