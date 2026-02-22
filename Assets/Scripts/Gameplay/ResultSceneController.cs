@@ -10,6 +10,10 @@ public class ResultSceneController : NetworkBehaviour
 
     private void Start()
     {
+        // 둘 다 끄고 시작
+        if (WinnerP1 != null) WinnerP1.SetActive(false);
+        if (WinnerP2 != null) WinnerP2.SetActive(false);
+        
         var flow = ResultFlowManager.Instance;
         if (flow == null) return;
 
