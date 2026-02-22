@@ -107,6 +107,20 @@ public class MapRuleExecutor : NetworkBehaviour
         Debug.Log($"[Rule] EndGame reason={reason}, winner={winnerId}, loser={loserId}");
 
         NotifyGameResultClientRpc(winnerId, loserId, (int)reason);
+
+        // 팝업 보여준 다음 ResultScene으로 이동
+        StartCoroutine(GoResultSceneAfterDelay(winnerId, 4f));
+    }
+
+    private IEnumerator GoResultSceneAfterDelay(ulong winnerId, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (ResultFlowManager.Instance == null)
+        {
+            yield break;
+        }
+        ResultFlowManager.Instance.Server_GoResultScene(winnerId);
     }
 
     private ulong GetOpponentId(ulong oneSide)
