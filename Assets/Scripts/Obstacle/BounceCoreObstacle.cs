@@ -15,6 +15,10 @@ public class BounceCoreObstacle : MonoBehaviour
     [SerializeField] private Collider2D bodyCollider; // 루트 본체 Collider2D
     [SerializeField] private float tickInterval = 0.02f;
     private float _t;
+    [SerializeField, Range(0f, 1f)]
+    private float bouncePower = 0.3f;
+    [SerializeField, Range(0f, 1f)]
+    private float bonusPower = 0.3f;
 
     // NonAlloc 결과 버퍼
     private readonly Collider2D[] _hits = new Collider2D[64];
@@ -89,7 +93,7 @@ public class BounceCoreObstacle : MonoBehaviour
                 var mv = sc.StoneMovement;
                 if (mv != null)
                 {
-                    mv.Speed *= cfg.bonusMultiplier;
+                    mv.Speed *= Mathf.Lerp(1f, cfg.bonusMultiplier, bonusPower);
                 }
             }
         }
@@ -165,7 +169,7 @@ public class BounceCoreObstacle : MonoBehaviour
                 mv.Direction = reflected;
 
                 // 튕길 때 속도 배수
-                mv.Speed *= cfg.bounceMultiplier;
+                mv.Speed *= Mathf.Lerp(1f, cfg.bounceMultiplier, bouncePower);
 
                 // 겹침 해소: 밀어내기
                 float d = Mathf.Sqrt(Mathf.Max(diff.sqrMagnitude, 1e-6f));
