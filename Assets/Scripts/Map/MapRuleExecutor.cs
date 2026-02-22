@@ -108,19 +108,28 @@ public class MapRuleExecutor : NetworkBehaviour
 
         NotifyGameResultClientRpc(winnerId, loserId, (int)reason);
 
-        // 팝업 보여준 다음 ResultScene으로 이동
-        StartCoroutine(GoResultSceneAfterDelay(winnerId, 4f));
+        // 승자 정보를 양쪽에 저장
+        CacheWinnerClientRpc(winnerId);
+        if (ResultFlowManager.Instance != null)
+            ResultFlowManager.Instance.SetWinner(winnerId);
+
+        // 팝업 보여준 뒤 ResultScene으로 네트워크 씬 이동
+        StartCoroutine(GoResultSceneAfterDelay(4f));
     }
 
-    private IEnumerator GoResultSceneAfterDelay(ulong winnerId, float delay)
+    [ClientRpc]
+    private void CacheWinnerClientRpc(ulong winnerId)
+    {
+        if (ResultFlowManager.Instance != null)
+            ResultFlowManager.Instance.SetWinner(winnerId);
+    }
+
+    private IEnumerator GoResultSceneAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
 
-        if (ResultFlowManager.Instance == null)
-        {
-            yield break;
-        }
-        ResultFlowManager.Instance.Server_GoResultScene(winnerId);
+        // 서버가 네트워크 씬 로딩
+        NetworkManager.Singleton.SceneManager.LoadScene("ResultScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 
     private ulong GetOpponentId(ulong oneSide)
@@ -151,47 +160,47 @@ public class MapRuleExecutor : NetworkBehaviour
     }
 
     public void CheckCullingTieBreaker(int currentTurnPairs)
-{
-    if (gameEnded) return;
-    if (!IsServer) return;
-
-    if (config == null) return;
-    if (config.ruleType != MapRuleType.Culling) return;
-    if (currentTurnPairs < config.maxTurnPairs) return;
-
-    // 좌석 기반으로 비교해야 함
-    ulong p1 = TurnManager.Instance != null ? TurnManager.Instance.Player1ClientId : ulong.MaxValue;
-    ulong p2 = TurnManager.Instance != null ? TurnManager.Instance.Player2ClientId : ulong.MaxValue;
-    if (p1 == ulong.MaxValue || p2 == ulong.MaxValue) return;
-
-    float bestP1 = float.MaxValue;
-    float bestP2 = float.MaxValue;
-
-    foreach (var s in aliveStones)
     {
-        if (s == null) continue;
+        if (gameEnded) return;
+        if (!IsServer) return;
 
-        var no = s.GetComponent<NetworkObject>();
-        if (no == null || !no.IsSpawned) continue;
+        if (config == null) return;
+        if (config.ruleType != MapRuleType.Culling) return;
+        if (currentTurnPairs < config.maxTurnPairs) return;
 
-        float dist = Vector2.Distance(s.transform.position, config.center);
+        // 좌석 기반으로 비교해야 함
+        ulong p1 = TurnManager.Instance != null ? TurnManager.Instance.Player1ClientId : ulong.MaxValue;
+        ulong p2 = TurnManager.Instance != null ? TurnManager.Instance.Player2ClientId : ulong.MaxValue;
+        if (p1 == ulong.MaxValue || p2 == ulong.MaxValue) return;
 
-        if (no.OwnerClientId == p1) bestP1 = Mathf.Min(bestP1, dist);
-        else if (no.OwnerClientId == p2) bestP2 = Mathf.Min(bestP2, dist);
+        float bestP1 = float.MaxValue;
+        float bestP2 = float.MaxValue;
+
+        foreach (var s in aliveStones)
+        {
+            if (s == null) continue;
+
+            var no = s.GetComponent<NetworkObject>();
+            if (no == null || !no.IsSpawned) continue;
+
+            float dist = Vector2.Distance(s.transform.position, config.center);
+
+            if (no.OwnerClientId == p1) bestP1 = Mathf.Min(bestP1, dist);
+            else if (no.OwnerClientId == p2) bestP2 = Mathf.Min(bestP2, dist);
+        }
+
+        // 둘 중 한쪽이라도 돌이 없으면 여기서 판정하면 안 됨 (이미 AllStonesOut이 처리해야 함)
+        if (bestP1 == float.MaxValue || bestP2 == float.MaxValue) return;
+
+        if (Mathf.Approximately(bestP1, bestP2))
+        {
+            return;
+        }
+
+        // 더 가까운 쪽이 승자
+        ulong winnerId = (bestP1 < bestP2) ? p1 : p2;
+        ulong loserId  = (winnerId == p1) ? p2 : p1;
+
+        EndGame(winnerId, loserId, GameEndReason.TieBreaker);
     }
-
-    // 둘 중 한쪽이라도 돌이 없으면 여기서 판정하면 안 됨 (이미 AllStonesOut이 처리해야 함)
-    if (bestP1 == float.MaxValue || bestP2 == float.MaxValue) return;
-
-    if (Mathf.Approximately(bestP1, bestP2))
-    {
-        return;
-    }
-
-    // 더 가까운 쪽이 승자
-    ulong winnerId = (bestP1 < bestP2) ? p1 : p2;
-    ulong loserId  = (winnerId == p1) ? p2 : p1;
-
-    EndGame(winnerId, loserId, GameEndReason.TieBreaker);
-}
 }
