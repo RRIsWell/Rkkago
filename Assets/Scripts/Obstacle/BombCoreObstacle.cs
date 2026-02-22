@@ -84,6 +84,9 @@ public class BombCoreObstacle : NetworkBehaviour
             if (stone == null) continue;
 
             stone.SetAnimatorTriggerClientRpc(Stone.HashDead);
+            
+            // 사운드
+            SoundManager.Instance.PlaySFXClientRpc(SFXName.폭탄);
         }
 
         // 폭탄 터지는 애니메이션 실행

@@ -9,8 +9,14 @@ public enum BGMName
 
 public enum SFXName
 {
+    알차징,
+    알날아감,
     알충돌,
-    알터짐,
+    알시무룩,
+    폭탄,
+    빙판길생성,
+    텔포,
+    킹실드,
 }
 
 [System.Serializable]

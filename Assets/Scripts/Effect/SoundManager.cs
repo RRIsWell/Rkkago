@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : NetworkBehaviour
 {
     public static SoundManager Instance { get; private set; }
     
@@ -129,6 +130,55 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning($"SFX '{soundName}'을 찾을 수 없음");
         }
     }
+
+    [ClientRpc]
+    public void PlaySFXClientRpc(SFXName soundName)
+    {
+        PlaySFX(soundName);
+    }
+
+    /// <summary>
+    /// SFX 재생을 멈추는 함수
+    /// </summary>
+    /// <param name="soundName"></param>
+    public void StopSFX(SFXName soundName)
+    {
+        if (soundData == null)
+        {
+            Debug.LogWarning("SoundDatabase 할당 안됨");
+            return;
+        }
+
+        // 해당 SFX의 AudioClip 찾기
+        var data = soundData.sfxList.Find(x => x.soundName == soundName);
+        if (data != null && data.audioClip != null)
+        {
+            // 현재 재생 중인 SFX AudioSource 찾기
+            foreach (var source in _sfxSources)
+            {
+                if (source.isPlaying && source.clip == data.audioClip)
+                {
+                    source.Stop();
+                    return;
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"재생 중인 SFX '{soundName}' 없음");
+        }
+    }
+    
+    [ClientRpc]
+    public void StopSFXClientRpc(SFXName soundName)
+    {
+        StopSFX(soundName);
+    }
+    
+    /// <summary>
+    /// 현재 사용 가능한 AudioSource 찾기
+    /// </summary>
+    /// <returns></returns>
     private AudioSource GetAvailableSFXSource()
     {
         // 사용 가능한 소스가 없으면 재생이 끝난 소스를 찾아서 반환

@@ -90,7 +90,11 @@ public class Stone : NetworkBehaviour
     public float CalculateCollisionSpeed(float otherSpeed)
     {
         if (!_stoneData.CanCollide)
+        {
+            // 사운드
+            SoundManager.Instance.PlaySFXClientRpc(SFXName.킹실드);
             return 0;
+        }
         
         return otherSpeed / _stoneData.Weight;
     }
@@ -137,6 +141,11 @@ public class Stone : NetworkBehaviour
     {
         _animator.enabled = true;
         _animator.SetTrigger(param);
+
+        if (param == HashDead)
+        {
+            SoundManager.Instance.PlaySFXClientRpc(SFXName.알시무룩);
+        }
     }
     
     /// <summary>

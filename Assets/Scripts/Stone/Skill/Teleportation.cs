@@ -15,6 +15,9 @@ public class Teleportation : SkillBase
     {
         if (!NetworkManager.Singleton.IsServer) return;
         
+        // 사운드
+        SoundManager.Instance.PlaySFXClientRpc(SFXName.텔포);
+        
         var ruleExecutor = GameObject.FindObjectOfType<MapRuleExecutor>();
         if (ruleExecutor == null || ruleExecutor.Config == null) return;
 

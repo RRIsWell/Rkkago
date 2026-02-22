@@ -152,6 +152,9 @@ public class IceAge : SkillBase
         
         _activeTiles.Add(gridPos, (iceTile, Data.durationTurns));
         _currentTilePos = gridPos;
+        
+        // 사운드
+        SoundManager.Instance.PlaySFXClientRpc(SFXName.빙판길생성);
     }
 
     /// <summary>

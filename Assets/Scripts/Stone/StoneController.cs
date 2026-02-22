@@ -101,6 +101,9 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
 
         TurnManager.Instance.OnTurnChangedNoArgs -= DeActivateDragLine;
         TurnManager.Instance.OnTurnChangedNoArgs += DeActivateDragLine;
+        
+        // 사운드
+        SoundManager.Instance.PlaySFX(SFXName.알차징);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -143,6 +146,9 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         // 알 실제 움직임
         RequestShoot(direction, speed);
         OnShootStone?.Invoke(direction * speed);
+        
+        // 사운드
+        SoundManager.Instance.StopSFX(SFXName.알차징);
     }
     
     // ---------------- Network --------------------
@@ -164,6 +170,9 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     {
         // 서버에서 이 알 이동 시작
         StoneMovement.Shoot(transform, direction, speed);
+        
+        // 사운드
+        SoundManager.Instance.PlaySFXClientRpc(SFXName.알날아감);
     }
     
     // 충돌해서 쏠 때 (서버에서 실행)
@@ -171,6 +180,9 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
     {
         NotifyCollisionEnterClientRpc();
         StoneMovement.Shoot(transform, direction, speed);
+        
+        // 사운드
+        SoundManager.Instance.PlaySFXClientRpc(SFXName.알충돌);
     }
     
     // --------------- 이벤트 -----------------
