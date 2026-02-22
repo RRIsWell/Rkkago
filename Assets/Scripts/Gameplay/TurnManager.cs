@@ -437,6 +437,14 @@ public class TurnManager : NetworkBehaviour
         
         ruleExecutor?.CheckCullingTieBreaker(TurnPairs);
 
+        // 더 이상 StartTurn 호출 금지
+        if (ruleExecutor != null && ruleExecutor.GameEnded)
+        {
+            isTurnActive = false;
+            isChangingTurn = false;
+            return;
+        }
+
         // 턴 시작
         StartTurn(playerClientIds[nextIndex]);
     }

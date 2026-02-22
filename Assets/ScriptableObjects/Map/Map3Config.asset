@@ -36,7 +36,7 @@ MonoBehaviour:
     - {fileID: 7440544021984997125, guid: 6209c61543dba594782406c1392ecaff, type: 3}
     - {fileID: 2279587777418233771, guid: 71459000c040e834d8eaa580119422d8, type: 3}
   damage: 0.5
-  maxTurnPairs: 15
+  maxTurnPairs: 10
   outMargin: 0.05
   center: {x: 0, y: 0}
   isCircleMap: 0
