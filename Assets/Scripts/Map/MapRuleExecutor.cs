@@ -14,6 +14,7 @@ public class MapRuleExecutor : NetworkBehaviour
     private MapConfig config;
     public MapConfig Config => config;
     private bool gameEnded = false; // 승패 판정 중복 방지
+    public bool GameEnded => gameEnded;
 
     // clientId -> 남은 돌
     private Dictionary<ulong, int> remain = new Dictionary<ulong, int>();
@@ -144,7 +145,7 @@ public class MapRuleExecutor : NetworkBehaviour
     if (config.ruleType != MapRuleType.Culling) return;
     if (currentTurnPairs < config.maxTurnPairs) return;
 
-    // 좌석 기반으로 비교해야 함 (hostId로 하면 "호스트가 누구냐"에 종속됨)
+    // 좌석 기반으로 비교해야 함
     ulong p1 = TurnManager.Instance != null ? TurnManager.Instance.Player1ClientId : ulong.MaxValue;
     ulong p2 = TurnManager.Instance != null ? TurnManager.Instance.Player2ClientId : ulong.MaxValue;
     if (p1 == ulong.MaxValue || p2 == ulong.MaxValue) return;
