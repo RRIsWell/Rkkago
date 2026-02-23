@@ -1,7 +1,6 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.WSA;
 
 /// <summary>
 /// 스킬 실행 타입
