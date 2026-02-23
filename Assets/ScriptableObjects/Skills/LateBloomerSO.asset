@@ -15,7 +15,8 @@ MonoBehaviour:
   skillName: 9
   activationType: 2
   countType: 0
-  skillDescription: 
+  skillDescription: "\uD558\uB098\uC758 \uC54C\uC774 \uC57D\uD558\uAC8C \uD0DC\uC5B4\uB098\uB294
+    \uB300\uC2E0, \uB9E4 \uD134\uB9C8\uB2E4 \uC131\uC7A5\uD569\uB2C8\uB2E4."
   applyStoneCount: 1
   durationTurns: 0
   activateCounts: 100

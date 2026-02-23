@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SkillSO
   skillName: 5
   activationType: 2
-  skillDescription: 
+  countType: 0
+  skillDescription: "\uC54C\uC774 \uB9E4 \uD134 \uB79C\uB364\uD55C \uC704\uCE58\uB85C
+    \uC21C\uAC04\uC774\uB3D9\uD569\uB2C8\uB2E4."
   applyStoneCount: 2
   durationTurns: 0
   activateCounts: 100

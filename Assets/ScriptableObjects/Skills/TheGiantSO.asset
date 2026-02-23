@@ -15,7 +15,8 @@ MonoBehaviour:
   skillName: 7
   activationType: 0
   countType: 0
-  skillDescription: biggest R
+  skillDescription: "\uD558\uB098\uC758 \uC54C\uC774 \u2018\uAC70\uC778\u2019\uC774
+    \uB429\uB2C8\uB2E4.                           (\uC544\uB2C8\u2026 \uAC70'\uC54C'\uC778\uAC00\u2026?)"
   applyStoneCount: 1
   durationTurns: 0
   activateCounts: 100

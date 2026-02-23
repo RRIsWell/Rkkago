@@ -15,7 +15,8 @@ MonoBehaviour:
   skillName: 4
   activationType: 1
   countType: 0
-  skillDescription: R slipped
+  skillDescription: "\uC54C\uC774 \uC774\uB3D9\uD558\uB294 \uACBD\uB85C\uB97C \uBE59\uD310\uAE38\uB85C
+    \uB9CC\uB4ED\uB2C8\uB2E4"
   applyStoneCount: 2
   durationTurns: 3
   activateCounts: 100
