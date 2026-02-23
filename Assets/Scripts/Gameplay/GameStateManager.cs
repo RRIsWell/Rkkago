@@ -6,8 +6,21 @@ using UnityEngine.SceneManagement;
 
 public class GameStateManager : NetworkBehaviour
 {
+    public static GameStateManager Instance;
+    
     private NetworkVariable<GameState> netState =  
         new(GameState.Waiting);
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     public override void OnNetworkSpawn()
     {
