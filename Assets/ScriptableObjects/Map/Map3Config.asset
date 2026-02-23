@@ -21,7 +21,7 @@ MonoBehaviour:
   obstacleCount: 3
   obstacleMargin: 10
   loseStoneCount: 5
-  bgmName: 0
+  bgmName: 2
   stoneSpawnPoints:
   - spawnPoints:
     - {fileID: 4796379952244916995, guid: 6fd5f54af7b225948a879d65b9ead2ef, type: 3}

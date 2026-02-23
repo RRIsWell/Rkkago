@@ -21,6 +21,10 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 5257c00e0cdc8e645b1e7308f20ff99a, type: 3}
     volume: 0.5
     loop: 1
+  - soundName: 2
+    audioClip: {fileID: 8300000, guid: fba47e6cb8701b943b2d4b95eb85fc46, type: 3}
+    volume: 0.5
+    loop: 1
   sfxList:
   - soundName: 0
     audioClip: {fileID: 8300000, guid: 85fd41e945753f048a52b2279a478c6c, type: 3}

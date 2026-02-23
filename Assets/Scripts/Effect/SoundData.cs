@@ -5,6 +5,8 @@ public enum BGMName
 {
     로비,
     기본맵,
+    컬링맵,
+    당구맵,
 }
 
 public enum SFXName
