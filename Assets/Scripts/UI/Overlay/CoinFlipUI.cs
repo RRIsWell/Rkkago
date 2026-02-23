@@ -72,7 +72,10 @@ public class CoinFlipUI : MonoBehaviour
 
         // 1) "선공을 정합니다" 표시 (coinFrameImage 자리에)
         if (coinFrameImage != null && decidingImage != null)
+        {
             coinFrameImage.sprite = decidingImage;
+            coinFrameImage.SetNativeSize();
+        }
 
         yield return new WaitForSeconds(decidingHold);
 
@@ -84,11 +87,15 @@ public class CoinFlipUI : MonoBehaviour
         }
         else
         {
+            // 사운드
+            SoundManager.Instance.PlaySFX(SFXName.동전던지기);
+            
             float frameDt = (frameFps <= 0f) ? (1f / 12f) : (1f / frameFps);
 
             for (int i = 0; i < coinFrames.Length; i++)
             {
                 coinFrameImage.sprite = coinFrames[i];
+                coinFrameImage.SetNativeSize();
                 yield return new WaitForSeconds(frameDt);
             }
         }
@@ -97,12 +104,14 @@ public class CoinFlipUI : MonoBehaviour
         if (resultSideImage != null)
         {
             resultSideImage.sprite = isHeads ? headSprite : tailSprite;
+            resultSideImage.SetNativeSize();
             resultSideImage.gameObject.SetActive(true);
         }
 
         if (roleImage != null)
         {
             roleImage.sprite = amIStarter ? isFirstSprite : isSecondSprite;
+            roleImage.SetNativeSize();
             roleImage.gameObject.SetActive(true);
         }
 
