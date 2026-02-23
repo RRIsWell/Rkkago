@@ -15,7 +15,8 @@ MonoBehaviour:
   skillName: 8
   activationType: 1
   countType: 0
-  skillDescription: create shadow partners
+  skillDescription: "\uC54C\uC774 \uC2A4\uC2A4\uB85C\uC758 \uBD84\uC2E0\uC744 \uB9CC\uB4ED\uB2C8\uB2E4.
+    \uBD84\uC2E0\uC740 \uACF5\uACA9 \uC774\uD6C4 \uD5C8\uC0C1\uC73C\uB85C \uB0A8\uC2B5\uB2C8\uB2E4."
   applyStoneCount: 2
   durationTurns: 2
   activateCounts: 2
