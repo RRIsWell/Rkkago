@@ -105,8 +105,9 @@ public class MatchIntroController : MonoBehaviour
             GameObject go = Instantiate(matchIntroPrefab);
             
             instance = go.GetComponent<MatchIntroUI>();
-
-            instance.Show("Player 1", "Player 2");
+            
+            //TODO: 플레이어 이름으로 수정 (ndm용으로 바꿨음)
+            instance.Show("HOST", "GUEST");
         }
     }
 
