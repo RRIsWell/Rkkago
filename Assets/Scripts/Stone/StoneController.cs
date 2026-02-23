@@ -270,6 +270,9 @@ public class StoneController : NetworkBehaviour, IPointerDownHandler, IDragHandl
         // 자기 돌만 적용
         if (!IsOwner) return;
 
+        // 이펙트
+        EffectManager.Instance.ActivateEffect(transform.position);
+        
         // 새 스킬 부여
         _currentSkillIndex = skillIndex;
         _skillState = SkillState.Active;

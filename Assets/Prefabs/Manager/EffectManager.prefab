@@ -72,7 +72,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EffectManager
   ShowTopMostFoldoutHeaderGroup: 1
-  effectPrefab: {fileID: 2119674108452054702, guid: 2fee03216be340c4c8e3c20745fa1227, type: 3}
+  _collisionEffectPrefab: {fileID: 2119674108452054702, guid: 2fee03216be340c4c8e3c20745fa1227, type: 3}
+  _activateEffectPrefab: {fileID: 8092678363242802015, guid: 0190cacc137dbaa47b32123b6cb28f57, type: 3}
+  _teleportationEffectPrefab: {fileID: 3874402192768563471, guid: 59ff5787accdbdd43b132217889f6591, type: 3}
 --- !u!114 &4854342940323320468
 MonoBehaviour:
   m_ObjectHideFlags: 0

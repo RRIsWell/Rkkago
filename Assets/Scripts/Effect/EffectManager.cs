@@ -7,37 +7,67 @@ public class EffectManager : NetworkBehaviour
 {
     public static EffectManager Instance { get; private set; }
     private CameraEffect _cameraEffect;
+    
     [SerializeField]
-    private GameObject effectPrefab;
-    private GameObject _effectObject;
+    private GameObject _collisionEffectPrefab;
+    
+    [SerializeField]
+    private GameObject _activateEffectPrefab;
+    
+    [SerializeField]
+    private GameObject _teleportationEffectPrefab;
     
     void Awake()
     {
         Instance = this;
         
         _cameraEffect = GetComponent<CameraEffect>();
-        _effectObject = Instantiate(effectPrefab);
-        _effectObject.SetActive(false);
     }
 
-    [ClientRpc]
-    public void CollisionEffectClientRpc(Vector3 position)
-    {
-        CollisionEffect(position).Forget();
-    }
-    
     /// <summary>
     /// 두 알이 충돌했을 때
     /// </summary>
     /// <param name="position"></param>
-    private async UniTask CollisionEffect(Vector3 position)
+    [ClientRpc]
+    public void CollisionEffectClientRpc(Vector3 position)
     {
-        _effectObject.SetActive(true);
-        _effectObject.transform.position = position;
+        ShowEffect(position, 400, _collisionEffectPrefab).Forget();
+    }
+    
+    /// <summary>
+    /// 스킬 부여될 때
+    /// </summary>
+    /// <param name="position"></param>
+    public void ActivateEffect(Vector3 position)
+    {
+        ShowEffect(position, 500, _activateEffectPrefab).Forget();
+    }
+    
+    /// <summary>
+    /// 텔레포테이션 스킬 시전될 때
+    /// </summary>
+    /// <param name="position"></param>
+    public void TeleportationEffect(Vector3 position)
+    {
+        ShowEffect(position, 600, _teleportationEffectPrefab).Forget();
+    }
+
+    /// <summary>
+    /// 이펙트를 보여주는 함수
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="durationMs"></param>
+    /// <param name="effectPrefab"></param>
+    private async UniTask ShowEffect(Vector3 position, int durationMs, GameObject effectPrefab)
+    {
+        if (effectPrefab == null) return;
+
+        GameObject go = Instantiate(effectPrefab);
+        go.transform.position = position;
         
-        await UniTask.Delay(300);
+        await UniTask.Delay(durationMs);
         
-        _effectObject.SetActive(false);
+        Destroy(go);
     }
 
     [ClientRpc]
@@ -330,6 +360,9 @@ public class EffectManager : NetworkBehaviour
         {
             // 모든 클라이언트에서 해당 오브젝트의 위치를 강제로 설정
             netObj.transform.position = targetPos;
+            
+            // 이펙트
+            TeleportationEffect(targetPos);
         }
     }
 }

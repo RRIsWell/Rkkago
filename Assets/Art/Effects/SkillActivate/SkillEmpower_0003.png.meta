@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 314e9f68330b1664ba73617460325eca
+guid: 4ad0e76afffeee1408e892ee0dbbd48f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2870877658857051545
-    second: SparkEffect_3_0
-  - first:
-      213: 4104043474499641860
-    second: SparkEffect_3_1
+      213: -5888948748505615115
+    second: SkillEmpower_0003_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,12 +46,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 256
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -103,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SparkEffect_3_0
+      name: SkillEmpower_0003_0
       rect:
         serializedVersion: 2
-        x: 129
-        y: 179
-        width: 28
-        height: 63
+        x: 8
+        y: 7
+        width: 484
+        height: 485
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,30 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 99597c9250867d720800000000000000
-      internalID: 2870877658857051545
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SparkEffect_3_1
-      rect:
-        serializedVersion: 2
-        x: 20
-        y: 18
-        width: 55
-        height: 135
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 402af40cbcd74f830800000000000000
-      internalID: 4104043474499641860
+      spriteID: 5f477d07050464ea0800000000000000
+      internalID: -5888948748505615115
       vertices: []
       indices: 
       edges: []
@@ -150,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SparkEffect_3_0: 2870877658857051545
-      SparkEffect_3_1: 4104043474499641860
+      SkillEmpower_0003_0: -5888948748505615115
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

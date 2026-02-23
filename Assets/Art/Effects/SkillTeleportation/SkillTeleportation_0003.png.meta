@@ -1,16 +1,25 @@
 fileFormatVersion: 2
-guid: 491fd6780c2b610489895fa2fdee9b2d
+guid: 6e80f7d7ccaa1d047b5c21760f2ae3d7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2894599960018702997
-    second: SparkEffect_2_0
+      213: -3221283482669711064
+    second: SkillTeleportation_0003_0
   - first:
-      213: 5977082074066747855
-    second: SparkEffect_2_1
+      213: 6655348986734622973
+    second: SkillTeleportation_0003_1
   - first:
-      213: -651315718805745069
-    second: SparkEffect_2_2
+      213: -4012701228879145793
+    second: SkillTeleportation_0003_2
+  - first:
+      213: 1994323229215550309
+    second: SkillTeleportation_0003_3
+  - first:
+      213: 7806878966071325900
+    second: SkillTeleportation_0003_4
+  - first:
+      213: -8381751430710713917
+    second: SkillTeleportation_0003_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,12 +61,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 256
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -106,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SparkEffect_2_0
+      name: SkillTeleportation_0003_0
       rect:
         serializedVersion: 2
-        x: 28
-        y: 40
-        width: 50
-        height: 199
+        x: 264
+        y: 375
+        width: 64
+        height: 53
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -121,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b6da9303ca054d7d0800000000000000
-      internalID: -2894599960018702997
+      spriteID: 82183a65db3bb43d0800000000000000
+      internalID: -3221283482669711064
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SparkEffect_2_1
+      name: SkillTeleportation_0003_1
       rect:
         serializedVersion: 2
-        x: 70
-        y: 155
-        width: 63
-        height: 87
+        x: 45
+        y: 164
+        width: 56
+        height: 114
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fc18a1a7a7cd2f250800000000000000
-      internalID: 5977082074066747855
+      spriteID: df8b29254ac8c5c50800000000000000
+      internalID: 6655348986734622973
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SparkEffect_2_2
+      name: SkillTeleportation_0003_2
       rect:
         serializedVersion: 2
-        x: 174
-        y: 14
-        width: 57
-        height: 80
+        x: 91
+        y: 112
+        width: 68
+        height: 75
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,8 +174,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 35294f7fdcf06f6f0800000000000000
-      internalID: -651315718805745069
+      spriteID: fb492e61e750058c0800000000000000
+      internalID: -4012701228879145793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillTeleportation_0003_3
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 0
+        width: 98
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56be3bc19624dab10800000000000000
+      internalID: 1994323229215550309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillTeleportation_0003_4
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 101
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc476299e0b975c60800000000000000
+      internalID: 7806878966071325900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillTeleportation_0003_5
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 98
+        width: 62
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c1add07b790eab80800000000000000
+      internalID: -8381751430710713917
       vertices: []
       indices: 
       edges: []
@@ -175,7 +250,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -185,9 +260,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SparkEffect_2_0: -2894599960018702997
-      SparkEffect_2_1: 5977082074066747855
-      SparkEffect_2_2: -651315718805745069
+      SkillTeleportation_0003_0: -3221283482669711064
+      SkillTeleportation_0003_1: 6655348986734622973
+      SkillTeleportation_0003_2: -4012701228879145793
+      SkillTeleportation_0003_3: 1994323229215550309
+      SkillTeleportation_0003_4: 7806878966071325900
+      SkillTeleportation_0003_5: -8381751430710713917
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
