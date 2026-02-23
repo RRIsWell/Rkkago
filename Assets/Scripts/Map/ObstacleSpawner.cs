@@ -140,31 +140,30 @@ public class ObstacleSpawner : MonoBehaviour
                 Random.Range(b.min.y + margin, b.max.y - margin)
             );
 
-            if (!useMinDistance)
-            {
-                pos = candidate;
-                return true;
-            }
+            // 콜라이더 내부인지 확인
+            if (!spawnArea.OverlapPoint(candidate))
+                continue;
 
-            // 최소 거리 체크
-            bool ok = true;
-            for (int i = 0; i < _spawnedNetObjects.Count; i++)
+            // 최소 거리 옵션
+            if (useMinDistance)
             {
-                var o = _spawnedNetObjects[i];
-                if (o == null) continue;
-
-                if (Vector2.Distance(candidate, o.transform.position) < minDistance)
+                bool ok = true;
+                for (int i = 0; i < _spawnedNetObjects.Count; i++)
                 {
-                    ok = false;
-                    break;
+                    var o = _spawnedNetObjects[i];
+                    if (o == null) continue;
+
+                    if (Vector2.Distance(candidate, o.transform.position) < minDistance)
+                    {
+                        ok = false;
+                        break;
+                    }
                 }
+                if (!ok) continue;
             }
 
-            if (ok)
-            {
-                pos = candidate;
-                return true;
-            }
+            pos = candidate;
+            return true;
         }
 
         pos = default;

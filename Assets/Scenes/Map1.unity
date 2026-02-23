@@ -417,6 +417,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7473240317068670132, guid: 166bcc9a013412b4d8806166904ed054, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 854720107
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473240317068670132, guid: 166bcc9a013412b4d8806166904ed054, type: 3}
+      propertyPath: SceneMigrationSynchronization
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473240317068670132, guid: 166bcc9a013412b4d8806166904ed054, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 417079491
+      objectReference: {fileID: 0}
     - target: {fileID: 8264706948562127576, guid: 166bcc9a013412b4d8806166904ed054, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.72416
@@ -1081,7 +1093,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.36640012, y: 0.41636276}
+  m_Offset: {x: 0.4011345, y: 0.41636276}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1091,7 +1103,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.128135, y: 8.094822}
+  m_Size: {x: 6.5, y: 6.5}
   m_EdgeRadius: 0
 --- !u!224 &1713545046 stripped
 RectTransform:
