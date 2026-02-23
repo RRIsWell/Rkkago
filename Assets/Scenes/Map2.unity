@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3398188529
+  GlobalObjectIdHash: 1451121402
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -833,6 +833,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1327952231260631829, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2068950980557631145, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: m_SizeDelta.x
       value: 300
@@ -899,7 +903,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5031432312356800693, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1677949053
+      value: 3231040925
       objectReference: {fileID: 0}
     - target: {fileID: 5031432312356800693, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: SceneMigrationSynchronization
@@ -955,11 +959,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7754282706080985114, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2659125673
+      value: 747380672
       objectReference: {fileID: 0}
     - target: {fileID: 7754282706080985114, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 3143222545
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816874500403873631, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7993656870897593741, guid: 3509b430fcd441b4fb73590fbc9616ec, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1363,7 +1371,7 @@ PrefabInstance:
     - target: {fileID: 8608872105784876832, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
       propertyPath: currentMapConfig
       value: 
-      objectReference: {fileID: 11400000, guid: da3245413d06b0c41983d8efdd80ccbd, type: 2}
+      objectReference: {fileID: 11400000, guid: 30496a4dd468de24db4a4c9752c4dc59, type: 2}
     - target: {fileID: 8929117062803574608, guid: 19b59ae58546f8b44af147fd9634cb66, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2722942334
