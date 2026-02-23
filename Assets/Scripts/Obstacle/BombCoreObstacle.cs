@@ -92,6 +92,9 @@ public class BombCoreObstacle : NetworkBehaviour
         // 폭탄 터지는 애니메이션 실행
         OnTriggerDestroyAnimationClientRpc();
         
+        // 이펙트
+        EffectManager.Instance.DestroyEffectClientRpc(transform.position);
+        
         /*// 폭탄 자신 제거
         var no = GetComponent<NetworkObject>();
         if (no != null && no.IsSpawned) no.Despawn(true);
