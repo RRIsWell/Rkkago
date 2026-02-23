@@ -210,7 +210,7 @@ public class SkillInfoController : NetworkBehaviour
         {
             ShowCurrentSkillInfoInternal(GetLocalPlayerCurrentSkill().skillIndex, autoHide: true);
         }
-        else if (newState == GameState.Playing)
+        else if (newState == GameState.CoinFlip)
         {
             Hide();
         }
