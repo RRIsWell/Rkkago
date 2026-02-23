@@ -4,14 +4,46 @@ using UnityEngine;
 public class Teleportation : SkillBase
 {
     private Stone stone;
+    private StoneController _stoneController;
+    private NetworkObject _networkObject;
+    
+    private bool _isFirst = true;
     
     
     public Teleportation(Stone stone, SkillSO data) : base(stone, data)
     {
         this.stone = stone;
+        _stoneController = stone.GetComponent<StoneController>();
+        _networkObject = _stoneController.NetworkObject;
     }
 
     public override void Activate()
+    {
+        RequestToTeleportation();
+        
+    }
+
+    public override void Deactivate()
+    {
+        _isFirst = true;
+        base.Deactivate();
+    }
+
+    /// <summary>
+    /// 네트워크 호출을 통한 텔포 함수 실행
+    /// </summary>
+    private void RequestToTeleportation()
+    {
+        // EffectManager를 통해 네트워크 호출(분신 생성 후 날림)
+        if (EffectManager.Instance != null)
+        {
+            EffectManager.Instance.DoTeleportation(
+                new NetworkObjectReference(_networkObject)
+            );
+        }
+    }
+
+    public void DoingTeleportation()
     {
         if (!NetworkManager.Singleton.IsServer) return;
         
@@ -65,5 +97,7 @@ public class Teleportation : SkillBase
 
         // 위치 적용
         stone.transform.position = targetPos;
+        
+        EffectManager.Instance.TeleportPositionClientRpc(new NetworkObjectReference(_networkObject), targetPos);
     }
 }

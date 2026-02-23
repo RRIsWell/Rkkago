@@ -297,4 +297,39 @@ public class EffectManager : NetworkBehaviour
             }
         }
     }
+    
+    
+    // =================== Teleportation =============================
+
+    public void DoTeleportation(NetworkObjectReference ownerRef)
+    {
+        DoTeleportationServerRpc(ownerRef);
+    }
+    
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void DoTeleportationServerRpc(NetworkObjectReference ownerRef)
+    {
+        if (ownerRef.TryGet(out NetworkObject netObj))
+        {
+            var controller = netObj.GetComponent<StoneController>();
+            if (controller != null)
+            {
+                var skill = controller.SkillContainer.GetSkillByName(SkillName.Teleportation);
+                if (skill is Teleportation teleportation)
+                {
+                    teleportation.DoingTeleportation();
+                }
+            }
+        }
+    }
+    
+    [ClientRpc]
+    public void TeleportPositionClientRpc(NetworkObjectReference ownerRef, Vector3 targetPos)
+    {
+        if (ownerRef.TryGet(out NetworkObject netObj))
+        {
+            // 모든 클라이언트에서 해당 오브젝트의 위치를 강제로 설정
+            netObj.transform.position = targetPos;
+        }
+    }
 }
