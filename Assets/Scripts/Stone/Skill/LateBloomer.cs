@@ -87,6 +87,7 @@ public class LateBloomer : SkillBase
 
     public override void Deactivate()
     {
+        base.Deactivate();
         _turnCnt = 0;
     }
 
