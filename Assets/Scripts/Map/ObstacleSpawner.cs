@@ -8,14 +8,14 @@ public class ObstacleSpawner : MonoBehaviour
     [SerializeField] private GameObject[] obstaclePrefabs;
 
     [Header("Spawn Area")]
-    [SerializeField] private BoxCollider2D spawnArea;
+    [SerializeField] private Collider2D spawnArea;
 
     [Header("Options")]
     [SerializeField] private bool spawnOnce = true;          // Init이 여러 번 불려도 1회만 스폰
     [SerializeField] private bool clearBeforeSpawn = true;   // 다시 스폰할 때 기존 제거
     [SerializeField] private int maxTriesPerObstacle = 30;   // 위치 찾기 시도 횟수
 
-    [Header("Spacing (Optional)")]
+    [Header("Spacing")]
     [SerializeField] private bool useMinDistance = false;    // 장애물끼리 최소 간격 적용 여부
     [SerializeField] private float minDistance = 1.0f;       // 장애물 간 최소 거리
 
