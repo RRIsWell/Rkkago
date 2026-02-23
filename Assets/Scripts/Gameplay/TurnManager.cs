@@ -456,6 +456,11 @@ public class TurnManager : NetworkBehaviour
         if(rpcParams.Receive.SenderClientId != currentTurnClientId.Value) 
             return;
         
+        // 2. 이미 턴 교체 중이면 즉시 차단 (매우 중요)
+        if(isChangingTurn) return; 
+
+        isChangingTurn = true; // 코루틴 시작 전 즉시 true 설정
+        
         StartCoroutine(WaitTillTurnEnd());
     }
 
