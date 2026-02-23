@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570b933444ae5c24da9a8dbb99c78327, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MatchIntroController
-  matchIntroPrefab: {fileID: 4265538419013989578, guid: c4e40f336a170fb42b3c37b13030def0, type: 3}
+  matchIntroPrefab: {fileID: 0}
 --- !u!222 &43865965
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -295,6 +295,10 @@ PrefabInstance:
     - target: {fileID: 8707369142885995841, guid: de2438f926ebd8e45b59e1e933ac31e3, type: 3}
       propertyPath: m_Name
       value: NetworkManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707369142885995841, guid: de2438f926ebd8e45b59e1e933ac31e3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
