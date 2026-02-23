@@ -1,7 +1,9 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Unity.Netcode;
 using Unity.Properties;
+using Unity.Services.Authentication;
 using Unity.Services.Multiplayer;
 using UnityEngine.UIElements;
 
@@ -84,11 +86,14 @@ public class CreateSessionVM : IDisposable
         m_SessionObserver.AddingSessionStarted += OnAddingSessionStarted;
         m_SessionObserver.SessionAdded += OnSessionAdded;
         m_SessionObserver.AddingSessionFailed += OnAddingSessionFailed;
-
+        
         if (m_SessionObserver.Session != null)
         {
             OnSessionAdded(m_SessionObserver.Session);
+            TryDeleteSessionAsync();
         }
+        
+        CanRegisterSession = true;
     }
     void OnAddingSessionFailed(AddingSessionOptions session, SessionException exception) => CanRegisterSession = true;
     void OnAddingSessionStarted(AddingSessionOptions session) => CanRegisterSession = false;
@@ -121,6 +126,28 @@ public class CreateSessionVM : IDisposable
     public bool AreMultiplayerServicesInitialized()
     {
         return MultiplayerService.Instance != null;
+    }
+
+    /// <summary>
+    /// 생성된 세션을 삭제하는 함수 (호스트만)
+    /// </summary>
+    public async Task TryDeleteSessionAsync()
+    {
+        if(m_SessionObserver.Session != null)
+        {
+            var hostSession = m_SessionObserver.Session as IHostSession;
+            
+            try
+            {
+                await hostSession.DeleteAsync();
+                CanRegisterSession = true;
+                
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
     }
 
     /// <summary>

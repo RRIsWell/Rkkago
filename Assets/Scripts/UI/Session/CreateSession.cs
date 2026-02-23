@@ -109,7 +109,14 @@ public class CreateSession : MonoBehaviour
         
         CreateSessioinBtnOnClick?.Invoke(true);
     }
-    
+
+    /// <summary>
+    /// 세션 삭제
+    /// </summary>
+    public void DestroyCurrSession()
+    {
+        _viewModel.TryDeleteSessionAsync();
+    }
 
     private void StartGame(string playerID)
     {

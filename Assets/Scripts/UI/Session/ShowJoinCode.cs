@@ -11,11 +11,22 @@ public class ShowJoinCode : MonoBehaviour
 
     private static string _roomName;
     private static string _sessionCode;
+    
+    public event Action OnDisableJoinCode;
 
     private void OnEnable()
     {
         roomNameText.text = _roomName;
         joinCodeText.text = _sessionCode;
+    }
+
+    private void OnDisable()
+    {
+        if (gameObject.scene.isLoaded == false)
+            return;
+        
+        // 생성한 방 삭제
+        OnDisableJoinCode?.Invoke();
     }
 
     public static void SetData(IHostSession sessionInfo)

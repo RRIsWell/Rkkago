@@ -12,11 +12,18 @@ public class LobbyManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        startHUD.GetComponent<StartUGUI>().CreateBtnOnClick -= OnActiveCreateSessionHUD;
         startHUD.GetComponent<StartUGUI>().CreateBtnOnClick += OnActiveCreateSessionHUD;
+        startHUD.GetComponent<StartUGUI>().JoinBtnOnClick -= OnActiveSessionListHUD;
         startHUD.GetComponent<StartUGUI>().JoinBtnOnClick += OnActiveSessionListHUD;
 
-        createSessionHUD.GetComponent<CreateSession>().CreateSessioinBtnOnClick += OnActiveJoinCodeHUD;
+        CreateSession cs = createSessionHUD.GetComponent<CreateSession>();
+        cs.CreateSessioinBtnOnClick -= OnActiveJoinCodeHUD;
+        cs.CreateSessioinBtnOnClick += OnActiveJoinCodeHUD;
+        joinCodeHUD.GetComponent<ShowJoinCode>().OnDisableJoinCode -= cs.DestroyCurrSession;
+        joinCodeHUD.GetComponent<ShowJoinCode>().OnDisableJoinCode += cs.DestroyCurrSession;
         
+        sessionListHUD.GetComponent<SessionBrowser>().SessionItemBtnOnClick -= OnActiveJoinByCodeHUD;
         sessionListHUD.GetComponent<SessionBrowser>().SessionItemBtnOnClick += OnActiveJoinByCodeHUD;
         
         SoundManager.Instance.PlayBGM(BGMName.로비);

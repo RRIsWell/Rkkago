@@ -42,6 +42,8 @@ public class ResultSceneController : NetworkBehaviour
     private void RequestGoLobbyServerRpc()
     {
         if (!IsServer) return; // 서버만 씬 로드
+        
+        GameManager.Instance.SetGameState(GameState.Waiting);
         NetworkManager.Singleton.SceneManager.LoadScene(
             "StartScene",
             UnityEngine.SceneManagement.LoadSceneMode.Single
