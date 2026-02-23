@@ -70,28 +70,29 @@ public class GameStateManager : NetworkBehaviour
         // GameManager 업데이트
         GameManager.Instance.SetGameState(newState);
 
+        if (!IsServer) return;
+
+        // 서버에서만 상태 전환 타이밍을 잡는다
+        CancelInvoke();
+
         // UI 처리
-        if(newState == GameState.MatchIntro && IsServer)
+        if (newState == GameState.MatchIntro)
         {
-            CancelInvoke(nameof(TransitionToSkillInfo));
             Invoke(nameof(TransitionToSkillInfo), 2f);
         }
-        else if(newState == GameState.SkillInfo && IsServer)
+        else if (newState == GameState.SkillInfo)
         {
-            CancelInvoke(nameof(TransitionToPlaying));
-            Invoke(nameof(TransitionToPlaying), 3f);
+            Invoke(nameof(TransitionToCoinFlip), 3f);
+        }
+        else if (newState == GameState.CoinFlip)
+        {
+            // CoinFlip 연출
+            Invoke(nameof(TransitionToPlaying), 2.3f);
         }
     }
 
-    // 서버에서 3초 뒤 SkillInfo 상태로 변경
-    void TransitionToSkillInfo()
-    {
-        netState.Value = GameState.SkillInfo;
-    }
-
-    // 서버에서 3초 뒤 Playing 상태로 변경
-    void TransitionToPlaying()
-    {
-        netState.Value = GameState.Playing;
-    }
+    // 서버에서 상태 변경
+    void TransitionToSkillInfo() => netState.Value = GameState.SkillInfo;
+    void TransitionToCoinFlip() => netState.Value = GameState.CoinFlip;
+    void TransitionToPlaying()  => netState.Value = GameState.Playing;
 }
