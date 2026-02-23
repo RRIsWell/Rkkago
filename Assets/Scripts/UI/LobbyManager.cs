@@ -45,6 +45,7 @@ public class LobbyManager : MonoBehaviour
     {
         createSessionHUD.SetActive(active);
         SoundManager.Instance.PlaySFX(SFXName.버튼클릭);
+        SoundManager.Instance.PlaySFX(SFXName.UI보이기);
         
         // 나머지 UI 비활성화
         startHUD.SetActive(false);
@@ -57,6 +58,7 @@ public class LobbyManager : MonoBehaviour
     {
         joinCodeHUD.SetActive(active);
         SoundManager.Instance.PlaySFX(SFXName.버튼클릭);
+        SoundManager.Instance.PlaySFX(SFXName.UI보이기);
         
         // 나머지 UI 비활성화
         startHUD.SetActive(false);
@@ -69,6 +71,7 @@ public class LobbyManager : MonoBehaviour
     {
         joinByCodeHUD.SetActive(active);
         SoundManager.Instance.PlaySFX(SFXName.버튼클릭);
+        SoundManager.Instance.PlaySFX(SFXName.UI보이기);
         
         // 나머지 UI 비활성화
         startHUD.SetActive(false);
@@ -81,6 +84,7 @@ public class LobbyManager : MonoBehaviour
     {
         sessionListHUD.SetActive(active);
         SoundManager.Instance.PlaySFX(SFXName.버튼클릭);
+        SoundManager.Instance.PlaySFX(SFXName.UI보이기);
         
         // 나머지 UI 비활성화
         startHUD.SetActive(false);

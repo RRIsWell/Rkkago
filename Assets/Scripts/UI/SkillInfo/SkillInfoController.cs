@@ -106,6 +106,7 @@ public class SkillInfoController : NetworkBehaviour
         // 1. 초기 상태 설정 (둘 다 끄기)
         _instance.Hide();
         if (_skillActivateObj != null) _skillActivateObj.SetActive(true);
+        SoundManager.Instance.PlaySFX(SFXName.warning);
 
         // 2. 첫 번째 오브젝트 1초간 대기
         yield return new WaitForSeconds(preShowDuration);
@@ -113,6 +114,7 @@ public class SkillInfoController : NetworkBehaviour
         // 3. 첫 번째 오브젝트 끄고 메인 스킬 UI 켜기
         if (_skillActivateObj != null) _skillActivateObj.SetActive(false);
         _instance.Show(skillName, skillDesc);
+        SoundManager.Instance.StopSFX(SFXName.warning);
 
         // 4. autoHide가 true일 때만 일정 시간 후 메인 UI도 닫기
         if (autoHide)
