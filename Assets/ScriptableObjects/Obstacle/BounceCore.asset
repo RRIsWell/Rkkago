@@ -19,7 +19,7 @@ MonoBehaviour:
   weight: 1
   gravityRadius: 2.5
   gravityStrength: 15
-  bounceMultiplier: 1.3
+  bounceMultiplier: 1.7
   bonusMultiplier: 2
   bonusRadius: 1
   explodeAfterTurns: 4

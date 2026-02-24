@@ -22,3 +22,4 @@ MonoBehaviour:
   activateCounts: 100
   scale: 2
   weight: 1.5
+  power: 2

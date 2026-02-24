@@ -23,5 +23,5 @@ MonoBehaviour:
   bonusMultiplier: 2
   bonusRadius: 1
   explodeAfterTurns: 4
-  explodeRadius: 1.5
+  explodeRadius: 1
   explodeImpulse: 12
