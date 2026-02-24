@@ -1316,7 +1316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurnManager
   ShowTopMostFoldoutHeaderGroup: 1
-  turnTime: 10
+  turnTime: 15
   waitTillSKill: 1
   waitTillTurnEnd: 1
 --- !u!1 &6832282195207079746

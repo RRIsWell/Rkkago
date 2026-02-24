@@ -217,7 +217,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   skillInfoPrefab: {fileID: 933598896366193165, guid: d3e4f5a6b7c8901234567890abcdef12, type: 3}
   preShowDuration: 1
-  autoHideDuration: 6
+  autoHideDuration: 3
 --- !u!114 &263168433
 MonoBehaviour:
   m_ObjectHideFlags: 0
