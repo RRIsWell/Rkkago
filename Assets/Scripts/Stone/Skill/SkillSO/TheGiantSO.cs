@@ -5,4 +5,5 @@ public class TheGiantSO : SkillSO
 {
     public float scale;
     public float weight;
+    public float power;
 }
